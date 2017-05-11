@@ -1,0 +1,4 @@
+C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\Interfaces.dll
+C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\Interfaces.pdb
+C:\Users\victor\Documents\clientes\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
+C:\Users\victor\Documents\clientes\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb

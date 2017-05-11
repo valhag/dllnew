@@ -1,0 +1,7 @@
+C:\Users\victor\Documents\clientes\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csprojResolveAssemblyReference.cache
+C:\Users\victor\Documents\clientes\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
+C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\LibreriaDoctos.dll.config
+C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\LibreriaDoctos.dll
+C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\LibreriaDoctos.pdb
+C:\Users\victor\Documents\clientes\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.dll
+C:\Users\victor\Documents\clientes\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.pdb

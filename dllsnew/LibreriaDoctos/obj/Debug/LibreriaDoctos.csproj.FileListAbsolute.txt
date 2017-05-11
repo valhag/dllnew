@@ -1,0 +1,2 @@
+C:\Users\victor\Documents\clientes\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.csprojResolveAssemblyReference.cache
+C:\Users\victor\Documents\clientes\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.csproj.ResolveComReference.cache

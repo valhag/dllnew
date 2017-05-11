@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6CF8CDF6-BCEA-4A14-9C1F-B48AB0D5AD76}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Controles</RootNamespace>
+    <AssemblyName>Controles</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bios\InterfazAdmin\InterfazAdmin\InterfazAdmin\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BotonExcel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BotonExcel.designer.cs">
+      <DependentUpon>BotonExcel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="codigocatalogo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="codigocatalogo.Designer.cs">
+      <DependentUpon>codigocatalogo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Empresa.designer.cs">
+      <DependentUpon>Empresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EmpresasComercial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EmpresasComercial.Designer.cs">
+      <DependentUpon>EmpresasComercial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionEmpresa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SeleccionEmpresa.designer.cs">
+      <DependentUpon>SeleccionEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TBDecimales.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TBDecimales.Designer.cs">
+      <DependentUpon>TBDecimales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BotonExcel.resx">
+      <DependentUpon>BotonExcel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="codigocatalogo.resx">
+      <DependentUpon>codigocatalogo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Empresa.resx">
+      <DependentUpon>Empresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmpresasComercial.resx">
+      <DependentUpon>EmpresasComercial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionEmpresa.resx">
+      <DependentUpon>SeleccionEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TBDecimales.resx">
+      <DependentUpon>TBDecimales.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibreriaDoctos\LibreriaDoctos.csproj">
+      <Project>{48e88799-92db-4d7b-ab76-5452c4fedd67}</Project>
+      <Name>LibreriaDoctos</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
