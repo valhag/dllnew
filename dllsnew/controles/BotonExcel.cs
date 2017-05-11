@@ -72,7 +72,7 @@ namespace controles
         }
         private void BotonExcel_Load(object sender, EventArgs e)
         {
-
+            //nothing
         }
     }
 }
