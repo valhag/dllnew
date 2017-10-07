@@ -141,6 +141,7 @@ namespace LibreriaDoctos
         private DateTime _cFechaVencimiento;
         private string _cReferencia="";
         public  string _cObservaciones = "";
+        private string _cMetodoPago = "";
         
         private int _cContado = 0;
         public int cContado
@@ -149,7 +150,11 @@ namespace LibreriaDoctos
             set { _cContado = value; }
         }
 
-        
+        public string cMetodoPago
+        {
+            get { return _cMetodoPago; }
+            set { _cMetodoPago = value; }
+        }
 
         public DateTime cFechaVencimiento
         {
@@ -597,6 +602,14 @@ namespace LibreriaDoctos
 
         private double _Precio;
 
+
+        private string _noIdentificacion;
+
+        public string noIdentificacion
+        {
+            get { return _noIdentificacion; }
+            set { _noIdentificacion = value; }
+        }
         public double Precio
         {
             get { return _Precio; }

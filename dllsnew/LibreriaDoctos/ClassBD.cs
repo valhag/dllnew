@@ -14,6 +14,7 @@ using System.Data;
 using System.Globalization;
 using System.Net;
 using System.Linq;
+using System.Xml;
 
 namespace LibreriaDoctos
 {
@@ -227,6 +228,146 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
         protected OleDbConnection  _con;
 
+        public void mLlenarinfoXML(string archivo)
+        {
+
+            //List<RegDocto> doctos = new List<RegDocto>();
+
+
+            _RegDoctos.Clear();
+
+            DirectoryInfo di = new DirectoryInfo(@archivo);
+            //Console.WriteLine("No search pattern returns:");
+            foreach (var fi in di.GetFiles("*.xml"))
+            {
+
+                RegDocto lDocto = new RegDocto();
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.Load(archivo + "\\" + fi.Name);
+
+                XmlNodeList xComprobante = xDoc.GetElementsByTagName("cfdi:Comprobante");
+
+                foreach (XmlElement nodo in xComprobante)
+                {
+                    lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("fecha"));
+                    lDocto.cTipoCambio = Decimal.Parse(nodo.GetAttribute("TipoCambio"));
+                    lDocto.cMoneda = nodo.GetAttribute("Moneda");
+                    lDocto.cMetodoPago = nodo.GetAttribute("metodoDePago");
+                }
+
+                XmlNodeList xEmisor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Emisor");
+                XmlNodeList xReceptor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Receptor");
+                XmlNodeList xConceptos = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Conceptos");
+
+
+                foreach (XmlElement nodo in xEmisor)
+                {
+                    lDocto.cRFC = nodo.GetAttribute("rfc");
+                    lDocto.cRazonSocial = nodo.GetAttribute("nombre");
+                    //long lFoliox = mBuscarUltimoFolioConcepto("4", GetSettingValueFromAppConfigForDLL("Concepto"), ref cserie);
+                    string cserie = "";
+                    //long lFoliox = mBuscarUltimoFolioConcepto("4", "4", ref cserie);
+
+                    lDocto.cCodigoCliente = nodo.GetAttribute("rfc");
+                    lDocto.cCodigoConcepto = "4";
+                    //lDocto.cFecha = 
+
+
+
+                }
+
+                foreach (XmlElement nodoReceptor in xReceptor)
+                {
+                    lDocto.cRFC = nodoReceptor.GetAttribute("rfc");
+                    lDocto.cRazonSocial = nodoReceptor.GetAttribute("nombre");
+                    XmlNodeList xDomicilioReceptor = ((XmlElement)nodoReceptor).GetElementsByTagName("cfdi:Domicilio");
+                    foreach (XmlElement nodoDomicilioReceptor in xDomicilioReceptor)
+                    {
+                        lDocto._RegDireccion.cNombreCalle = nodoDomicilioReceptor.GetAttribute("calle");
+                        lDocto._RegDireccion.cPais = nodoDomicilioReceptor.GetAttribute("pais");
+                    }
+                }
+
+
+                foreach (XmlElement nodoConceptos in xConceptos)
+                {
+
+                    XmlNodeList xConcepto = ((XmlElement)nodoConceptos).GetElementsByTagName("cfdi:Concepto");
+                    foreach (XmlElement nodoConcepto in xConcepto)
+                    {
+                        //RegMovto regmov = new RegMovto();
+                        //regmov. = nodoConcepto.GetAttribute("importe");
+                        //                        decimal xValorUnitario = decimal.Parse(nodoConcepto.GetAttribute("valorUnitario"));
+
+                        RegMovto regmov = new RegMovto();
+                        regmov._RegProducto.Nombre = nodoConcepto.GetAttribute("descripcion");
+                        regmov.cUnidades = decimal.Parse(nodoConcepto.GetAttribute("cantidad"));
+                        regmov.cCodigoAlmacen = "1";
+                        regmov.cPrecio = decimal.Parse(nodoConcepto.GetAttribute("valorUnitario"));
+
+
+                        int HashCode = regmov._RegProducto.Nombre.GetHashCode();
+
+                        //regmov._RegProducto.Codigo = HashCode.ToString();
+
+                        regmov._RegProducto.noIdentificacion = nodoConcepto.GetAttribute("noIdentificacion");
+                        lDocto._RegMovtos.Add(regmov);
+
+
+                    }
+                }
+                _RegDoctos.Add(lDocto);
+            }
+        }
+
+        public List<RegConcepto> mCargarConceptosComercial(long aIdDocumentoDe, int aTipo, int cfdi)
+        {
+            List<RegConcepto> _RegFacturas = new List<RegConcepto>();
+            SqlConnection lconexion = new SqlConnection();
+
+            if (aTipo == 0)
+                lconexion = miconexion.mAbrirConexionComercial(false);
+            else
+                lconexion = miconexion.mAbrirConexionComercial(false);
+            if (lconexion != null)
+            {
+
+                //OleDbCommand lsql = new OleDbCommand("select ccodigoc01,cnombrec01 from mgw10006 where ciddocum01 = " + aIdDocumentoDe + " and cescfd = 1 and cnombrec01 = 'CFDI'", lconexion);
+
+                string sqlstring = "select ccodigoconcepto,cnombreconcepto,cverfacele from admConceptos where ciddocumentode = " + aIdDocumentoDe;
+                if (cfdi == 1)
+                    sqlstring = "select ccodigoconcepto,cnombreconcepto,cverfacele from admConceptos where ciddocumentode = " + aIdDocumentoDe + " and cescfd = 1";
+
+
+
+
+                SqlCommand lsql = new SqlCommand();
+                lsql.CommandText = sqlstring;
+                lsql.Connection = lconexion;
+                SqlDataReader lreader;
+                //long lIdDocumento = 0;
+                lreader = lsql.ExecuteReader();
+                _RegFacturas.Clear();
+                if (lreader.HasRows)
+                {
+                    while (lreader.Read())
+                    {
+                        RegConcepto lRegConcepto = new RegConcepto();
+                        lRegConcepto.Codigo = lreader[0].ToString();
+
+                        lRegConcepto.Nombre = lreader[1].ToString();
+                        //lRegConcepto.Tipocfd = lreader[2].ToString();
+                        _RegFacturas.Add(lRegConcepto);
+                    }
+                }
+                lreader.Close();
+            }
+
+            return _RegFacturas;
+
+
+
+        }
 
         private string ObtenerNombreProducto(string codigo)
         {
@@ -5295,8 +5436,315 @@ Inserta_Documento
             // gTablas = null;
             //  comComercialMain = null;
 
-        }   
-        
+        }
+
+        public string mGrabarDoctosComercial(int incluyetimbrado = 1)
+        {
+
+            string rutadestino = GetSettingValueFromAppConfigForDLL("RutaEmpresaADM");
+            miconexion.mAbrirConexionComercial(true);
+
+
+            StringBuilder sMensaje1 = new StringBuilder(512);
+            int lResultado = fSetNombrePAQ("CONTPAQ I Comercial");
+            if (lResultado != 0)
+            {
+                fErrorComercial(lResultado, sMensaje1, 512);
+            }
+
+
+
+            string aNombreEmpresa = "0000000";
+            string aDirectorioEmpresa = "0000000000";
+
+            //StringBuilder aNombreEmpresa = new StringBuilder(30);
+            //StringBuilder aDirectorioEmpresa = new StringBuilder(30);
+
+            int aIdEmpresa = 0;
+            //lResultado = fPosPrimerEmpresa(ref aIdEmpresa, ref aNombreEmpresa, ref aDirectorioEmpresa);
+
+            //string lDirectorioEmpresa = @"C:\Compac\Empresas\adBIOS2";
+            //string rutadestino = GetSettingValueFromAppConfigForDLL("RutaEmpresaADM");
+            fAbreEmpresa(rutadestino);
+            int indicedoc = 0;
+            int lret2;
+            int lcuantos = _RegDoctos.Count;
+            int ltotales = lcuantos;
+            int lindice = 1;
+
+            foreach (RegDocto doc in _RegDoctos)
+            {
+                int lerrordocto = 0;
+                string aCodigoConcepto = "";
+                string aSerie = "";
+                double aFolio = 0;
+                try
+                {
+                    fSiguienteFolioComercial(doc.cCodigoConcepto, ref  aSerie, ref  aFolio);
+                }
+                catch (Exception ii)
+                {
+                    if (aFolio != 0)
+                        aFolio = aFolio;
+                    else
+                        aFolio = 0;
+                }
+                if (aFolio == 0)
+                    aFolio = 1;
+
+                fInsertarDocumentoComercial();
+                lret2 = fSetDatoDocumentoComercial("cCodigoCliente", doc.cCodigoCliente);
+
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    mValidaClienteProveedor(doc);
+                    lret2 = fSetDatoDocumentoComercial("cCodigoCliente", doc.cCodigoCliente);
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                        continue;
+                    }
+                }
+                lret2 = fSetDatoDocumentoComercial("cRazonSocial", doc._RegCliente.RazonSocial);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+                lret2 = fSetDatoDocumentoComercial("cRFC", doc.cRazonSocial);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+
+                lret2 = fSetDatoDocumentoComercial("cCodigoConcepto", doc.cCodigoConcepto);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+
+
+
+                //lret2 = fSetDatoDocumentoComercial("cIdMoneda", "2");
+                //if (lret2 != 0)
+                //    fErrorComercial(lret2, sMensaje1, 512);
+
+                //lret2 = fSetDatoDocumentoComercial("cTipoCambio", doc.cTipoCambio.ToString().Trim());
+                //if (lret2 != 0)
+                //    fErrorComercial(lret2, sMensaje1, 512);
+
+                DateTime lFechaVencimiento = DateTime.Today;
+                string lfechavenc = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
+                lfechavenc = String.Format("{0:MM/dd/yyyy}", doc.cFecha);
+                lret2 = fSetDatoDocumentoComercial("cFecha", lfechavenc);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+
+                lret2 = fSetDatoDocumentoComercial("cFolio", aFolio.ToString());
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+                lret2 = fSetDatoDocumentoComercial("cFechaVencimiento", lfechavenc);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+
+                lret2 = fSetDatoDocumentoComercial("cCodigoCliente", doc.cCodigoCliente);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+                lret2 = fGuardaDocumentoComercial();
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+
+                StringBuilder aValor = new StringBuilder(12);
+                lret2 = fLeeDatoDocumentoComercial("CIDDOCUMENTO", aValor, 12);
+                int liddocumento = int.Parse(aValor.ToString());
+                int indicemov = 0;
+
+                doc.cIdDocto = liddocumento;
+                //if (incluyedireccion == 1)
+                //    lret2 = mGrabaDireccionComercial(doc);
+                lret2 = mgrabamoneda(liddocumento, doc.cMoneda, doc.cTipoCambio);
+
+
+                decimal ltotaunidadesdocto = 0;
+                int lerrormovto = 0;
+                foreach (RegMovto movto in doc._RegMovtos)
+                {
+                    if (lerrormovto != 0)
+                        continue;
+                    fInsertarMovimientoComercial();
+                    mValidaProducto(movto);
+                    lret2 = fSetDatoMovimientoComercial("cIdDocumento", liddocumento.ToString().Trim());
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        continue;
+                    }
+                    lret2 = fSetDatoMovimientoComercial("cCodigoProducto", movto.cCodigoProducto);
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        continue;
+                    }
+                    lret2 = fSetDatoMovimientoComercial("cCodigoAlmacen", movto.cCodigoAlmacen);
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        continue;
+                    }
+                    //int lRet3 = fSetDatoMovimientoComercial("cUnidadesCapturadas", movto.cUnidades.ToString().Trim());
+
+                    lret2 = fSetDatoMovimientoComercial("CIDUNIDAD", "1");
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        continue;
+                    }
+
+                    lret2 = fGuardaMovimientoComercial();
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        // MessageBox.Show("Error: " + sMensaje);
+                        lret2 = fGuardaMovimientoComercial();
+                        if (lret2 != 0)
+                        {
+                            fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                            continue;
+                        }
+                    }
+                    aValor.Length = 0;
+                    lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor, 12);
+
+                    int lidmovimiento = int.Parse(aValor.ToString());
+
+                    doc._RegMovtos[indicemov].cIdMovto = lidmovimiento;
+                    _RegDoctos[indicedoc]._RegMovtos[indicemov++].cIdMovto = lidmovimiento;
+
+                    sMensaje1.Length = 0;
+                    string lfechaped = movto._RegCapa.FechaFabricacion.ToShortDateString();
+                    int lRet = fBuscarIdMovimientoComercial((int)movto.cIdMovto);
+                    StringBuilder sIdproducto = new StringBuilder(12);
+                    sIdproducto.Length = 0;
+                    fLeeDatoMovimientoComercial("cidproducto", sIdproducto, 12);
+                    movto._RegProducto.Id = int.Parse(sIdproducto.ToString());
+
+
+                    ltotaunidadesdocto += movto.cUnidades;
+                    if (movto._RegCapa.Pedimento != "")
+                    {
+                        lRet = fAltaMovimientoSeriesCapas_ParamComercial(movto.cIdMovto.ToString().Trim(), movto.cUnidades.ToString().Trim(), movto._RegCapa.tc.ToString().Trim(), "", movto._RegCapa.Pedimento, movto._RegCapa.NoAduana.ToString(), lfechaped, "", "", "");
+                        if (lRet != 0)
+                        {
+                            //lRet = fAltaMovimientoSeriesCapas_ParamComercial("42", movto.cUnidades.ToString().Trim(), "1", "", movto._RegCapa.Pedimento, movto._RegCapa.NoAduana.ToString(), lfechaped, "", "", "");
+                            int lultimacapa = mRegresaUltimaCapa();
+                            mGrabaCapasinSDK(movto, lultimacapa);
+                            fErrorComercial(lRet, sMensaje1, 512);
+                        }
+                        else
+                        {
+                            mGrabarTCCapa(movto.cIdMovto, movto._RegCapa.tc);
+                        }
+                        lRet = fBuscarIdMovimientoComercial((int)movto.cIdMovto);
+                        lRet = fEditarMovimientoComercial();
+                    }
+
+                    //lRet = fEditarMovimientoComercial();
+                    //string cantidad = movto.cUnidades.ToString().Trim();
+                    //decimal dcantidad = decimal.Parse(cantidad);
+                    // cantidad = dcantidad.ToString("F");
+                    //cantidad = "10.00";
+                    //lRet = fSetDatoMovimientoComercial("cUnidades", cantidad);
+
+                    //lRet = fSetDatoMovimientoComercial("cUnidadesCapturadas", cantidad);
+                    if (lRet != 0)
+                    {
+                        fErrorComercial(lRet, sMensaje1, 512);
+                        // MessageBox.Show("Error: " + sMensaje);
+                    }
+
+
+                    lRet = fSetDatoMovimientoComercial("cPrecioCapturado", movto.cPrecio.ToString().Trim());
+                    if (lRet != 0)
+                    {
+                        fErrorComercial(lRet, sMensaje1, 512);
+                        // MessageBox.Show("Error: " + sMensaje);
+                    }
+                    lRet = fSetDatoMovimientoComercial("cImpuesto1", movto.cImpuesto.ToString().Trim());
+                    if (lRet != 0)
+                    {
+                        fErrorComercial(lRet, sMensaje1, 512);
+                        // MessageBox.Show("Error: " + sMensaje);
+                    }
+                    lRet = fGuardaMovimientoComercial();
+                    if (lRet != 0)
+                    {
+                        fErrorComercial(lRet, sMensaje1, 512);
+                        fProcesaError("El producto" + movto.cCodigoProducto + sMensaje1.ToString(), ref lerrormovto);
+                        continue;
+                    }
+
+                }
+                if (lerrormovto == 0)
+                {
+                    mGrabarUnidadesDocto(doc.cIdDocto, ltotaunidadesdocto);
+                    Notificar((double)(lindice++ * 100) / lcuantos);
+                    //lexitosos++;
+                }
+                else
+                    fBorraDocumentoComercial();
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+            fCierraEmpresa();
+
+            miconexion.mCerrarConexionOrigenComercial();
+            fTerminaSDK();
+            return "";
+        }
+
         public string mGrabarDoctosComercial(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales,int incluyedireccion = 1)
         {
 

@@ -2,3 +2,9 @@ C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\D
 C:\Users\victor\Documents\clientes\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\Interfaces.pdb
 C:\Users\victor\Documents\clientes\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
 C:\Users\victor\Documents\clientes\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\Interfaces.dll
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\biosinstala\InterfazAdmin\InterfazAdmin\bin\Debug\Interfaces.pdb
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug\Interfaces.dll
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug\Interfaces.pdb
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb

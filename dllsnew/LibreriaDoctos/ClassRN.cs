@@ -14,6 +14,15 @@ namespace LibreriaDoctos
         public string almacenes = "";
         public ClassBD lbd = new ClassBD();
 
+        public void mLlenarinfoXML(string archivo)
+        {
+            lbd.mLlenarinfoXML(archivo);
+        }
+
+        public List<RegConcepto> mCargarConceptosFacturacfdiComercial()
+        {
+            return lbd.mCargarConceptosComercial(4, 0, 1);
+        }
 
         public int mLlenarInfoAmcoPedidos(string archivo)
         {
@@ -153,6 +162,13 @@ namespace LibreriaDoctos
         public string mGrabarDoctosComercial(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales, int condireccion)
         {
             return lbd.mGrabarDoctosComercial(Doctos, ref lexitosos, ref ltotales, condireccion);
+        }
+
+        
+
+        public string mGrabarDoctosComercial(int incluyetimbrado)
+        {
+            return lbd.mGrabarDoctosComercial(incluyetimbrado);
         }
 
         public string mGrabarDestinos( )

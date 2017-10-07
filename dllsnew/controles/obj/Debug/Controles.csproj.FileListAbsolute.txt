@@ -10,3 +10,17 @@ C:\Users\victor\Documents\bios\InterfazAdmin\InterfazAdmin\InterfazAdmin\bin\Deb
 C:\Users\victor\Documents\clientes\dllsnew\controles\obj\Debug\Controles.csprojResolveAssemblyReference.cache
 C:\Users\victor\Documents\clientes\dllsnew\controles\obj\Debug\Controles.dll
 C:\Users\victor\Documents\clientes\dllsnew\controles\obj\Debug\Controles.pdb
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\bios\InterfazAdmin\InterfazAdmin\InterfazAdmin\bin\Debug\Controles.dll
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\bios\InterfazAdmin\InterfazAdmin\InterfazAdmin\bin\Debug\Controles.pdb
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\controles.BotonExcel.resources
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.codigocatalogo.resources
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\InterfazArchivoAdmin.controles.Empresa.resources
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.EmpresasComercial.resources
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\InterfazArchivoAdmin.SeleccionEmpresa.resources
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.TBDecimales.resources
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.csproj.GenerateResource.Cache
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug\Controles.dll
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug\Controles.pdb
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.csprojResolveAssemblyReference.cache
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.dll
+C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.pdb
