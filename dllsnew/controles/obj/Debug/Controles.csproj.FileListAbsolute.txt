@@ -24,3 +24,15 @@ C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.csprojResolveAssemblyReference.cache
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.dll
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\controles\obj\Debug\Controles.pdb
+C:\Users\victor\Documents\fromgit\Interfaces\InterfazAdmin\bin\Debug\Controles.dll
+C:\Users\victor\Documents\fromgit\Interfaces\InterfazAdmin\bin\Debug\Controles.pdb
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.csprojResolveAssemblyReference.cache
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\controles.BotonExcel.resources
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.codigocatalogo.resources
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\InterfazArchivoAdmin.controles.Empresa.resources
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.EmpresasComercial.resources
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\InterfazArchivoAdmin.SeleccionEmpresa.resources
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.TBDecimales.resources
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.csproj.GenerateResource.Cache
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.dll
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.pdb

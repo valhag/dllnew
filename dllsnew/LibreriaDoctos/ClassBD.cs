@@ -228,6 +228,102 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
         protected OleDbConnection  _con;
 
+
+        public void mLlenarinfoMicroplane()
+        {
+
+            //List<RegDocto> doctos = new List<RegDocto>();
+
+            SqlConnection lconexionOrigen = new SqlConnection();
+
+            lconexionOrigen = miconexion.mAbrirConexionSQLOrigen();
+
+            Boolean noseguir = false;
+
+            string ssql = " SELECT " +
+            " inv_dt, " +
+            " h.inv_no, " +
+            " c.cmp_code,c.cmp_name, c.textfield1, c.TaxCode   " +
+            " , h.curr_cd " +
+            " , h.bill_to_addr_1,  h.bill_to_city, h.bill_to_country,   h.bill_to_no, h.bill_to_state, h.bill_to_zip " +
+            " , l.item_no, l.item_desc_1, l.unit_price, l.discount_pct, l.qty_ordered, l.qty_to_ship " +
+            " FROM oehdrhst_sql h " +
+            " join cicmpy c on c.cmp_code = h.cus_no " +
+            " join oelinhst_sql l on l.inv_no = h.inv_no " +
+            " where h.inv_no > 7130 " +
+            " order by h.inv_no asc ";
+
+            SqlCommand lsql = new SqlCommand(ssql, lconexionOrigen);
+
+            SqlDataReader dr = lsql.ExecuteReader();
+
+
+            _RegDoctos.Clear();
+            RegDocto lDocto = new RegDocto();
+            if (dr.HasRows)
+            {
+                string clienteleido = "";
+                long folioleido = 0;
+                long lfolio = 0;
+                string cserie = "";
+                string lConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
+                //long lFoliox = mBuscarUltimoFolioConcepto("4", GetSettingValueFromAppConfigForDLL("Concepto"), ref cserie);
+                while (noseguir == false)
+                {
+
+                    if (dr.Read() == true)
+                    {
+
+                        string lcliente = dr["cmp_code"].ToString();
+
+                        if (lcliente == "")
+                            break;
+
+                        lfolio = long.Parse(dr["inv_no"].ToString());
+
+
+                        //if (lcliente != clienteleido)
+                        if (lfolio != folioleido)
+                        {
+                            if (lDocto.cCodigoCliente != "")
+                            {
+                                _RegDoctos.Add(lDocto);
+                                lDocto = new RegDocto();
+                            }
+
+
+                            //lDocto.cSerie = cserie;
+                            lDocto.cCodigoCliente = dr["cmp_code"].ToString();
+                            lcliente = lDocto.cCodigoCliente;
+                            lDocto.cCodigoConcepto = lConcepto;
+
+                            lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
+                            lDocto.cFolio = long.Parse(dr["inv_no"].ToString());
+
+                            lDocto.cFecha = DateTime.Parse(dr["inv_dt"].ToString());
+                            clienteleido = lcliente;
+                            folioleido = lfolio;
+                        }
+
+                        RegMovto regmov = new RegMovto();
+                        regmov.cCodigoProducto = dr["item_no"].ToString();
+                        regmov._RegProducto.Nombre = dr["item_desc_1"].ToString();
+                        regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString());
+                        regmov.cUnidades = decimal.Parse(dr["qty_to_ship"].ToString());
+                        regmov.cCodigoAlmacen = "1";
+                        regmov.cPrecio = decimal.Parse(dr["unit_price"].ToString());
+                        lDocto._RegMovtos.Add(regmov);
+                    }
+                    else
+                        noseguir = true;
+
+                }
+            }
+            dr.Close();
+
+            
+        }
+
         public void mLlenarinfoXML(string archivo)
         {
 

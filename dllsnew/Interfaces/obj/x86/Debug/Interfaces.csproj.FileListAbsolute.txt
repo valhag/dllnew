@@ -8,3 +8,7 @@ C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\Interfaces\InterfazAdmin\bin\Debug\Interfaces.pdb
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb
+C:\Users\victor\Documents\fromgit\Interfaces\InterfazAdmin\bin\Debug\Interfaces.dll
+C:\Users\victor\Documents\fromgit\Interfaces\InterfazAdmin\bin\Debug\Interfaces.pdb
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
+C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb

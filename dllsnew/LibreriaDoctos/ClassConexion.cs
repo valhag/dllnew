@@ -207,6 +207,29 @@ namespace LibreriaDoctos
 
         }
 
+
+        public SqlConnection mAbrirConexionSQLOrigen()
+        {
+            //            rutadestino = "c:\\compacw\\empresas\\adtala2";
+            string rutadestino = GetSettingValueFromAppConfigForDLL("RutaEmpresaADM");
+
+            string sempresa = rutadestino.Substring(rutadestino.LastIndexOf("\\") + 1);
+
+            string server = GetSettingValueFromAppConfigForDLL("serverOrigen");
+            string user = GetSettingValueFromAppConfigForDLL("userOrigen");
+            string pwd = GetSettingValueFromAppConfigForDLL("passwordO");
+            sempresa = GetSettingValueFromAppConfigForDLL("empresaOrigen");
+            //string lruta3 = obc.ToString();
+            string lruta4 = @rutadestino;
+            _conexion1 = new SqlConnection();
+            string Cadenaconexion1 = "data source =" + server + ";initial catalog = " + sempresa + ";user id = " + user + "; password = " + pwd + ";";
+            _conexion1.ConnectionString = Cadenaconexion1;
+            _conexion1.Open();
+
+            return _conexion1;
+
+        }
+
         public SqlConnection mAbrirConexionComercial(bool incluyesdk)
         {
             //            rutadestino = "c:\\compacw\\empresas\\adtala2";

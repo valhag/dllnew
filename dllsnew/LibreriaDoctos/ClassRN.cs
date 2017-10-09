@@ -19,6 +19,11 @@ namespace LibreriaDoctos
             lbd.mLlenarinfoXML(archivo);
         }
 
+        public void mLlenarinfoMicroplane()
+        {
+            lbd.mLlenarinfoMicroplane();
+        }
+
         public List<RegConcepto> mCargarConceptosFacturacfdiComercial()
         {
             return lbd.mCargarConceptosComercial(4, 0, 1);
