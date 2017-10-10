@@ -142,6 +142,15 @@ namespace LibreriaDoctos
         private string _cReferencia="";
         public  string _cObservaciones = "";
         private string _cMetodoPago = "";
+
+
+        private string _cRegimenFiscal = "";
+        public string cRegimenFiscal
+        {
+            get { return _cRegimenFiscal; }
+            set { _cRegimenFiscal = value; }
+        }
+
         
         private int _cContado = 0;
         public int cContado

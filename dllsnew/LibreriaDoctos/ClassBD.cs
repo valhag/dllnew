@@ -366,6 +366,21 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                     lDocto.cCodigoCliente = nodo.GetAttribute("rfc");
                     lDocto.cCodigoConcepto = "4";
+                    XmlNodeList xDomFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:DomicilioFiscal");
+
+                    foreach (XmlElement nodoDomFiscal in xDomFiscal)
+                    {
+                        lDocto._RegDireccion.cCodigoPostal = nodoDomFiscal.GetAttribute("codigoPostal");    
+                    }
+
+                    
+                    XmlNodeList xRegFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:RegimenFiscal");
+                    foreach (XmlElement nodoRegFiscal in xRegFiscal)
+                    {
+                        lDocto.cRegimenFiscal = nodoRegFiscal.GetAttribute("Regimen");
+                    }
+
+                    
                     //lDocto.cFecha = 
 
 
