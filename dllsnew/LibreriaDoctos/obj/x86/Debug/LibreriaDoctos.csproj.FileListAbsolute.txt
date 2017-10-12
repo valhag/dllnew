@@ -24,3 +24,11 @@ C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\D
 C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
 C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.dll
 C:\Users\victor\Documents\fromgit\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.pdb
+C:\fromgithub\Interfaces\InterfazAdmin\bin\Debug\LibreriaDoctos.dll.config
+C:\fromgithub\Interfaces\InterfazAdmin\bin\Debug\LibreriaDoctos.dll
+C:\fromgithub\Interfaces\InterfazAdmin\bin\Debug\LibreriaDoctos.pdb
+C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csprojResolveAssemblyReference.cache
+C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\Interop.CONTPAQiComercial.dll
+C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
+C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.dll
+C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.pdb

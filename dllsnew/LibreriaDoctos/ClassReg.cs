@@ -569,7 +569,7 @@ namespace LibreriaDoctos
     public class RegCapa
     {
 
-        private string _Pedimento;
+        private string _Pedimento ="";
         public RegAlmacen _Almacen = new RegAlmacen();
 
         public string Pedimento

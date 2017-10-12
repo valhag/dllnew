@@ -218,7 +218,7 @@ namespace LibreriaDoctos
             string server = GetSettingValueFromAppConfigForDLL("serverOrigen");
             string user = GetSettingValueFromAppConfigForDLL("userOrigen");
             string pwd = GetSettingValueFromAppConfigForDLL("passwordO");
-            sempresa = GetSettingValueFromAppConfigForDLL("empresaOrigen");
+            sempresa = GetSettingValueFromAppConfigForDLL("databaseOrigen");
             //string lruta3 = obc.ToString();
             string lruta4 = @rutadestino;
             _conexion1 = new SqlConnection();
