@@ -309,6 +309,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                             lDocto._RegCliente.RazonSocial = dr["cmp_name"].ToString();
                             lcliente = lDocto.cCodigoCliente;
                             lDocto.cCodigoConcepto = lConcepto;
+                            lDocto.cMetodoPago = "02";
 
                             lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
                             lDocto.cFolio = long.Parse(dr["inv_no"].ToString());
@@ -5508,11 +5509,11 @@ Inserta_Documento
 
             
             StringBuilder aMensaje = new StringBuilder(512);
-            int busca = fBuscaProductoComercial(amovto.cCodigoProducto);
+            int busca = fBuscaProductoComercial(amovto.cCodigoProducto.Trim());
             if (busca != 0)
             {
                 fInsertaProductoComercial();
-                busca = fSetDatoProductoComercial("ccodigoproducto", amovto.cCodigoProducto);
+                busca = fSetDatoProductoComercial("ccodigoproducto", amovto.cCodigoProducto.Trim());
                 if (busca != 0)
                 {
                     fErrorComercial(busca, aMensaje, 512);
@@ -5596,6 +5597,15 @@ Inserta_Documento
             if (lResultado != 0)
             {
                 fErrorComercial(lResultado, sMensaje1, 512);
+            }
+
+            if (incluyetimbrado == 1)
+            {
+                int lresp10 = fInicializaLicenseInfoComercial(0);
+                if (lresp10 != 0)
+                {
+                    fErrorComercial(lresp10, sMensaje1, 512);
+                }
             }
 
 
@@ -5741,6 +5751,15 @@ Inserta_Documento
                     fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
                     continue;
                 }
+
+                lret2 = fSetDatoDocumentoComercial("CMETODOPAG", doc.cMetodoPago);
+                if (lret2 != 0)
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    continue;
+                }
+
                 lret2 = fGuardaDocumentoComercial();
                 if (lret2 != 0)
                 {
@@ -5775,7 +5794,7 @@ Inserta_Documento
                         fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
                         continue;
                     }
-                    lret2 = fSetDatoMovimientoComercial("cCodigoProducto", movto.cCodigoProducto);
+                    lret2 = fSetDatoMovimientoComercial("cCodigoProducto", movto.cCodigoProducto.Trim());
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
@@ -5833,7 +5852,7 @@ Inserta_Documento
 
 
                         ltotaunidadesdocto += movto.cUnidades;
-                    
+
                         lRet = fAltaMovimientoSeriesCapas_ParamComercial(movto.cIdMovto.ToString().Trim(), movto.cUnidades.ToString().Trim(), movto._RegCapa.tc.ToString().Trim(), "", movto._RegCapa.Pedimento, movto._RegCapa.NoAduana.ToString(), lfechaped, "", "", "");
                         if (lRet != 0)
                         {
@@ -5849,6 +5868,16 @@ Inserta_Documento
                         lRet = fBuscarIdMovimientoComercial((int)movto.cIdMovto);
                         lRet = fEditarMovimientoComercial();
                     }
+                    else
+                    {
+                        lRet = fSetDatoMovimientoComercial("cUnidadesCapturadas", movto.cUnidades.ToString());
+                        if (lRet != 0)
+                        {
+                            fErrorComercial(lRet, sMensaje1, 512);
+                            // MessageBox.Show("Error: " + sMensaje);
+                        }
+                    }
+                    
 
                     //lRet = fEditarMovimientoComercial();
                     //string cantidad = movto.cUnidades.ToString().Trim();
@@ -5857,12 +5886,7 @@ Inserta_Documento
                     //cantidad = "10.00";
                     //lRet = fSetDatoMovimientoComercial("cUnidades", cantidad);
 
-                    //lRet = fSetDatoMovimientoComercial("cUnidadesCapturadas", cantidad);
-                    if (lRet != 0)
-                    {
-                        fErrorComercial(lRet, sMensaje1, 512);
-                        // MessageBox.Show("Error: " + sMensaje);
-                    }
+                    
 
 
                     lRet = fSetDatoMovimientoComercial("cPrecioCapturado", movto.cPrecio.ToString().Trim());
@@ -5878,12 +5902,13 @@ Inserta_Documento
                         // MessageBox.Show("Error: " + sMensaje);
                     }
                     lRet = fGuardaMovimientoComercial();
-                    if (lRet != 0)
+                     if (lRet != 0)
                     {
                         fErrorComercial(lRet, sMensaje1, 512);
                         lret2 = fGuardaMovimientoComercial();
                         if (lret2 != 0)
                         {
+                            fErrorComercial(lRet, sMensaje1, 512);
                             fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
                             continue;
                         }
@@ -5898,14 +5923,17 @@ Inserta_Documento
 
                     if (incluyetimbrado == 1)
                     { 
-                        int lresp10 = fInicializaLicenseInfoComercial(0);
-
+                        
                         string lpass = "";
                         lpass = GetSettingValueFromAppConfigForDLL("Pass").ToString().Trim();
 
 
                         int lresp20 = fEmitirDocumentoComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, lpass, "");
-                        
+                        if (lresp20 != 0)
+                        {
+                            fErrorComercial(lresp20, sMensaje1, 512);
+                            // MessageBox.Show("Error: " + sMensaje);
+                        }
                     }
 
 
