@@ -519,6 +519,14 @@ namespace LibreriaDoctos
         }
 
 
+        private string _MetodoPago;
+
+        public string MetodoPago
+        {
+            get { return _MetodoPago; }
+            set { _MetodoPago = value; }
+        }
+
 
     }
 

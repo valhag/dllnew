@@ -14,6 +14,12 @@ namespace LibreriaDoctos
         public string almacenes = "";
         public ClassBD lbd = new ClassBD();
 
+
+        public void mCerrarSdkComercial()
+        {
+            lbd.mCerrarSdkComercial();
+        }
+
         public void mLlenarinfoXML(string archivo)
         {
             lbd.mLlenarinfoXML(archivo);
