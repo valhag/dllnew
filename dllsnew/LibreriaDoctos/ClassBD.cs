@@ -215,6 +215,11 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
         [DllImport("MGWSERVICIOS.DLL", EntryPoint = "fLeeDatoCteProv")]
         static extern int fLeeDatoCteProvComercial(string aCampo, StringBuilder aMensaje, int aLen);
+
+        [DllImport("MGWSERVICIOS.DLL", EntryPoint = "fEntregEnDiscoXML")]
+        static extern int fEntregEnDiscoXMLComercial(string aCodigoConcepto, string aNumSerie, double aFolio, int aFormato, string aFormatoAmig);
+
+        //fEntregEnDiscoXML (aCodConcepto, aSerie, aFolio, aFormato, aFormatoAmig)
         
 
         //protected ClassConexion miconexion;
@@ -336,6 +341,10 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                             lDocto.cFolio = long.Parse(dr["inv_no"].ToString());
 
                             lDocto.cFecha = DateTime.Parse(dr["inv_dt"].ToString());
+
+                            lDocto.cFecha = DateTime.Today;
+
+
                             clienteleido = lcliente;
                             folioleido = lfolio;
                             lDocto.cMoneda = dr["curr_cd"].ToString();
@@ -5992,14 +6001,20 @@ Inserta_Documento
                         {
                             fErrorComercial(lresp20, sMensaje1, 512);
                             // MessageBox.Show("Error: " + sMensaje);
+
+                            
+                        }
+                        else
+                        {
+                            lresp20 = fEntregEnDiscoXMLComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, 1, @"C:\Compac\Empresas\Reportes\Formatos Digitales\reportes_Servidor\COMERCIAL\Factura.rdl");
                         }
                     }
 
 
                     //lexitosos++;
                 }
-                else
-                    fBorraDocumentoComercial();
+                /*else
+                    fBorraDocumentoComercial();*/
 
             }
 
