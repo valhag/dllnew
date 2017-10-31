@@ -648,6 +648,17 @@ namespace LibreriaDoctos
             get { return _Codigo; }
             set { _Codigo = value; }
         }
+
+
+        private string _CodigoMedidaPesoSAT;
+
+        public string CodigoMedidaPesoSAT
+        {
+            get { return _CodigoMedidaPesoSAT; }
+            set { _CodigoMedidaPesoSAT = value; }
+        }
+
+
         private string _Nombre;
 
         public string Nombre

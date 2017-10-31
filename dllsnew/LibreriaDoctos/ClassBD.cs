@@ -278,10 +278,11 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             " c.cmp_code,c.cmp_name, c.textfield1, c.TaxCode   " +
             " , h.curr_cd, h.curr_trx_rt " +
             " , h.bill_to_addr_1,  h.bill_to_city, h.bill_to_country,   h.bill_to_no, h.bill_to_state, h.bill_to_zip " +
-            " , l.item_no, l.item_desc_1, l.unit_price, l.discount_pct, l.qty_ordered, l.qty_to_ship " +
+            " , l.item_no, l.item_desc_1, l.unit_price, l.discount_pct, l.qty_ordered, l.qty_to_ship, p.item_note_1, p.item_note_5 " +
             " FROM oehdrhst_sql h " +
             " join cicmpy c on c.cmp_code = h.cus_no " +
             " join oelinhst_sql l on l.inv_no = h.inv_no " +
+            " join imitmidx_sql p on p.item_no = l.item_no " +
             " where h.inv_no > 7130 " +
             " order by h.inv_no asc ";
             /*
@@ -356,7 +357,9 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         regmov.cCodigoProducto = dr["item_no"].ToString();
                         regmov._RegProducto.Nombre = dr["item_desc_1"].ToString();
 
-                        regmov._RegProducto.noIdentificacion = "10101500";
+                        regmov._RegProducto.noIdentificacion = dr["item_note_1"].ToString();
+                        regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString(); ;
+
                         regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString());
                         regmov.cUnidades = decimal.Parse(dr["qty_to_ship"].ToString());
                         regmov.cCodigoAlmacen = "1";
@@ -5534,9 +5537,25 @@ Inserta_Documento
         }
 
 
-        public bool mValidaProducto(RegMovto amovto, int ConCapas = 1, int sat33 = 0)
+        public bool mValidaProducto(RegMovto amovto, ref string lidunidad, int ConCapas = 1, int sat33 = 0)
         {
+            //string lidunidad="";
 
+            SqlCommand m = new SqlCommand();
+
+            //return 1011;
+            m.CommandText = "SELECT CIDUNIDAD FROM admUnidadesMedidaPeso where CCLAVEINT ='" + amovto._RegProducto.CodigoMedidaPesoSAT + "'";
+            m.Connection = miconexion._conexion1;
+
+            SqlDataReader rd;
+            rd = m.ExecuteReader();
+
+            if (rd.HasRows)
+            {
+                rd.Read();
+                lidunidad = rd[0].ToString();
+            }
+            rd.Close();
             
             StringBuilder aMensaje = new StringBuilder(512);
             int busca = fBuscaProductoComercial(amovto.cCodigoProducto.Trim());
@@ -5561,7 +5580,7 @@ Inserta_Documento
                     busca = fSetDatoProductoComercial("CMETODOCOSTEO", "1");
                 }
                 busca = fSetDatoProductoComercial("CSTATUSPRODUCTO", "1");
-                busca = fSetDatoProductoComercial("CIDUNIDADBASE", "1");
+                busca = fSetDatoProductoComercial("CIDUNIDADBASE", lidunidad);
                 if (sat33 != 0)
                 {
                     busca = fSetDatoProductoComercial("CCLAVESAT", amovto._RegProducto.noIdentificacion);
@@ -5790,7 +5809,8 @@ Inserta_Documento
                 if (lerrormovto != 0)
                     continue;
                 fInsertarMovimientoComercial();
-                mValidaProducto(movto, 0, 1);
+                string lidunidad = "";
+                mValidaProducto(movto, ref lidunidad, 0, 1 );
                 lret2 = fSetDatoMovimientoComercial("cIdDocumento", doc.cIdDocto.ToString().Trim());
                 if (lret2 != 0)
                 {
@@ -5814,7 +5834,7 @@ Inserta_Documento
                 }
                 //int lRet3 = fSetDatoMovimientoComercial("cUnidadesCapturadas", movto.cUnidades.ToString().Trim());
 
-                lret2 = fSetDatoMovimientoComercial("CIDUNIDAD", "1");
+                lret2 = fSetDatoMovimientoComercial("CIDUNIDAD", lidunidad);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
@@ -6007,6 +6027,13 @@ Inserta_Documento
                         else
                         {
                             lresp20 = fEntregEnDiscoXMLComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, 1, @"C:\Compac\Empresas\Reportes\Formatos Digitales\reportes_Servidor\COMERCIAL\Factura.rdl");
+                            if (lresp20 != 0)
+                            {
+                                fErrorComercial(lresp20, sMensaje1, 512);
+                                // MessageBox.Show("Error: " + sMensaje);
+
+
+                            }
                         }
                     }
 
@@ -6210,7 +6237,8 @@ Inserta_Documento
                     if (lerrormovto != 0)
                         continue;
                     fInsertarMovimientoComercial();
-                    mValidaProducto(movto);
+                    string lidunidad = "";
+                    mValidaProducto(movto,ref lidunidad);
                     lret2 = fSetDatoMovimientoComercial("cIdDocumento", liddocumento.ToString().Trim());
                     if (lret2 != 0)
                     {
