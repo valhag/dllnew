@@ -37,7 +37,7 @@ namespace controles
         {
             string lnombre = Directory.GetCurrentDirectory();
             if (atipo == 1) // bitacora
-                this.textBox1.Text = lnombre + "\\" + lNombreArchivo + ".csv";
+                this.textBox1.Text = lnombre + "\\" + lNombreArchivo + ".txt";
             if (atipo == 2) // excel
                 this.textBox1.Text = lnombre + "\\" + lNombreArchivo + ".xls";
 

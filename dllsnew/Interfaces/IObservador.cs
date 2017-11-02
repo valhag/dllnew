@@ -12,5 +12,6 @@ namespace Interfaces
     public interface IObservador
     {
         void Actualizar(double message);
+        void Actualizar(string message);
     }
 }
