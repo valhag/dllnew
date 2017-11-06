@@ -5668,7 +5668,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     //continue;
                 }
 
@@ -5683,7 +5683,7 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                        fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                         //continue;
                     }
                 }
@@ -5701,14 +5701,14 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     //continue;
                 }
                 lret2 = fSetDatoDocumentoComercial("cRFC", doc.cRFC);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     //continue;
                 }
 
@@ -5739,14 +5739,14 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
                 lret2 = fSetDatoDocumentoComercial("cFechaVencimiento", lfechavenc);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
 
@@ -5754,7 +5754,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
 
@@ -5766,7 +5766,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
 
@@ -5774,7 +5774,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
 
@@ -5816,21 +5816,21 @@ Inserta_Documento
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
                     //fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
                 lret2 = fSetDatoMovimientoComercial("cCodigoProducto", movto.cCodigoProducto.Trim());
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
                 lret2 = fSetDatoMovimientoComercial("cCodigoAlmacen", movto.cCodigoAlmacen);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
                 //int lRet3 = fSetDatoMovimientoComercial("cUnidadesCapturadas", movto.cUnidades.ToString().Trim());
@@ -5839,7 +5839,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
 
@@ -5856,7 +5856,7 @@ Inserta_Documento
                         lret2 = fGuardaMovimientoComercial();
                         if (lret2 != 0)
                         {
-                            fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                            fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                             continue;
                         }
                     }
@@ -5900,7 +5900,7 @@ Inserta_Documento
                     if (lRet != 0)
                     {
                         fErrorComercial(lRet, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                        fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                         return 0;
                     }
                 }
@@ -5920,14 +5920,14 @@ Inserta_Documento
                 if (lRet != 0)
                 {
                     fErrorComercial(lRet, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0;
                 }
                 lRet = fSetDatoMovimientoComercial("cImpuesto1", movto.cImpuesto.ToString().Trim());
                 if (lRet != 0)
                 {
                     fErrorComercial(lRet, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                     return 0; 
                 }
                 lRet = fGuardaMovimientoComercial();
@@ -5938,7 +5938,7 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lRet, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                        fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
                         return 0;
                     }
 
@@ -6024,7 +6024,7 @@ Inserta_Documento
                         if (lresp20 != 0)
                         {
                             fErrorComercial(lresp20, sMensaje1, 512);
-                            fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() +  " presenta el sig. problema " + sMensaje1.ToString(), ref lresp20);
+                            fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() +  " presenta el sig. problema " + sMensaje1.ToString(), ref lresp20);
                             
 
                             
@@ -6035,7 +6035,7 @@ Inserta_Documento
                             if (lresp20 != 0)
                             {
                                 fErrorComercial(lresp20, sMensaje1, 512);
-                                fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lresp20);
+                                fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lresp20);
 
 
                             }
@@ -6045,8 +6045,9 @@ Inserta_Documento
 
                     //lexitosos++;
                 }
-                else
-                    fBorraDocumentoComercial();
+                //else
+                  //  fBorraDocumentoComercial();
+                //Notificar((double)(lindice++ * 100) / lcuantos);
 
             }
 

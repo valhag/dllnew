@@ -30,7 +30,7 @@ namespace controles
         {
             string lnombre = Directory.GetCurrentDirectory();
             if (atipo==1) // bitacora
-                this.textBox1.Text = lnombre + "\\bitacora.csv";
+                this.textBox1.Text = lnombre + "\\bitacora" + DateTime.Today.Year.ToString() + DateTime.Today.Month.ToString().PadLeft(2, '0') + DateTime.Today.Day.ToString().PadLeft(2, '0') + ".csv";
         }
 
         public void mGeneraNombre(int atipo, string lNombreArchivo)

@@ -8,3 +8,8 @@ C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\b
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.csprojResolveAssemblyReference.cache
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.dll
 C:\Users\TOSHIBA\Documents\desarrolloscontpaq\newdll\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\bin\Debug\Interfaces.dll
+C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\bin\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.csprojResolveAssemblyReference.cache
+C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.dll
+C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.pdb
