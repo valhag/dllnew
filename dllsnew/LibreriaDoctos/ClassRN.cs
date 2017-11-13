@@ -25,9 +25,9 @@ namespace LibreriaDoctos
             lbd.mLlenarinfoXML(archivo);
         }
 
-        public void mLlenarinfoMicroplane()
+        public void mLlenarinfoMicroplane(int afolioinicial, int afoliofinal)
         {
-            lbd.mLlenarinfoMicroplane();
+            lbd.mLlenarinfoMicroplane(afolioinicial, afoliofinal);
         }
 
         public List<RegConcepto> mCargarConceptosFacturacfdiComercial()
@@ -177,9 +177,9 @@ namespace LibreriaDoctos
 
         
 
-        public string mGrabarDoctosComercial(int incluyetimbrado)
+        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio)
         {
-            return lbd.mGrabarDoctosComercial(incluyetimbrado);
+            return lbd.mGrabarDoctosComercial(incluyetimbrado, ref lultimoFolio);
         }
 
         public string mGrabarDestinos( )

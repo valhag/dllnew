@@ -246,7 +246,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
         protected OleDbConnection  _con;
 
 
-        public void mLlenarinfoMicroplane()
+        public void mLlenarinfoMicroplane(int afolioinicial, int afoliofinal)
         {
 
             //List<RegDocto> doctos = new List<RegDocto>();
@@ -282,9 +282,13 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             " FROM oehdrhst_sql h " +
             " join cicmpy c on c.cmp_code = h.cus_no " +
             " join oelinhst_sql l on l.inv_no = h.inv_no " +
-            " join imitmidx_sql p on p.item_no = l.item_no " +
-            " where h.inv_no > 7130 " +
-            " order by h.inv_no asc ";
+            " join imitmidx_sql p on p.item_no = l.item_no ";
+
+            if (afoliofinal == 0)
+                ssql += " where h.inv_no > " + afolioinicial.ToString();
+            else
+                ssql += " where h.inv_no >= " + afolioinicial.ToString() +  " and h.inv_no <= " + afoliofinal.ToString()  ;
+            ssql += " order by h.inv_no asc ";
             /*
             SqlCommand lsql = new SqlCommand(ssql, DbConnection);
 
@@ -367,7 +371,14 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         lDocto._RegMovtos.Add(regmov);
                     }
                     else
+                    {
                         noseguir = true;
+                        if (lDocto.cCodigoCliente != "")
+                        {
+                            _RegDoctos.Add(lDocto);
+                            //lDocto = new RegDocto();
+                        }
+                    }
 
                 }
             }
@@ -5948,7 +5959,7 @@ Inserta_Documento
             return 1;
         }
 
-        public string mGrabarDoctosComercial(int incluyetimbrado = 1)
+        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio)
         {
             StringBuilder sMensaje1 = new StringBuilder(512);
             
@@ -6019,7 +6030,7 @@ Inserta_Documento
                         string lpass = "";
                         lpass = GetSettingValueFromAppConfigForDLL("Pass").ToString().Trim();
 
-
+                        lultimoFolio = doc.cFolio;
                         int lresp20 = fEmitirDocumentoComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, lpass, "");
                         if (lresp20 != 0)
                         {
