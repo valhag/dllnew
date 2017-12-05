@@ -170,9 +170,9 @@ namespace LibreriaDoctos
         }
          * */
 
-        public string mGrabarDoctosComercial(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales, int condireccion)
+        public string mGrabarDoctosComercialBorrar(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales, int condireccion)
         {
-            return lbd.mGrabarDoctosComercial(Doctos, ref lexitosos, ref ltotales, condireccion);
+            return lbd.mGrabarDoctosComercialborrar(Doctos, ref lexitosos, ref ltotales, condireccion);
         }
 
         

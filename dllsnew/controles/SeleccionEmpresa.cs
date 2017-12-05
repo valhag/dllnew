@@ -26,6 +26,7 @@ namespace InterfazArchivoAdmin
 
 
         public string lrutaempresa;
+        public string lnombreempresa;
 
         public SeleccionEmpresa()
         {
@@ -105,6 +106,7 @@ namespace InterfazArchivoAdmin
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             lrutaempresa = comboBox1.SelectedValue.ToString().Trim();
+            lnombreempresa = comboBox1.Text;
             if (this.InnerButtonClick != null)
             {
                 this.InnerButtonClick(sender, e);

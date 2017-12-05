@@ -408,27 +408,34 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                 foreach (XmlElement nodo in xComprobante)
                 {
-                    lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("fecha"));
+                    lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("Fecha"));
+                    if (lDocto.cFecha < DateTime.Now.AddHours(-72))
+                        lDocto.cFecha = DateTime.Today;
                     lDocto.cTipoCambio = Decimal.Parse(nodo.GetAttribute("TipoCambio"));
                     lDocto.cMoneda = nodo.GetAttribute("Moneda");
-                    lDocto.cMetodoPago = nodo.GetAttribute("metodoDePago");
+                    lDocto.cMetodoPago = nodo.GetAttribute("MetodoPago");
                 }
 
                 XmlNodeList xEmisor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Emisor");
                 XmlNodeList xReceptor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Receptor");
                 XmlNodeList xConceptos = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Conceptos");
 
+                lDocto.cNombreArchivo = fi.Name;
 
                 foreach (XmlElement nodo in xEmisor)
                 {
-                    lDocto.cRFC = nodo.GetAttribute("rfc");
-                    lDocto.cRazonSocial = nodo.GetAttribute("nombre");
+                    lDocto.cRFC = nodo.GetAttribute("Rfc");
+                    lDocto.cRazonSocial = nodo.GetAttribute("Nombre");
                     //long lFoliox = mBuscarUltimoFolioConcepto("4", GetSettingValueFromAppConfigForDLL("Concepto"), ref cserie);
                     string cserie = "";
                     //long lFoliox = mBuscarUltimoFolioConcepto("4", "4", ref cserie);
 
-                    lDocto.cCodigoCliente = nodo.GetAttribute("rfc");
-                    lDocto.cCodigoConcepto = "4";
+                    lDocto.cCodigoCliente = nodo.GetAttribute("Rfc");
+                    lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
+
+                    lDocto._RegCliente.Codigo = nodo.GetAttribute("Rfc");
+                    lDocto._RegCliente.RazonSocial = nodo.GetAttribute("Nombre");
+
                     XmlNodeList xDomFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:DomicilioFiscal");
 
                     foreach (XmlElement nodoDomFiscal in xDomFiscal)
@@ -436,7 +443,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         lDocto._RegDireccion.cCodigoPostal = nodoDomFiscal.GetAttribute("codigoPostal");    
                     }
 
-                    
+                    lDocto.cRegimenFiscal = nodo.GetAttribute("RegimenFiscal");
+
                     XmlNodeList xRegFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:RegimenFiscal");
                     foreach (XmlElement nodoRegFiscal in xRegFiscal)
                     {
@@ -452,8 +460,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                 foreach (XmlElement nodoReceptor in xReceptor)
                 {
-                    lDocto.cRFC = nodoReceptor.GetAttribute("rfc");
-                    lDocto.cRazonSocial = nodoReceptor.GetAttribute("nombre");
+                    lDocto.cRFC = nodoReceptor.GetAttribute("Rfc");
+                    lDocto.cRazonSocial = nodoReceptor.GetAttribute("Nombre");
                     XmlNodeList xDomicilioReceptor = ((XmlElement)nodoReceptor).GetElementsByTagName("cfdi:Domicilio");
                     foreach (XmlElement nodoDomicilioReceptor in xDomicilioReceptor)
                     {
@@ -474,17 +482,21 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         //                        decimal xValorUnitario = decimal.Parse(nodoConcepto.GetAttribute("valorUnitario"));
 
                         RegMovto regmov = new RegMovto();
-                        regmov._RegProducto.Nombre = nodoConcepto.GetAttribute("descripcion");
-                        regmov.cUnidades = decimal.Parse(nodoConcepto.GetAttribute("cantidad"));
+                        regmov._RegProducto.Nombre = nodoConcepto.GetAttribute("Descripcion");
+                        regmov.cUnidades = decimal.Parse(nodoConcepto.GetAttribute("Cantidad"));
                         regmov.cCodigoAlmacen = "1";
-                        regmov.cPrecio = decimal.Parse(nodoConcepto.GetAttribute("valorUnitario"));
+                        regmov.cPrecio = decimal.Parse(nodoConcepto.GetAttribute("ValorUnitario"));
 
 
-                        int HashCode = regmov._RegProducto.Nombre.GetHashCode();
+                        //int HashCode = regmov._RegProducto.Nombre.GetHashCode();
 
-                        //regmov._RegProducto.Codigo = HashCode.ToString();
+                        regmov._RegProducto.Codigo = nodoConcepto.GetAttribute("NoIdentificacion");
 
-                        regmov._RegProducto.noIdentificacion = nodoConcepto.GetAttribute("noIdentificacion");
+                        regmov.cCodigoProducto = regmov._RegProducto.Codigo;
+
+                        regmov._RegProducto.CodigoMedidaPesoSAT = nodoConcepto.GetAttribute("ClaveUnidad");
+
+                        regmov._RegProducto.noIdentificacion = nodoConcepto.GetAttribute("ClaveProdServ");
                         lDocto._RegMovtos.Add(regmov);
 
 
@@ -740,7 +752,22 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             List<RegElemento> lista = new List<RegElemento>();
             List<RegElemento> listanueva = new List<RegElemento>();
             WebClient wc = new WebClient();
+
+
+
             string ll = wc.DownloadString(url);
+
+            using (var webClient = new System.Net.WebClient())
+            {
+                var json = webClient.DownloadString(url);
+                // Now parse with JSON.Net
+            }
+
+            
+            
+
+
+
             string lnuevacadena = ll.Substring(1, ll.Length - 1);
             string lelemento = "";
             int lposactual = 0;
@@ -5645,7 +5672,7 @@ Inserta_Documento
 
         }
 
-        private int mGrabaEncabezadoComercial(RegDocto doc, ref int aIdDocumento)
+        private int mGrabaEncabezadoComercial(RegDocto doc, ref int aIdDocumento, ref long aFolio1)
         {
             int lret2=0;
             int lerrordocto = 0;
@@ -5658,18 +5685,25 @@ Inserta_Documento
                     try
                     {
                         fSiguienteFolioComercial(doc.cCodigoConcepto, ref  aSerie, ref  aFolio);
+                        aFolio1 = long.Parse(aFolio.ToString());
                     }
                     catch (Exception ii)
                     {
                     }
                 }
                 else
+                {
                     aFolio = doc.cFolio;
+                }
+
 
 
 
                 if (aFolio == 0)
+                {
                     aFolio = 1;
+                    aFolio1 = long.Parse(aFolio.ToString());
+                }
 
                 
 
@@ -5679,8 +5713,9 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
-                    //continue;
+                    //fProcesaError(doc, doc.cIdDocto, "El documento con cliente " + doc.cCodigoCliente.Trim() + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc,null,"Doc",sMensaje1.ToString());
+                    return 0;
                 }
 
 
@@ -5694,8 +5729,8 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
-                        //continue;
+                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                        return 0;
                     }
                 }
                 else
@@ -5712,15 +5747,15 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
-                    //continue;
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                    return 0;
                 }
                 lret2 = fSetDatoDocumentoComercial("cRFC", doc.cRFC);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
-                    //continue;
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                    return 0;
                 }
 
                 
@@ -5742,7 +5777,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + "y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
 
@@ -5750,14 +5785,14 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
                 lret2 = fSetDatoDocumentoComercial("cFechaVencimiento", lfechavenc);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
 
@@ -5765,7 +5800,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
 
@@ -5777,7 +5812,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
 
@@ -5785,7 +5820,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
 
@@ -5827,21 +5862,21 @@ Inserta_Documento
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
                     //fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                     return 0;
                 }
                 lret2 = fSetDatoMovimientoComercial("cCodigoProducto", movto.cCodigoProducto.Trim());
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                     return 0;
                 }
                 lret2 = fSetDatoMovimientoComercial("cCodigoAlmacen", movto.cCodigoAlmacen);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                     return 0;
                 }
                 //int lRet3 = fSetDatoMovimientoComercial("cUnidadesCapturadas", movto.cUnidades.ToString().Trim());
@@ -5850,7 +5885,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                     return 0;
                 }
 
@@ -5867,7 +5902,7 @@ Inserta_Documento
                         lret2 = fGuardaMovimientoComercial();
                         if (lret2 != 0)
                         {
-                            fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                            fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                             continue;
                         }
                     }
@@ -5911,7 +5946,7 @@ Inserta_Documento
                     if (lRet != 0)
                     {
                         fErrorComercial(lRet, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         return 0;
                     }
                 }
@@ -5931,14 +5966,14 @@ Inserta_Documento
                 if (lRet != 0)
                 {
                     fErrorComercial(lRet, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                     return 0;
                 }
                 lRet = fSetDatoMovimientoComercial("cImpuesto1", movto.cImpuesto.ToString().Trim());
                 if (lRet != 0)
                 {
                     fErrorComercial(lRet, sMensaje1, 512);
-                    fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                    fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                     return 0; 
                 }
                 lRet = fGuardaMovimientoComercial();
@@ -5949,7 +5984,7 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lRet, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lret2);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         return 0;
                     }
 
@@ -6009,9 +6044,12 @@ Inserta_Documento
             foreach (RegDocto doc in _RegDoctos)
             {
 
-                int lRetorno = mGrabaEncabezadoComercial(doc, ref liddocumento);
+                long aFolio = 0;
+                int lRetorno = mGrabaEncabezadoComercial(doc, ref liddocumento, ref aFolio);
                 if (lRetorno == 1)
                 {
+                    if (doc.cFolio == 0)
+                        doc.cFolio = aFolio;
                     lRetorno = mGrabarMovimientosComercial(doc, indicedoc, ref ltotalunidadesdocto);
                     indicedoc++;
 
@@ -6035,8 +6073,7 @@ Inserta_Documento
                         if (lresp20 != 0)
                         {
                             fErrorComercial(lresp20, sMensaje1, 512);
-                            fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() +  " presenta el sig. problema " + sMensaje1.ToString(), ref lresp20);
-                            
+                            fProcesaError(doc, null, "Doc", sMensaje1.ToString(),0);
 
                             
                         }
@@ -6046,7 +6083,14 @@ Inserta_Documento
                             if (lresp20 != 0)
                             {
                                 fErrorComercial(lresp20, sMensaje1, 512);
-                                fProcesaError("El documento con cliente " + doc.cCodigoCliente + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString(), ref lresp20);
+                                fProcesaError(doc, null, "Doc", sMensaje1.ToString(), 0);
+                            }
+                            if (doc.cNombreArchivo != "")
+                            {
+                                string archivoorigencompleto = @GetSettingValueFromAppConfigForDLL("RutaOrigen").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                                string archivodestinocompleto = @GetSettingValueFromAppConfigForDLL("RutaBien").ToString().Trim() + @"\" + doc.cNombreArchivo;
+
+                                System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
 
 
                             }
@@ -6093,7 +6137,7 @@ Inserta_Documento
 
 
 
-        public string mGrabarDoctosComercial(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales,int incluyedireccion = 1)
+        public string mGrabarDoctosComercialborrar(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales,int incluyedireccion = 1)
         {
 
             string rutadestino = GetSettingValueFromAppConfigForDLL("RutaEmpresaADM");
@@ -6158,7 +6202,7 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El documento con cliente " + doc.cCodigoCliente + " "  + sMensaje1.ToString(), ref lerrordocto);
+                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                         continue;
                     }
                 }
@@ -6166,14 +6210,14 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
                 lret2 = fSetDatoDocumentoComercial("cRFC", doc.cRazonSocial);
                 if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                         continue;
                     }
 
@@ -6181,7 +6225,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
 
@@ -6202,7 +6246,7 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
 
@@ -6210,14 +6254,14 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
                 lret2 = fSetDatoDocumentoComercial("cFechaVencimiento", lfechavenc);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
 
@@ -6225,14 +6269,14 @@ Inserta_Documento
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
                 lret2 = fGuardaDocumentoComercial();
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError("El documento con cliente " + doc.cCodigoCliente + " " + sMensaje1.ToString(), ref lerrordocto);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     continue;
                 }
 
@@ -6260,21 +6304,21 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         continue;
                     }
                     lret2 = fSetDatoMovimientoComercial("cCodigoProducto", movto.cCodigoProducto);
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         continue;
                     }
                     lret2 = fSetDatoMovimientoComercial("cCodigoAlmacen", movto.cCodigoAlmacen);
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         continue;
                     }
                     //int lRet3 = fSetDatoMovimientoComercial("cUnidadesCapturadas", movto.cUnidades.ToString().Trim());
@@ -6283,7 +6327,7 @@ Inserta_Documento
                     if (lret2 != 0)
                     {
                         fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         continue;
                     }
 
@@ -6295,7 +6339,7 @@ Inserta_Documento
                         lret2 = fGuardaMovimientoComercial();
                         if (lret2 != 0)
                         {
-                            fProcesaError("El producto " + movto.cCodigoProducto + " " + sMensaje1.ToString(), ref lerrormovto);
+                            fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                             continue;
                         }
                     }
@@ -6366,7 +6410,7 @@ Inserta_Documento
                     if (lRet != 0)
                     {
                         fErrorComercial(lRet, sMensaje1, 512);
-                        fProcesaError("El producto" + movto.cCodigoProducto + sMensaje1.ToString(), ref lerrormovto);
+                        fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
                         continue;
                     }
 
@@ -6400,12 +6444,94 @@ Inserta_Documento
             fTerminaSDK();
             return "";
         }
-        private void fProcesaError(string error, ref int lerrormovto)
+       /* private void fProcesaError(RegDocto doc,  long id, string error, ref int lerrormovto)
         {
+            if (id !=0)
+                mBorrarDocto(doc);
             Notificar(error);
             lerrormovto = 1;
             
+        }*/
+
+
+        private void  fProcesaError(RegDocto doc,RegMovto movto, string tipo, string sMensaje1, int aBorrar=1)
+        {
+            string error="";
+            string archivoorigencompleto = "";
+            string archivodestinocompleto = "";
+            if (doc.cIdDocto != 0 && aBorrar == 1)
+                mBorrarDocto(doc);
+
+            if (tipo == "Doc")
+                if (doc.cNombreArchivo == "")
+                {
+                    error = "El documento con cliente " + doc.cCodigoCliente.Trim() + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
+                }
+                else
+                {
+                    error = "El archivo " + doc.cNombreArchivo.Trim() + " que genero el documento con folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
+                    archivoorigencompleto = @GetSettingValueFromAppConfigForDLL("RutaOrigen").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                    archivodestinocompleto = @GetSettingValueFromAppConfigForDLL("RutaMal").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                    try
+                    {
+                        System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
+                    }
+                    catch (Exception eeee)
+                    { 
+
+                    }
+                }
+            else
+                if (doc.cNombreArchivo == "")
+                    error = "El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente.Trim() + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
+                else
+                {
+                    error = "El producto " + movto.cCodigoProducto + "del archivo " + doc.cNombreArchivo.Trim() + " que genero el documento con folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
+                    archivoorigencompleto = @GetSettingValueFromAppConfigForDLL("RutaOrigen").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                    archivodestinocompleto = @GetSettingValueFromAppConfigForDLL("RutaMal").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                    try
+                    {
+                        System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
+                    }
+                    catch (Exception eeee)
+                    {
+
+                    }
+
+                }
+            Notificar(error);
+           
         }
+
+        private void mBorrarDocto(RegDocto doc)
+        {
+            string lconcepto = GetSettingValueFromAppConfigForDLL("Concepto");
+            long lret = fBuscarDocumentoComercial(lconcepto, doc.cSerie, doc.cFolio.ToString());
+            if (lret == 0)
+            {
+                fBorraDocumentoComercial();
+            }
+        }
+
+        
+
+        private void mBorrarDocto(long id)
+        { 
+           
+            SqlCommand lsql = new SqlCommand();
+            lsql.CommandText = "  delete from admDocumentos WHERE CIDDOCUMENTO = " + id.ToString().Trim();
+            lsql.Connection = miconexion._conexion1;
+            int lret = lsql.ExecuteNonQuery();
+            
+        }
+
+        /*
+        private void fProcesaError(RegDocto doc)
+        {
+            Notificar(error);
+            lerrormovto = 1;
+
+        }*/
 
         private void mDeshacer(long id)
         {
