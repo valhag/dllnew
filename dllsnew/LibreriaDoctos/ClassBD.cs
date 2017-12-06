@@ -409,8 +409,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                 foreach (XmlElement nodo in xComprobante)
                 {
                     lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("Fecha"));
-                    if (lDocto.cFecha < DateTime.Now.AddHours(-72))
-                        lDocto.cFecha = DateTime.Today;
+                    /*if (lDocto.cFecha < DateTime.Now.AddHours(-72))
+                        lDocto.cFecha = DateTime.Today;*/
                     lDocto.cTipoCambio = Decimal.Parse(nodo.GetAttribute("TipoCambio"));
                     lDocto.cMoneda = nodo.GetAttribute("Moneda");
                     lDocto.cMetodoPago = nodo.GetAttribute("MetodoPago");
@@ -5770,7 +5770,7 @@ Inserta_Documento
                 //if (lret2 != 0)
                 //    fErrorComercial(lret2, sMensaje1, 512);
 
-                DateTime lFechaVencimiento = DateTime.Today;
+                //DateTime lFechaVencimiento = DateTime.Today;
                 string lfechavenc = String.Format("{0:MM/dd/yyyy}", DateTime.Today);
                 lfechavenc = String.Format("{0:MM/dd/yyyy}", doc.cFecha);
                 lret2 = fSetDatoDocumentoComercial("cFecha", lfechavenc);
