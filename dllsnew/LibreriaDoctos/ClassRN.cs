@@ -35,6 +35,11 @@ namespace LibreriaDoctos
             return lbd.mCargarConceptosComercial(4, 0, 1);
         }
 
+        public List<RegConcepto> mCargarConceptosDevolucioncfdiComercial()
+        {
+            return lbd.mCargarConceptosComercial(5, 0, 1);
+        }
+
         public int mLlenarInfoAmcoPedidos(string archivo)
         {
             return lbd.mLlenarinfoAmcoPedidos(archivo);

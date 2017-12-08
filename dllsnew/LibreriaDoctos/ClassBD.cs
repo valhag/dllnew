@@ -406,6 +406,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                 XmlNodeList xComprobante = xDoc.GetElementsByTagName("cfdi:Comprobante");
 
+                string lTipoComprobante = "";
                 foreach (XmlElement nodo in xComprobante)
                 {
                     lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("Fecha"));
@@ -414,6 +415,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                     lDocto.cTipoCambio = Decimal.Parse(nodo.GetAttribute("TipoCambio"));
                     lDocto.cMoneda = nodo.GetAttribute("Moneda");
                     lDocto.cMetodoPago = nodo.GetAttribute("MetodoPago");
+                    lTipoComprobante = nodo.GetAttribute("TipoDeComprobante");
+                    
                 }
 
                 XmlNodeList xEmisor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Emisor");
@@ -431,7 +434,11 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                     //long lFoliox = mBuscarUltimoFolioConcepto("4", "4", ref cserie);
 
                     lDocto.cCodigoCliente = nodo.GetAttribute("Rfc");
-                    lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
+                    if (lTipoComprobante == "I")
+                        lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
+
+                    if (lTipoComprobante == "E")
+                        lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoD");
 
                     lDocto._RegCliente.Codigo = nodo.GetAttribute("Rfc");
                     lDocto._RegCliente.RazonSocial = nodo.GetAttribute("Nombre");
@@ -6089,8 +6096,12 @@ Inserta_Documento
                             {
                                 string archivoorigencompleto = @GetSettingValueFromAppConfigForDLL("RutaOrigen").ToString().Trim() + @"\" + doc.cNombreArchivo;
                                 string archivodestinocompleto = @GetSettingValueFromAppConfigForDLL("RutaBien").ToString().Trim() + @"\" + doc.cNombreArchivo;
-
-                                System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
+                                try
+                                {
+                                    System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
+                                }
+                                catch (Exception aaaa)
+                                { }
 
 
                             }
@@ -6115,7 +6126,7 @@ Inserta_Documento
 
 
 
-
+            fCierraEmpresa();
 
             return "";
             
@@ -6125,7 +6136,7 @@ Inserta_Documento
         {
             try
             {
-                fCierraEmpresa();
+                
                 miconexion.mCerrarConexionOrigenComercial();
                 fTerminaSDK();
             }
