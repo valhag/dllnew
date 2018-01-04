@@ -31,6 +31,7 @@ namespace LibreriaDoctos
         public string almacenes;
         public bool sdkcomercial = false; 
         public RegDocto primerdocto = new RegDocto();
+        
         List<IObservador> lista = new List<IObservador>();
 
 
@@ -315,7 +316,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                     if (dr.Read() == true)
                     {
 
-                        string lcliente = dr["cmp_code"].ToString();
+                        string lcliente = dr["cmp_code"].ToString().Trim();
 
                         if (lcliente == "")
                             break;
@@ -334,9 +335,9 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
 
                             //lDocto.cSerie = cserie;
-                            lDocto.cCodigoCliente = dr["cmp_code"].ToString();
-                            lDocto.cRazonSocial = dr["cmp_code"].ToString();
-                            lDocto._RegCliente.Codigo = dr["cmp_code"].ToString();
+                            lDocto.cCodigoCliente = dr["cmp_code"].ToString().Trim();
+                            lDocto.cRazonSocial = dr["cmp_code"].ToString().Trim();
+                            lDocto._RegCliente.Codigo = dr["cmp_code"].ToString().Trim();
                             lDocto._RegCliente.RazonSocial = dr["cmp_name"].ToString();
                             lcliente = lDocto.cCodigoCliente;
                             lDocto.cCodigoConcepto = lConcepto;
@@ -353,21 +354,21 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                             clienteleido = lcliente;
                             folioleido = lfolio;
                             lDocto.cMoneda = dr["curr_cd"].ToString();
-                            lDocto.cTipoCambio = decimal.Parse(dr["curr_trx_rt"].ToString());
+                            lDocto.cTipoCambio = decimal.Parse(dr["curr_trx_rt"].ToString().Trim());
 
                         }
 
                         RegMovto regmov = new RegMovto();
                         regmov.cCodigoProducto = dr["item_no"].ToString();
-                        regmov._RegProducto.Nombre = dr["item_desc_1"].ToString();
+                        regmov._RegProducto.Nombre = dr["item_desc_1"].ToString().Trim();
 
-                        regmov._RegProducto.noIdentificacion = dr["item_note_1"].ToString();
-                        regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString(); ;
+                        regmov._RegProducto.noIdentificacion = dr["item_note_1"].ToString().Trim();
+                        regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString().Trim(); ;
 
-                        regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString());
-                        regmov.cUnidades = decimal.Parse(dr["qty_to_ship"].ToString());
+                        regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString().Trim());
+                        regmov.cUnidades = decimal.Parse(dr["qty_to_ship"].ToString().Trim());
                         regmov.cCodigoAlmacen = "1";
-                        regmov.cPrecio = decimal.Parse(dr["unit_price"].ToString());
+                        regmov.cPrecio = decimal.Parse(dr["unit_price"].ToString().Trim());
                         lDocto._RegMovtos.Add(regmov);
                     }
                     else
@@ -395,10 +396,20 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
             _RegDoctos.Clear();
 
+
+            DirectoryInfo dirInfo = new DirectoryInfo(@archivo);
+            FileSystemInfo[] allFiles = dirInfo.GetFileSystemInfos();
+            var orderedFiles = allFiles.OrderBy(f => f.Name);
+
+            foreach (var fi in orderedFiles)
+            {
+            /*    string x = archivo + "\\" + fi.Name;
+            }
+
             DirectoryInfo di = new DirectoryInfo(@archivo);
             //Console.WriteLine("No search pattern returns:");
-            foreach (var fi in di.GetFiles("*.xml"))
-            {
+            foreach (var fi in di.GetFiles("*.xml").OrderByDescending(fi=>fi.Name))
+            {*/
 
                 RegDocto lDocto = new RegDocto();
                 XmlDocument xDoc = new XmlDocument();
@@ -412,7 +423,9 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                     lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("Fecha"));
                     /*if (lDocto.cFecha < DateTime.Now.AddHours(-72))
                         lDocto.cFecha = DateTime.Today;*/
-                    lDocto.cTipoCambio = Decimal.Parse(nodo.GetAttribute("TipoCambio"));
+                    string ltipocambio = nodo.GetAttribute("TipoCambio").ToString();
+                    if (ltipocambio != "")
+                        lDocto.cTipoCambio = Decimal.Parse(ltipocambio);
                     lDocto.cMoneda = nodo.GetAttribute("Moneda");
                     lDocto.cMetodoPago = nodo.GetAttribute("MetodoPago");
                     lTipoComprobante = nodo.GetAttribute("TipoDeComprobante");
@@ -422,6 +435,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                 XmlNodeList xEmisor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Emisor");
                 XmlNodeList xReceptor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Receptor");
                 XmlNodeList xConceptos = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Conceptos");
+
+                XmlNodeList xComplemento = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Complemento");
 
                 lDocto.cNombreArchivo = fi.Name;
 
@@ -439,6 +454,9 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                     if (lTipoComprobante == "E")
                         lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoD");
+
+                    if (lTipoComprobante == "P")
+                        lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoP");
 
                     lDocto._RegCliente.Codigo = nodo.GetAttribute("Rfc");
                     lDocto._RegCliente.RazonSocial = nodo.GetAttribute("Nombre");
@@ -509,6 +527,39 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                     }
                 }
+
+
+                foreach (XmlElement nodoComplemento in xComplemento)
+                {
+                    XmlNodeList xpago10 = ((XmlElement)nodoComplemento).GetElementsByTagName("pago10:Pagos");
+                    foreach (XmlElement nodoPago in xpago10)
+                    {
+                        XmlNodeList xpago = ((XmlElement)nodoPago).GetElementsByTagName("pago10:Pago");
+                        
+                        
+
+                        foreach (XmlElement nodoPagoRel in xpago)
+                        {
+                            
+                            lDocto.cFecha = DateTime.Parse(nodoPagoRel.GetAttribute("FechaPago").ToString());
+                            lDocto.cNeto = double.Parse(nodoPagoRel.GetAttribute("Monto").ToString());
+                            XmlNodeList xpagorelacionado = ((XmlElement)nodoPago).GetElementsByTagName("pago10:DoctoRelacionado");
+
+                            foreach (XmlElement nodoPagoRelacionado in xpagorelacionado)
+                            {
+                                RegDocto cargo = new RegDocto();
+                                cargo.cSerie = nodoPagoRelacionado.GetAttribute("Serie");
+                                cargo.cFolio = long.Parse(nodoPagoRelacionado.GetAttribute("Folio").ToString());
+                                cargo.cNeto = double.Parse(nodoPagoRelacionado.GetAttribute("ImpPagado").ToString());
+                                cargo.cTipoCambio = decimal.Parse(nodoPagoRelacionado.GetAttribute("TipoCambioDR").ToString());
+                                lDocto.relacionados.Add(cargo);
+                            }
+                        }
+                    }
+                }   
+
+               
+
                 _RegDoctos.Add(lDocto);
             }
         }

@@ -125,6 +125,7 @@ namespace LibreriaDoctos
         public List<RegMovto> _RegMovtos = new List<RegMovto>();
         public RegDireccion _RegDireccion = new RegDireccion ();
         public RegCliente _RegCliente = new RegCliente();
+        public List<RegDocto> relacionados = new List<RegDocto>();
         private long _cIdDocto;
         private string _cCodigoCliente="";
         private string _cCodigoConcepto="";
