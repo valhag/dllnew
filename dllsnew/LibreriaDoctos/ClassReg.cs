@@ -143,7 +143,14 @@ namespace LibreriaDoctos
         private string _cReferencia="";
         public  string _cObservaciones = "";
         private string _cMetodoPago = "";
+        private string _cFormaPago = "";
+        private string _cUsoCFDI = "";
 
+        public string cUsoCFDI
+        {
+            get { return _cUsoCFDI; }
+            set { _cUsoCFDI = value; }
+        }
 
         private string _cRegimenFiscal = "";
         public string cRegimenFiscal
@@ -165,6 +172,13 @@ namespace LibreriaDoctos
             get { return _cMetodoPago; }
             set { _cMetodoPago = value; }
         }
+
+        public string cFormaPago
+        {
+            get { return _cFormaPago; }
+            set { _cFormaPago = value; }
+        }
+
 
         public DateTime cFechaVencimiento
         {
@@ -468,6 +482,13 @@ namespace LibreriaDoctos
             get { return _cPorcent01; }
             set { _cPorcent01 = value; }
         }
+        private decimal _cDescuento = 0;
+        public decimal cDescuento
+        {
+            get { return _cDescuento; }
+            set { _cDescuento = value; }
+        }
+
 
         private decimal _cneto=0;
         public decimal cneto
@@ -620,6 +641,14 @@ namespace LibreriaDoctos
 
         private double _Precio;
 
+
+        private string _ComercioExterior;
+
+        public string ComercioExterior
+        {
+            get { return _ComercioExterior; }
+            set { _ComercioExterior = value; }
+        }
 
         private string _noIdentificacion;
 

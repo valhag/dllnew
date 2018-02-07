@@ -20,9 +20,9 @@ namespace LibreriaDoctos
             lbd.mCerrarSdkComercial();
         }
 
-        public void mLlenarinfoXML(string archivo)
+        public string mLlenarinfoXML(string archivo)
         {
-            lbd.mLlenarinfoXML(archivo);
+            return lbd.mLlenarinfoXML(archivo);
         }
 
         public void mLlenarinfoMicroplane(int afolioinicial, int afoliofinal)
@@ -73,7 +73,7 @@ namespace LibreriaDoctos
         
         public void mTraerInformacionPrimerReporte(ref DataSet PorConcepto, DateTime ini, DateTime fin)
         {
-            lbd.mTraerInformacionPrimerReporte(ref PorConcepto, ini, fin);
+                lbd.mTraerInformacionPrimerReporte(ref PorConcepto, ini, fin);
         }
 
         public string mGrabarTablaAdicional()
@@ -192,9 +192,9 @@ namespace LibreriaDoctos
 
         
 
-        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio)
+        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio, int incluyedireccion, int conComercioExterior = 0)
         {
-            return lbd.mGrabarDoctosComercial(incluyetimbrado, ref lultimoFolio);
+            return lbd.mGrabarDoctosComercial(incluyetimbrado, ref lultimoFolio, incluyedireccion, conComercioExterior);
         }
 
         public string mGrabarDestinos( )

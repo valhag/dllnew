@@ -113,7 +113,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
         static extern void fCierraEmpresa();
 
         [DllImport("MGWSERVICIOS.DLL", EntryPoint="fSiguienteFolio")]
-        static extern void fSiguienteFolioComercial (string aCodigoConcepto, ref string aSerie, ref double aFolio);
+        static extern int fSiguienteFolioComercial (string aCodigoConcepto, ref string aSerie, ref double aFolio);
 
         [DllImport("MGWSERVICIOS.DLL", EntryPoint = "fInsertarDocumento")]
         static extern int fInsertarDocumentoComercial();
@@ -190,6 +190,10 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
         [DllImport("MGWSERVICIOS.DLL", EntryPoint = "fLeeDatoDocumento")]
         static extern int fLeeDatoDocumentoComercial(string aCampo, StringBuilder aMensaje, int aLen);
+
+
+        [DllImport("MGWSERVICIOS.DLL", EntryPoint = "fLeeDatoProducto")]
+        static extern int fLeeDatoProductoComercial(string aCampo, StringBuilder aMensaje, int aLen);
 
 
         //public static extern void fError(int NumeroError, StringBuilder Mensaje, int Longitud);
@@ -280,16 +284,50 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             " , h.curr_cd, h.curr_trx_rt " +
             " , h.bill_to_addr_1,  h.bill_to_city, h.bill_to_country,   h.bill_to_no, h.bill_to_state, h.bill_to_zip " +
             " , l.item_no, l.item_desc_1, l.unit_price, l.discount_pct, l.qty_ordered, l.qty_to_ship, p.item_note_1, p.item_note_5 " +
-            " FROM oehdrhst_sql h " +
-            " join cicmpy c on c.cmp_code = h.cus_no " +
-            " join oelinhst_sql l on l.inv_no = h.inv_no " +
-            " join imitmidx_sql p on p.item_no = l.item_no ";
+            " FROM oehdrhst_sql h WITH (NOLOCK)" +
+            " join cicmpy c WITH (NOLOCK) on c.cmp_code = h.cus_no " +
+            " join oelinhst_sql l WITH (NOLOCK) on l.inv_no = h.inv_no " +
+            " join imitmidx_sql p WITH (NOLOCK) on p.item_no = l.item_no ";
 
             if (afoliofinal == 0)
                 ssql += " where h.inv_no > " + afolioinicial.ToString();
             else
                 ssql += " where h.inv_no >= " + afolioinicial.ToString() +  " and h.inv_no <= " + afoliofinal.ToString()  ;
+
+            ssql += " and l.qty_to_ship > 0 ";
             ssql += " order by h.inv_no asc ";
+
+
+            ssql = "SELECT  inv_dt,  h.inv_no,  c.cmp_code,c.cmp_name, c.textfield1, c.TaxCode  " +   
+                    ", h.curr_cd, h.curr_trx_rt  , h.bill_to_addr_1,  h.bill_to_city, h.bill_to_country,   h.bill_to_no, h.bill_to_state, h.bill_to_zip   " + 
+                    ", l.item_no, l.item_desc_1,     " + 
+                    "l.unit_price, l.discount_pct,   " + 
+                    "l.qty_ordered,     " + 
+                    "l.qty_to_ship     " + 
+                    ",p.item_note_1,     " + 
+                    "p.item_note_5,     " +
+                    "p.item_note_2     " + 
+                    "FROM oehdrhst_sql h WITH (NOLOCK) join cicmpy c WITH (NOLOCK) on c.cmp_code = h.cus_no      " + 
+                    "join     " + 
+                    "(    " +
+                    "select inv_no,item_no, sum(qty_to_ship) as qty_to_ship,item_desc_1,    " + 
+                    "max(unit_price) as unit_price, max(discount_pct) as discount_pct ,     " + 
+                    "max(qty_ordered) as qty_ordered    " + 
+                    " from oelinhst_sql ";
+
+            if (afoliofinal == 0)
+                ssql += " where inv_no > " + afolioinicial.ToString();
+            else
+                ssql += " where inv_no >= " + afolioinicial.ToString() +  " and inv_no <= " + afoliofinal.ToString()  ;
+
+//where inv_no >= 7142 and inv_no <= 7142 and qty_to_ship > 0
+            ssql += " group by inv_no,item_no,item_desc_1 " + 
+") as l    " + 
+"on  l.inv_no = h.inv_no      " + 
+"join imitmidx_sql p WITH (NOLOCK) on p.item_no = l.item_no      " ;
+
+
+
             /*
             SqlCommand lsql = new SqlCommand(ssql, DbConnection);
 
@@ -340,6 +378,13 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                             lDocto._RegCliente.Codigo = dr["cmp_code"].ToString().Trim();
                             lDocto._RegCliente.RazonSocial = dr["cmp_name"].ToString();
                             lcliente = lDocto.cCodigoCliente;
+
+
+                            // leer el texto extra 1 del cliente
+
+
+
+
                             lDocto.cCodigoConcepto = lConcepto;
                             //lDocto.cMetodoPago = "02";
 
@@ -348,13 +393,16 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                             lDocto.cFecha = DateTime.Parse(dr["inv_dt"].ToString());
 
-                            lDocto.cFecha = DateTime.Today;
+                           // lDocto.cFecha = DateTime.Today;
 
 
                             clienteleido = lcliente;
                             folioleido = lfolio;
                             lDocto.cMoneda = dr["curr_cd"].ToString();
                             lDocto.cTipoCambio = decimal.Parse(dr["curr_trx_rt"].ToString().Trim());
+
+
+                            lDocto.cMetodoPago = "PPD";
 
                         }
 
@@ -363,7 +411,9 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         regmov._RegProducto.Nombre = dr["item_desc_1"].ToString().Trim();
 
                         regmov._RegProducto.noIdentificacion = dr["item_note_1"].ToString().Trim();
-                        regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString().Trim(); ;
+                        regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString().Trim();
+                        regmov._RegProducto.ComercioExterior = dr["item_note_2"].ToString().Trim(); 
+                        
 
                         regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString().Trim());
                         regmov.cUnidades = decimal.Parse(dr["qty_to_ship"].ToString().Trim());
@@ -388,179 +438,210 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             
         }
 
-        public void mLlenarinfoXML(string archivo)
+        public string mLlenarinfoXML(string archivo)
         {
-
-            //List<RegDocto> doctos = new List<RegDocto>();
-
-
-            _RegDoctos.Clear();
-
-
-            DirectoryInfo dirInfo = new DirectoryInfo(@archivo);
-            FileSystemInfo[] allFiles = dirInfo.GetFileSystemInfos();
-            var orderedFiles = allFiles.OrderBy(f => f.Name);
-
-            foreach (var fi in orderedFiles)
+            string lFolio ="";
+            try
             {
-            /*    string x = archivo + "\\" + fi.Name;
-            }
+                _RegDoctos.Clear();
 
-            DirectoryInfo di = new DirectoryInfo(@archivo);
-            //Console.WriteLine("No search pattern returns:");
-            foreach (var fi in di.GetFiles("*.xml").OrderByDescending(fi=>fi.Name))
-            {*/
+                DirectoryInfo dirInfo = new DirectoryInfo(@archivo);
+                FileSystemInfo[] allFiles = dirInfo.GetFileSystemInfos();
+                var orderedFiles = allFiles.OrderBy(f => f.Name);
 
-                RegDocto lDocto = new RegDocto();
-                XmlDocument xDoc = new XmlDocument();
-                xDoc.Load(archivo + "\\" + fi.Name);
-
-                XmlNodeList xComprobante = xDoc.GetElementsByTagName("cfdi:Comprobante");
-
-                string lTipoComprobante = "";
-                foreach (XmlElement nodo in xComprobante)
+                foreach (var fi in orderedFiles)
                 {
-                    lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("Fecha"));
-                    /*if (lDocto.cFecha < DateTime.Now.AddHours(-72))
-                        lDocto.cFecha = DateTime.Today;*/
-                    string ltipocambio = nodo.GetAttribute("TipoCambio").ToString();
-                    if (ltipocambio != "")
-                        lDocto.cTipoCambio = Decimal.Parse(ltipocambio);
-                    lDocto.cMoneda = nodo.GetAttribute("Moneda");
-                    lDocto.cMetodoPago = nodo.GetAttribute("MetodoPago");
-                    lTipoComprobante = nodo.GetAttribute("TipoDeComprobante");
-                    
-                }
+                    RegDocto lDocto = new RegDocto();
+                    XmlDocument xDoc = new XmlDocument();
+                    xDoc.Load(archivo + "\\" + fi.Name);
 
-                XmlNodeList xEmisor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Emisor");
-                XmlNodeList xReceptor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Receptor");
-                XmlNodeList xConceptos = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Conceptos");
+                    XmlNodeList xComprobante = xDoc.GetElementsByTagName("cfdi:Comprobante");
 
-                XmlNodeList xComplemento = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Complemento");
-
-                lDocto.cNombreArchivo = fi.Name;
-
-                foreach (XmlElement nodo in xEmisor)
-                {
-                    lDocto.cRFC = nodo.GetAttribute("Rfc");
-                    lDocto.cRazonSocial = nodo.GetAttribute("Nombre");
-                    //long lFoliox = mBuscarUltimoFolioConcepto("4", GetSettingValueFromAppConfigForDLL("Concepto"), ref cserie);
-                    string cserie = "";
-                    //long lFoliox = mBuscarUltimoFolioConcepto("4", "4", ref cserie);
-
-                    lDocto.cCodigoCliente = nodo.GetAttribute("Rfc");
-                    if (lTipoComprobante == "I")
-                        lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
-
-                    if (lTipoComprobante == "E")
-                        lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoD");
-
-                    if (lTipoComprobante == "P")
-                        lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoP");
-
-                    lDocto._RegCliente.Codigo = nodo.GetAttribute("Rfc");
-                    lDocto._RegCliente.RazonSocial = nodo.GetAttribute("Nombre");
-
-                    XmlNodeList xDomFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:DomicilioFiscal");
-
-                    foreach (XmlElement nodoDomFiscal in xDomFiscal)
+                    string lTipoComprobante = "";
+                    foreach (XmlElement nodo in xComprobante)
                     {
-                        lDocto._RegDireccion.cCodigoPostal = nodoDomFiscal.GetAttribute("codigoPostal");    
+                        lDocto.cFecha = DateTime.Parse(nodo.GetAttribute("Fecha"));
+                        /*if (lDocto.cFecha < DateTime.Now.AddHours(-72))
+                            lDocto.cFecha = DateTime.Today;*/
+                        string ltipocambio = nodo.GetAttribute("TipoCambio").ToString();
+                        if (ltipocambio != "")
+                            lDocto.cTipoCambio = Decimal.Parse(ltipocambio);
+                        lDocto.cMoneda = nodo.GetAttribute("Moneda");
+                        lDocto.cMetodoPago = nodo.GetAttribute("MetodoPago");
+
+                        if (lDocto.cMoneda == "MXN")
+                            lDocto.cMoneda = "Peso Mexicano";
+
+                        lDocto.cFormaPago = nodo.GetAttribute("FormaPago");
+                        lTipoComprobante = nodo.GetAttribute("TipoDeComprobante");
+
+                        lFolio = nodo.GetAttribute("Folio");
+                        lDocto.cFolio = long.Parse(lFolio);
+
                     }
 
-                    lDocto.cRegimenFiscal = nodo.GetAttribute("RegimenFiscal");
+                    XmlNodeList xEmisor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Emisor");
+                    XmlNodeList xReceptor = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Receptor");
+                    XmlNodeList xConceptos = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Conceptos");
 
-                    XmlNodeList xRegFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:RegimenFiscal");
-                    foreach (XmlElement nodoRegFiscal in xRegFiscal)
+                    XmlNodeList xComplemento = ((XmlElement)xComprobante[0]).GetElementsByTagName("cfdi:Complemento");
+
+                    lDocto.cNombreArchivo = fi.Name;
+
+
+                    foreach (XmlElement nodo in xReceptor)
                     {
-                        lDocto.cRegimenFiscal = nodoRegFiscal.GetAttribute("Regimen");
-                    }
+                        lDocto.cRFC = nodo.GetAttribute("Rfc");
+                        lDocto.cRazonSocial = nodo.GetAttribute("Nombre");
+                        lDocto.cUsoCFDI = nodo.GetAttribute("UsoCFDI");
+                        //lFolio = nodo.GetAttribute("Folio");
+                        //long lFoliox = mBuscarUltimoFolioConcepto("4", GetSettingValueFromAppConfigForDLL("Concepto"), ref cserie);
+                        string cserie = "";
+                        //long lFoliox = mBuscarUltimoFolioConcepto("4", "4", ref cserie);
+                        //lDocto.cFolio = long.Parse(nodo.GetAttribute("Folio").ToString());
+                        lDocto.cCodigoCliente = nodo.GetAttribute("Rfc");
+                        if (lTipoComprobante == "I")
+                            lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("Concepto");
 
-                    
-                    //lDocto.cFecha = 
+                        if (lTipoComprobante == "E")
+                            lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoD");
 
+                        if (lTipoComprobante == "P")
+                            lDocto.cCodigoConcepto = GetSettingValueFromAppConfigForDLL("ConceptoP");
 
+                        lDocto._RegCliente.Codigo = nodo.GetAttribute("Rfc");
+                        lDocto._RegCliente.RazonSocial = nodo.GetAttribute("Nombre");
 
-                }
+                        XmlNodeList xDomFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:DomicilioFiscal");
 
-                foreach (XmlElement nodoReceptor in xReceptor)
-                {
-                    lDocto.cRFC = nodoReceptor.GetAttribute("Rfc");
-                    lDocto.cRazonSocial = nodoReceptor.GetAttribute("Nombre");
-                    XmlNodeList xDomicilioReceptor = ((XmlElement)nodoReceptor).GetElementsByTagName("cfdi:Domicilio");
-                    foreach (XmlElement nodoDomicilioReceptor in xDomicilioReceptor)
-                    {
-                        lDocto._RegDireccion.cNombreCalle = nodoDomicilioReceptor.GetAttribute("calle");
-                        lDocto._RegDireccion.cPais = nodoDomicilioReceptor.GetAttribute("pais");
-                    }
-                }
-
-
-                foreach (XmlElement nodoConceptos in xConceptos)
-                {
-
-                    XmlNodeList xConcepto = ((XmlElement)nodoConceptos).GetElementsByTagName("cfdi:Concepto");
-                    foreach (XmlElement nodoConcepto in xConcepto)
-                    {
-                        //RegMovto regmov = new RegMovto();
-                        //regmov. = nodoConcepto.GetAttribute("importe");
-                        //                        decimal xValorUnitario = decimal.Parse(nodoConcepto.GetAttribute("valorUnitario"));
-
-                        RegMovto regmov = new RegMovto();
-                        regmov._RegProducto.Nombre = nodoConcepto.GetAttribute("Descripcion");
-                        regmov.cUnidades = decimal.Parse(nodoConcepto.GetAttribute("Cantidad"));
-                        regmov.cCodigoAlmacen = "1";
-                        regmov.cPrecio = decimal.Parse(nodoConcepto.GetAttribute("ValorUnitario"));
-
-
-                        //int HashCode = regmov._RegProducto.Nombre.GetHashCode();
-
-                        regmov._RegProducto.Codigo = nodoConcepto.GetAttribute("NoIdentificacion");
-
-                        regmov.cCodigoProducto = regmov._RegProducto.Codigo;
-
-                        regmov._RegProducto.CodigoMedidaPesoSAT = nodoConcepto.GetAttribute("ClaveUnidad");
-
-                        regmov._RegProducto.noIdentificacion = nodoConcepto.GetAttribute("ClaveProdServ");
-                        lDocto._RegMovtos.Add(regmov);
-
-
-                    }
-                }
-
-
-                foreach (XmlElement nodoComplemento in xComplemento)
-                {
-                    XmlNodeList xpago10 = ((XmlElement)nodoComplemento).GetElementsByTagName("pago10:Pagos");
-                    foreach (XmlElement nodoPago in xpago10)
-                    {
-                        XmlNodeList xpago = ((XmlElement)nodoPago).GetElementsByTagName("pago10:Pago");
-                        
-                        
-
-                        foreach (XmlElement nodoPagoRel in xpago)
+                        foreach (XmlElement nodoDomFiscal in xDomFiscal)
                         {
-                            
-                            lDocto.cFecha = DateTime.Parse(nodoPagoRel.GetAttribute("FechaPago").ToString());
-                            lDocto.cNeto = double.Parse(nodoPagoRel.GetAttribute("Monto").ToString());
-                            XmlNodeList xpagorelacionado = ((XmlElement)nodoPago).GetElementsByTagName("pago10:DoctoRelacionado");
+                            lDocto._RegDireccion.cCodigoPostal = nodoDomFiscal.GetAttribute("codigoPostal");
+                        }
 
-                            foreach (XmlElement nodoPagoRelacionado in xpagorelacionado)
+                        lDocto.cRegimenFiscal = nodo.GetAttribute("RegimenFiscal");
+
+                        XmlNodeList xRegFiscal = ((XmlElement)nodo).GetElementsByTagName("cfdi:RegimenFiscal");
+                        foreach (XmlElement nodoRegFiscal in xRegFiscal)
+                        {
+                            lDocto.cRegimenFiscal = nodoRegFiscal.GetAttribute("Regimen");
+                        }
+
+
+                        //lDocto.cFecha = 
+
+
+
+                    }
+
+                    foreach (XmlElement nodoReceptor in xReceptor)
+                    {
+                        lDocto.cRFC = nodoReceptor.GetAttribute("Rfc");
+                        lDocto.cRazonSocial = nodoReceptor.GetAttribute("Nombre");
+                        XmlNodeList xDomicilioReceptor = ((XmlElement)nodoReceptor).GetElementsByTagName("cfdi:Domicilio");
+                        foreach (XmlElement nodoDomicilioReceptor in xDomicilioReceptor)
+                        {
+                            lDocto._RegDireccion.cNombreCalle = nodoDomicilioReceptor.GetAttribute("calle");
+                            lDocto._RegDireccion.cPais = nodoDomicilioReceptor.GetAttribute("pais");
+                        }
+                    }
+
+
+                    foreach (XmlElement nodoConceptos in xConceptos)
+                    {
+
+                        XmlNodeList xConcepto = ((XmlElement)nodoConceptos).GetElementsByTagName("cfdi:Concepto");
+                        foreach (XmlElement nodoConcepto in xConcepto)
+                        {
+                            //RegMovto regmov = new RegMovto();
+                            //regmov. = nodoConcepto.GetAttribute("importe");
+                            //                        decimal xValorUnitario = decimal.Parse(nodoConcepto.GetAttribute("valorUnitario"));
+
+                            RegMovto regmov = new RegMovto();
+                            regmov._RegProducto.Nombre = nodoConcepto.GetAttribute("Descripcion");
+
+                            regmov.cDescuento = decimal.Parse(nodoConcepto.GetAttribute("Descuento"));
+
+                            regmov.cUnidades = decimal.Parse(nodoConcepto.GetAttribute("Cantidad"));
+                            regmov.cCodigoAlmacen = "1";
+                            regmov.cPrecio = decimal.Parse(nodoConcepto.GetAttribute("ValorUnitario"));
+
+
+                            //int HashCode = regmov._RegProducto.Nombre.GetHashCode();
+
+                            regmov._RegProducto.Codigo = nodoConcepto.GetAttribute("NoIdentificacion");
+
+                            regmov.cCodigoProducto = regmov._RegProducto.Codigo;
+
+                            regmov._RegProducto.CodigoMedidaPesoSAT = nodoConcepto.GetAttribute("ClaveUnidad");
+
+                            regmov._RegProducto.noIdentificacion = nodoConcepto.GetAttribute("ClaveProdServ");
+
+                            XmlNodeList xImpuesto = ((XmlElement)nodoConcepto).GetElementsByTagName("cfdi:Impuestos");
+                            foreach (XmlElement nodoImpuestos in xImpuesto)
                             {
-                                RegDocto cargo = new RegDocto();
-                                cargo.cSerie = nodoPagoRelacionado.GetAttribute("Serie");
-                                cargo.cFolio = long.Parse(nodoPagoRelacionado.GetAttribute("Folio").ToString());
-                                cargo.cNeto = double.Parse(nodoPagoRelacionado.GetAttribute("ImpPagado").ToString());
-                                cargo.cTipoCambio = decimal.Parse(nodoPagoRelacionado.GetAttribute("TipoCambioDR").ToString());
-                                lDocto.relacionados.Add(cargo);
+                                XmlNodeList xTraslados = ((XmlElement)nodoImpuestos).GetElementsByTagName("cfdi:Traslados");
+                                foreach (XmlElement nodoTraslados in xTraslados)
+                                {
+                                    XmlNodeList xTraslado = ((XmlElement)nodoTraslados).GetElementsByTagName("cfdi:Traslado");
+                                    foreach (XmlElement nodoTraslado in xTraslado)
+                                    {
+                                        string limpuesto1 = nodoTraslado.GetAttribute("Importe");
+                                        regmov.cImpuesto =  decimal.Parse(limpuesto1);
+                                        //regmov.cImpuesto = (regmov.cUnidades * regmov.cPrecio) * decimal.Parse(limpuesto1);
+                                    }
+                                }
+                            }
+
+
+
+                            lDocto._RegMovtos.Add(regmov);
+
+
+                        }
+                    }
+
+
+                    foreach (XmlElement nodoComplemento in xComplemento)
+                    {
+                        XmlNodeList xpago10 = ((XmlElement)nodoComplemento).GetElementsByTagName("pago10:Pagos");
+                        foreach (XmlElement nodoPago in xpago10)
+                        {
+                            XmlNodeList xpago = ((XmlElement)nodoPago).GetElementsByTagName("pago10:Pago");
+
+
+
+                            foreach (XmlElement nodoPagoRel in xpago)
+                            {
+
+                                lDocto.cFecha = DateTime.Parse(nodoPagoRel.GetAttribute("FechaPago").ToString());
+                                lDocto.cNeto = double.Parse(nodoPagoRel.GetAttribute("Monto").ToString());
+                                XmlNodeList xpagorelacionado = ((XmlElement)nodoPago).GetElementsByTagName("pago10:DoctoRelacionado");
+
+                                foreach (XmlElement nodoPagoRelacionado in xpagorelacionado)
+                                {
+                                    RegDocto cargo = new RegDocto();
+                                    cargo.cSerie = nodoPagoRelacionado.GetAttribute("Serie");
+                                    cargo.cFolio = long.Parse(nodoPagoRelacionado.GetAttribute("Folio").ToString());
+                                    cargo.cNeto = double.Parse(nodoPagoRelacionado.GetAttribute("ImpPagado").ToString());
+                                    cargo.cTipoCambio = decimal.Parse(nodoPagoRelacionado.GetAttribute("TipoCambioDR").ToString());
+                                    lDocto.relacionados.Add(cargo);
+                                }
                             }
                         }
                     }
-                }   
 
-               
 
-                _RegDoctos.Add(lDocto);
+
+                    _RegDoctos.Add(lDocto);
+                    
+                }
+                
+                return "";
+            }
+            catch (Exception eeee)
+            {
+                return "Llenar Datos, Documento" + lFolio + " " + eeee.Message;
             }
         }
 
@@ -5686,7 +5767,20 @@ Inserta_Documento
                 {
                     fErrorComercial(lret, aMensaje, 512);
                     //MessageBox.show("Error: " + aMensaje);
-                } 
+                }
+
+                
+                StringBuilder aValor1 = new StringBuilder(12);
+                int lret2 = fLeeDatoProductoComercial("cIdProducto", aValor1, 12);
+                int lidproducto = int.Parse(aValor1.ToString());
+
+
+                m.CommandText = "insert into admDatosAddenda values (367,2," + lidproducto.ToString() + ",4,'" + amovto._RegProducto.ComercioExterior + "')";
+                m.Connection = miconexion._conexion1;
+                m.ExecuteNonQuery();
+
+
+
             }
             
             return true;
@@ -5730,20 +5824,40 @@ Inserta_Documento
 
         }
 
-        private int mGrabaEncabezadoComercial(RegDocto doc, ref int aIdDocumento, ref long aFolio1)
+        private int mGrabaEncabezadoComercial(RegDocto doc, int incluyedireccion,  ref int aIdDocumento, ref long aFolio1, ref string aSerie, int conComercioExterior = 0)
         {
             int lret2=0;
             int lerrordocto = 0;
             StringBuilder sMensaje1 = new StringBuilder(512);
             string aCodigoConcepto = "";
-                string aSerie = "";
+            string ltextoextra1cliente = "";
+
+            if (conComercioExterior == 1)
+            {
+                SqlCommand lsql = new SqlCommand();
+                lsql.CommandText = "select ctextoextra1 from admClientes where ccodigocliente = '" + doc.cCodigoCliente + "'";
+                lsql.Connection = miconexion._conexion1;
+
+                SqlDataReader l;
+                l = lsql.ExecuteReader();
+                if (l.HasRows)
+                {
+                    l.Read();
+                    ltextoextra1cliente = l["ctextoextra1"].ToString().Trim();
+                }
+                l.Close();
+            }
+
+
+                
                 double aFolio = 0;
                 if (doc.cFolio == 0)
                 {
                     try
                     {
-                        fSiguienteFolioComercial(doc.cCodigoConcepto, ref  aSerie, ref  aFolio);
+                       // int z = fSiguienteFolioComercial(doc.cCodigoConcepto, ref  aSerie, ref  aFolio);
                         aFolio1 = long.Parse(aFolio.ToString());
+                        aFolio = -1;
                     }
                     catch (Exception ii)
                     {
@@ -5839,12 +5953,15 @@ Inserta_Documento
                     return 0;
                 }
 
-                lret2 = fSetDatoDocumentoComercial("cFolio", aFolio.ToString());
-                if (lret2 != 0)
+                if (aFolio != -1)
                 {
-                    fErrorComercial(lret2, sMensaje1, 512);
-                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
-                    return 0;
+                    lret2 = fSetDatoDocumentoComercial("cFolio", aFolio.ToString());
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                        return 0;
+                    }
                 }
                 lret2 = fSetDatoDocumentoComercial("cFechaVencimiento", lfechavenc);
                 if (lret2 != 0)
@@ -5866,13 +5983,38 @@ Inserta_Documento
                 
                 lc = mBuscarClienteComercial(doc.cCodigoCliente);
 
-                lret2 = fSetDatoDocumentoComercial("CMETODOPAG", lc.MetodoPago);
+               
+
+                lret2 = fSetDatoDocumentoComercial("CMETODOPAG", doc.cFormaPago);
                 if (lret2 != 0)
                 {
                     fErrorComercial(lret2, sMensaje1, 512);
                     fProcesaError(doc, null, "Doc", sMensaje1.ToString());
                     return 0;
                 }
+
+                if (doc.cMetodoPago == "PPD")
+                {
+                    lret2 = fSetDatoDocumentoComercial("CCANTPARCI", "2");
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                        return 0;
+                    }
+                }
+
+                if (doc.cUsoCFDI != "")
+                {
+                    lret2 = fSetDatoDocumentoComercial("CCODCONCBA", doc.cUsoCFDI);
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                        return 0;
+                    }
+                }
+
 
                 lret2 = fGuardaDocumentoComercial();
                 if (lret2 != 0)
@@ -5885,14 +6027,57 @@ Inserta_Documento
                 StringBuilder aValor = new StringBuilder(12);
                 lret2 = fLeeDatoDocumentoComercial("CIDDOCUMENTO", aValor, 12);
                 int liddocumento = int.Parse(aValor.ToString());
-                
+
+
+                lret2 = fLeeDatoDocumentoComercial("CFOLIO", aValor, 12);
+                long llfolio = Convert.ToInt32(decimal.Parse(aValor.ToString()));
+
+                lret2 = fLeeDatoDocumentoComercial("CSERIEDOCUMENTO", aValor, 12);
+                string lSerie = aValor.ToString();
+                aSerie = lSerie;
+
+                doc.cFolio = llfolio;
+                doc.cSerie = lSerie;
 
                 doc.cIdDocto = liddocumento;
-                //if (incluyedireccion == 1)
-                //    lret2 = mGrabaDireccionComercial(doc);
+                /*if (incluyedireccion == 1)
+                    lret2 = mGrabaDireccionComercial(doc);*/
                 lret2 = mgrabamoneda(liddocumento, doc.cMoneda, doc.cTipoCambio);
 
+                if (conComercioExterior == 1)
+                    lret2 = mgrabacomercioexterior(liddocumento, ltextoextra1cliente, doc.cTipoCambio);
+
                 return 1;
+        }
+
+        private int mgrabacomercioexterior(int aiddocumento, string atexto, decimal aTC)
+        {
+            // also comercio exterior
+            SqlCommand lsql = new SqlCommand();
+                lsql.Connection = miconexion._conexion1;
+
+            lsql.CommandText = "insert into admDatosAddenda values (367,3," + aiddocumento.ToString() + ",2,'Exportación')";
+            int lret1 = lsql.ExecuteNonQuery();
+            lsql.CommandText = "insert into admDatosAddenda values (367,3," + aiddocumento.ToString() + ",3,'IMPORTACION O EXPORTACION DEFINITIVA')";
+            lret1 = lsql.ExecuteNonQuery();
+            lsql.CommandText = "insert into admDatosAddenda values (367,3," + aiddocumento.ToString() + ",4,'No Funge como certificado de origen')";
+            lret1 = lsql.ExecuteNonQuery();
+            lsql.CommandText = "insert into admDatosAddenda values (367,3," + aiddocumento.ToString() + ",7,'" + atexto + "')";
+            lret1 = lsql.ExecuteNonQuery();
+            lsql.CommandText = "insert into admDatosAddenda values (367,3," + aiddocumento.ToString() + ",8,'No tiene subdivisión')";
+            lret1 = lsql.ExecuteNonQuery();
+            lsql.CommandText = "insert into admDatosAddenda values (367,3," + aiddocumento.ToString() + ",10," + aTC.ToString().Trim() + ")";
+            lret1 = lsql.ExecuteNonQuery();
+
+            /*            insert into admDatosAddenda values (367,3,7,2,'Exportación')
+            insert into admDatosAddenda values (367,3,7,3,'IMPORTACION O EXPORTACION DEFINITIVA')
+            insert into admDatosAddenda values (367,3,7,4,'No Funge como certificado de origen')
+            insert into admDatosAddenda values (367,3,7,7,'DAP - ENTREGADA EN LUGAR')
+            insert into admDatosAddenda values (367,3,7,8,'No tiene subdivisión')
+            insert into admDatosAddenda values (367,3,7,10,'18.58')*/
+            //--lsql.Connection = miconexion._conexion1;
+            return 1;
+        
         }
 
 
@@ -6048,11 +6233,26 @@ Inserta_Documento
 
                 }
 
+                StringBuilder aValor1 = new StringBuilder(12);
+                    aValor1.Length = 0;
+                    lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor1, 12);
+                    int lidmovimiento1 = int.Parse(aValor1.ToString());
+
+                
+                SqlCommand lsql = new SqlCommand();
+                lsql.CommandText = "insert into admDatosAddenda values (367,5," + aValor1.ToString() + ",2,'1.')";
+                lsql.Connection = miconexion._conexion1;
+                int lret = lsql.ExecuteNonQuery();
+                return lret;
+
+
+                int lret1 = lsql.ExecuteNonQuery();
+
             }
             return 1;
         }
 
-        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio)
+        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio, int incluyedireccion, int concomercioexterior )
         {
             StringBuilder sMensaje1 = new StringBuilder(512);
             
@@ -6084,7 +6284,7 @@ Inserta_Documento
                 sdkcomercial = true;
             }
 
-            fAbreEmpresa(rutadestino);
+            int zzzzz = fAbreEmpresa(rutadestino);
 
 
             
@@ -6103,11 +6303,15 @@ Inserta_Documento
             {
 
                 long aFolio = 0;
-                int lRetorno = mGrabaEncabezadoComercial(doc, ref liddocumento, ref aFolio);
+                string aSerie = "";
+                int lRetorno = mGrabaEncabezadoComercial(doc, incluyedireccion, ref liddocumento, ref aFolio, ref aSerie, concomercioexterior);
                 if (lRetorno == 1)
                 {
                     if (doc.cFolio == 0)
+                    {
                         doc.cFolio = aFolio;
+                        doc.cSerie = aSerie;
+                    }
                     lRetorno = mGrabarMovimientosComercial(doc, indicedoc, ref ltotalunidadesdocto);
                     indicedoc++;
 
@@ -6127,7 +6331,10 @@ Inserta_Documento
                         lpass = GetSettingValueFromAppConfigForDLL("Pass").ToString().Trim();
 
                         lultimoFolio = doc.cFolio;
-                        int lresp20 = fEmitirDocumentoComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, lpass, "");
+                        double dfolio = 0.0;
+                        dfolio = Convert.ToDouble(doc.cFolio);
+
+                        int lresp20 = fEmitirDocumentoComercial(doc.cCodigoConcepto, doc.cSerie, dfolio, lpass, "");
                         if (lresp20 != 0)
                         {
                             fErrorComercial(lresp20, sMensaje1, 512);
@@ -6137,7 +6344,8 @@ Inserta_Documento
                         }
                         else
                         {
-                            lresp20 = fEntregEnDiscoXMLComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, 1, @"C:\Compac\Empresas\Reportes\Formatos Digitales\reportes_Servidor\COMERCIAL\Factura.rdl");
+                            //lresp20 = fEntregEnDiscoXMLComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, 0, @"C:\Compac\Empresas\Reportes\Formatos Digitales\reportes_Servidor\COMERCIAL\Factura.rdl");
+                            lresp20 = fEntregEnDiscoXMLComercial(doc.cCodigoConcepto, doc.cSerie, doc.cFolio, 0, "");
                             if (lresp20 != 0)
                             {
                                 fErrorComercial(lresp20, sMensaje1, 512);
@@ -6628,12 +6836,22 @@ Inserta_Documento
         {
             SqlCommand lsql = new SqlCommand();
             int lmoneda = 0;
-            if ( aMoneda != "Peso Mexicano")
+            if (aMoneda != "Peso Mexicano")
             {
                 lsql.CommandText = "update admDocumentos set cidmoneda = 2 ,ctipocambio = " + aTC.ToString().Trim() + " where ciddocumento = " + aiddocumento.ToString().Trim();
                 lsql.Connection = miconexion._conexion1;
                 int lret = lsql.ExecuteNonQuery();
             }
+            else
+            {
+                lsql.CommandText = "update admDocumentos set cidmoneda = 1 ,ctipocambio = 1 where ciddocumento = " + aiddocumento.ToString().Trim();
+                lsql.Connection = miconexion._conexion1;
+                int lret = lsql.ExecuteNonQuery();
+            }
+
+           
+            
+            
             return 1;
         }
 
@@ -7143,7 +7361,7 @@ Inserta_Documento
 
             // miconexion.mAbrirConexionDestino();
 
-            lsql.CommandText = "select cidclienteproveedor,ccodigocliente,crazonsocial, cmetodopag from admClientes where ccodigocliente = '" + codigo + "'";
+            lsql.CommandText = "select cidclienteproveedor,ccodigocliente,crazonsocial, cmetodopag,ctextoextra1 from admClientes where ccodigocliente = '" + codigo + "'";
             lsql.Connection = miconexion._conexion1;
             lreader = lsql.ExecuteReader();
             //_RegDoctoOrigen._RegMovtos.Clear();
@@ -7159,6 +7377,7 @@ Inserta_Documento
                     lcliente.Codigo = lreader[1].ToString();
                     lcliente.RazonSocial= lreader[2].ToString();
                     lcliente.MetodoPago = lreader[3].ToString();
+                    
 
                 }
                 catch (Exception ee)
