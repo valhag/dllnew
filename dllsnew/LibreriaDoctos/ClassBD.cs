@@ -6243,10 +6243,10 @@ Inserta_Documento
                 lsql.CommandText = "insert into admDatosAddenda values (367,5," + aValor1.ToString() + ",2,'1.')";
                 lsql.Connection = miconexion._conexion1;
                 int lret = lsql.ExecuteNonQuery();
-                return lret;
+                //return lret;
 
 
-                int lret1 = lsql.ExecuteNonQuery();
+                //int lret1 = lsql.ExecuteNonQuery();
 
             }
             return 1;
