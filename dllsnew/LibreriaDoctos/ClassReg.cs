@@ -642,7 +642,16 @@ namespace LibreriaDoctos
         private double _Precio;
 
 
-        private string _ComercioExterior;
+        private string _UnidadMicroplaneComercioExterior="";
+
+        public string UnidadMicroplaneComercioExterior
+        {
+            get { return _UnidadMicroplaneComercioExterior; }
+            set { _UnidadMicroplaneComercioExterior = value; }
+        }
+
+
+        private string _ComercioExterior="";
 
         public string ComercioExterior
         {

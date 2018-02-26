@@ -306,7 +306,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                     "l.qty_to_ship     " + 
                     ",p.item_note_1,     " + 
                     "p.item_note_5,     " +
-                    "p.item_note_2     " + 
+                    "p.item_note_2     " +
+                    ",p.item_note_3     " + 
                     "FROM oehdrhst_sql h WITH (NOLOCK) join cicmpy c WITH (NOLOCK) on c.cmp_code = h.cus_no      " + 
                     "join     " + 
                     "(    " +
@@ -321,7 +322,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                 ssql += " where inv_no >= " + afolioinicial.ToString() +  " and inv_no <= " + afoliofinal.ToString()  ;
 
 //where inv_no >= 7142 and inv_no <= 7142 and qty_to_ship > 0
-            ssql += " group by inv_no,item_no,item_desc_1 " + 
+            ssql += " and qty_to_ship > 0 group by inv_no,item_no,item_desc_1 " + 
 ") as l    " + 
 "on  l.inv_no = h.inv_no      " + 
 "join imitmidx_sql p WITH (NOLOCK) on p.item_no = l.item_no      " ;
@@ -412,7 +413,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                         regmov._RegProducto.noIdentificacion = dr["item_note_1"].ToString().Trim();
                         regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString().Trim();
-                        regmov._RegProducto.ComercioExterior = dr["item_note_2"].ToString().Trim(); 
+                        regmov._RegProducto.ComercioExterior = dr["item_note_2"].ToString().Trim();
+                        regmov._RegProducto.UnidadMicroplaneComercioExterior = dr["item_note_3"].ToString().Trim(); 
                         
 
                         regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString().Trim());
@@ -6240,9 +6242,13 @@ Inserta_Documento
 
                 
                 SqlCommand lsql = new SqlCommand();
-                lsql.CommandText = "insert into admDatosAddenda values (367,5," + aValor1.ToString() + ",2,'1.')";
-                lsql.Connection = miconexion._conexion1;
-                int lret = lsql.ExecuteNonQuery();
+
+                if (movto._RegProducto.UnidadMicroplaneComercioExterior == "KGS")
+                {
+                    lsql.CommandText = "insert into admDatosAddenda values (367,5," + aValor1.ToString() + ",2,'1.')";
+                    lsql.Connection = miconexion._conexion1;
+                    int lret = lsql.ExecuteNonQuery();
+                }
                 //return lret;
 
 
