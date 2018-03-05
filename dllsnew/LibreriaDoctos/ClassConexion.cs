@@ -40,8 +40,11 @@ namespace LibreriaDoctos
 
         public string rutaorigen;
         public string rutadestino;
-        public const string _NombreAplicacionCompleto = "InterfazAdmin.exe";
-        public const string _NombreAplicacion = "InterfazAdmin";
+        /*public const string _NombreAplicacionCompleto = "InterfazAdmin.exe";
+        public const string _NombreAplicacion = "InterfazAdmin";*/
+
+        public const string _NombreAplicacionCompleto = "Remisiones.exe";
+        public const string _NombreAplicacion = "Remisiones";
 
        // public const string _NombreAplicacionCompleto = "Grid.exe";
        // public const string _NombreAplicacion = "Grid";
@@ -229,6 +232,58 @@ namespace LibreriaDoctos
             return _conexion1;
 
         }
+
+        
+
+        public SqlConnection mAbrirConexionComercial(RegConexion datosconexion, bool incluyesdk)
+        {
+            //            rutadestino = "c:\\compacw\\empresas\\adtala2";
+            string rutadestino = datosconexion.database;
+
+            string sempresa = rutadestino.Substring(rutadestino.LastIndexOf("\\") + 1);
+
+            string server = datosconexion.server;
+            string user = datosconexion.usuario;
+            string pwd = datosconexion.ps;
+            //sempresa = GetSettingValueFromAppConfigForDLL("empresa");
+            //string lruta3 = obc.ToString();
+            string lruta4 = @rutadestino;
+            _conexion1 = new SqlConnection();
+            string Cadenaconexion1 = "data source =" + server + ";initial catalog = " + sempresa + ";user id = " + user + "; password = " + pwd + ";";
+            _conexion1.ConnectionString = Cadenaconexion1;
+            _conexion1.Open();
+
+            if (incluyesdk == true)
+            {
+
+                RegistryKey hklp = Registry.LocalMachine;
+                hklp = hklp.OpenSubKey(llaveregistrycomercial);
+                Object obc = hklp.GetValue("DIRECTORIOBASE");
+                string lruta1 = obc.ToString();
+                string lruta2 = @lruta1;
+                SetCurrentDirectory(obc.ToString());
+
+                long lret;
+                try
+                {
+                    //fTerminaSDK();
+                    // lret = fInicializaSDK();
+                       
+           
+                }
+                catch (Exception eeeee)
+                {
+                    fTerminaSDK();
+                    //  lret = fInicializaSDK();
+                }
+                //lret = fAbreEmpresa(rutadestino);
+                //fCierraEmpresa();
+                //fTerminaSDK();
+            }
+            return _conexion1;
+
+        }
+
 
         public SqlConnection mAbrirConexionComercial(bool incluyesdk)
         {

@@ -2833,6 +2833,9 @@ otroconcepto, cserie, afolionuevo, importe, 1, lfechavenc);
      return lRegresa;
  }
 
+
+ 
+
  public string mBuscarDoctoArchivo(Boolean aRevisar)
  {
      string lrespuesta = ""; 
@@ -6778,6 +6781,43 @@ Inserta_Documento
             Notificar(error);
            
         }
+        private string empresacomercial;
+
+        public void mAsignaEmpresaComercial(RegConexion empresa)
+        {
+            miconexion.mAbrirConexionComercial(empresa,true);
+            empresacomercial = empresa.database;
+            StringBuilder sMensaje1 = new StringBuilder(512);
+
+            string rutadestino = empresacomercial;
+
+            /*int lcierraconexion = 0;
+            if (miconexion._conexion1 == null)
+            {
+                miconexion.mAbrirConexionComercial(true);
+                lcierraconexion = 1;
+            }*/
+
+            int lResultado = fSetNombrePAQ("CONTPAQ I Comercial");
+            if (lResultado != 0)
+            {
+                fErrorComercial(lResultado, sMensaje1, 512);
+            }
+            /*
+                if (incluyetimbrado == 1)
+                {
+                    int lresp10 = fInicializaLicenseInfoComercial(0);
+                    if (lresp10 != 0)
+                    {
+                        fErrorComercial(lresp10, sMensaje1, 512);
+                    }
+                }*/
+
+            sdkcomercial = true;
+            // }
+
+            int zzzzz = fAbreEmpresa(rutadestino);
+        }
 
         private void mBorrarDocto(RegDocto doc)
         {
@@ -6787,6 +6827,23 @@ Inserta_Documento
             {
                 fBorraDocumentoComercial();
             }
+        }
+
+        public void mBorrarDocto(string Concepto, string Serie, string Folio)
+        {
+            StringBuilder sMensaje1 = new StringBuilder(512);
+            
+           
+
+            long lret = fBuscarDocumentoComercial(Concepto, Serie, Folio);
+            if (lret == 0)
+            {
+                int lresul = fBorraDocumentoComercial();
+            }
+           /* if(lcierraconexion == 1)
+                miconexion.mCerrarConexionOrigenComercial();*/
+            
+    
         }
 
         

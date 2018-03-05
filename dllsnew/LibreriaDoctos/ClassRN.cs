@@ -20,6 +20,16 @@ namespace LibreriaDoctos
             lbd.mCerrarSdkComercial();
         }
 
+        public void mBorrarDocto(string Concepto, string Serie, string Folio)
+        {
+            lbd.mBorrarDocto(Concepto, Serie, Folio);
+        }
+
+        public void mAsignaEmpresaComercial(RegConexion empresa)
+    {
+            lbd.mAsignaEmpresaComercial(empresa);
+    }
+
         public string mLlenarinfoXML(string archivo)
         {
             return lbd.mLlenarinfoXML(archivo);
