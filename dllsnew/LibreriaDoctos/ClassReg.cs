@@ -8,6 +8,14 @@ using System.Runtime.InteropServices;
 namespace LibreriaDoctos
 {
 
+    public class RegConexion1
+    {
+        public string server;
+        public string usuario;
+        public string ps;
+        public string database;
+    }
+
     public class RegConexion
     {
         public string server;
