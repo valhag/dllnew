@@ -6803,7 +6803,7 @@ Inserta_Documento
             {
                 fErrorComercial(lResultado, sMensaje1, 512);
             }
-            /*
+/*            
                 if (incluyetimbrado == 1)
                 {
                     int lresp10 = fInicializaLicenseInfoComercial(0);
