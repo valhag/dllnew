@@ -16,3 +16,11 @@ C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\Debug\Interop.CONTPAQiCom
 C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
 C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.dll
 C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.pdb
+C:\fromgithub\dllnew\dllsnew\InterfazIntADM\bin\Debug\LibreriaDoctos.dll.config
+C:\fromgithub\dllnew\dllsnew\InterfazIntADM\bin\Debug\LibreriaDoctos.dll
+C:\fromgithub\dllnew\dllsnew\InterfazIntADM\bin\Debug\LibreriaDoctos.pdb
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.csprojResolveAssemblyReference.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\Debug\Interop.CONTPAQiComercial.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\Debug\LibreriaDoctos.pdb

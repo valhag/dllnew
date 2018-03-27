@@ -48,3 +48,15 @@ C:\fromgithub\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.TBDecimales.re
 C:\fromgithub\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.csproj.GenerateResource.Cache
 C:\fromgithub\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.dll
 C:\fromgithub\dllnew\dllnew\dllsnew\controles\obj\Debug\Controles.pdb
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.csprojResolveAssemblyReference.cache
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\controles.BotonExcel.resources
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.codigocatalogo.resources
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\InterfazArchivoAdmin.controles.Empresa.resources
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.EmpresasComercial.resources
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\InterfazArchivoAdmin.SeleccionEmpresa.resources
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.TBDecimales.resources
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.csproj.GenerateResource.Cache
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.dll
+C:\fromgithub\dllnew\dllsnew\controles\obj\Debug\Controles.pdb
+C:\Interfaces\InterfazAdmin\bin\Debug\Controles.dll
+C:\Interfaces\InterfazAdmin\bin\Debug\Controles.pdb

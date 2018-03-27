@@ -40,11 +40,11 @@ namespace LibreriaDoctos
 
         public string rutaorigen;
         public string rutadestino;
-        /*public const string _NombreAplicacionCompleto = "InterfazAdmin.exe";
-        public const string _NombreAplicacion = "InterfazAdmin";*/
+        public const string _NombreAplicacionCompleto = "InterfazAdmin.exe";
+        public const string _NombreAplicacion = "InterfazAdmin";
 
-        public const string _NombreAplicacionCompleto = "Remisiones.exe";
-        public const string _NombreAplicacion = "Remisiones";
+       /* public const string _NombreAplicacionCompleto = "Remisiones.exe";
+        public const string _NombreAplicacion = "Remisiones";*/
 
        // public const string _NombreAplicacionCompleto = "Grid.exe";
        // public const string _NombreAplicacion = "Grid";

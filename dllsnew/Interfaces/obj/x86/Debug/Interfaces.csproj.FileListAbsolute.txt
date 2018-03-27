@@ -17,3 +17,7 @@ C:\fromgithub\Interfaces\InterfazAdmin\bin\Debug\Interfaces.dll
 C:\fromgithub\Interfaces\InterfazAdmin\bin\Debug\Interfaces.pdb
 C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
 C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb
+C:\Interfaces\InterfazAdmin\bin\Debug\Interfaces.dll
+C:\Interfaces\InterfazAdmin\bin\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.dll
+C:\fromgithub\dllnew\dllsnew\Interfaces\obj\x86\Debug\Interfaces.pdb
