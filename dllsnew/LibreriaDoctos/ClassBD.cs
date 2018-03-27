@@ -414,7 +414,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         regmov._RegProducto.noIdentificacion = dr["item_note_1"].ToString().Trim();
                         regmov._RegProducto.CodigoMedidaPesoSAT = dr["item_note_5"].ToString().Trim();
                         regmov._RegProducto.ComercioExterior = dr["item_note_2"].ToString().Trim();
-                        regmov._RegProducto.UnidadMicroplaneComercioExterior = dr["item_note_3"].ToString().Trim(); 
+                        regmov._RegProducto.UnidadMicroplaneComercioExterior = dr["item_note_3"].ToString().Trim();
+                        regmov._RegProducto.UnidadMicroplaneComercioExterior = "KGS"; 
                         
 
                         regmov.cPorcent01 = decimal.Parse(dr["discount_pct"].ToString().Trim());
@@ -6434,6 +6435,8 @@ Inserta_Documento
                 if (movto._RegProducto.UnidadMicroplaneComercioExterior == "KGS")
                 {
                     lsql.CommandText = "insert into admDatosAddenda values (367,5," + aValor1.ToString() + ",2,'1.')";
+
+                    lsql.CommandText = "insert into admDatosAddenda values (367,5," + aValor1.ToString() + ",2,'" + movto.cUnidades.ToString() + "')";
                     lsql.Connection = miconexion._conexion1;
                     int lret = lsql.ExecuteNonQuery();
                 }
