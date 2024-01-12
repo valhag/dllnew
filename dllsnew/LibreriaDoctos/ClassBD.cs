@@ -19,6 +19,8 @@ using System.Data.Odbc;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 
+
+//testing
 namespace LibreriaDoctos
 {
     public class ClassBD : ISujeto
