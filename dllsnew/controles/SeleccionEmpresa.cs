@@ -27,11 +27,20 @@ namespace InterfazArchivoAdmin
 
         public string lrutaempresa;
         public string lnombreempresa;
+        public int lsistema = 0;
 
         public SeleccionEmpresa()
         {
             InitializeComponent();
         }
+
+        public SeleccionEmpresa(int asistema)
+        {
+            lsistema = asistema;
+            InitializeComponent();
+        }
+
+        
 
         private int mcargarEmpresa()
         {
@@ -48,8 +57,11 @@ namespace InterfazArchivoAdmin
             this.comboBox1.DataSource = lrn.mCargarEmpresas(out mensaje);
             //MessageBox.Show (mensaje);
 
-            //if (mensaje == "")
-            //{
+            if (mensaje != "")
+            {
+                MessageBox.Show(mensaje);
+                return 0;
+            }
             comboBox1.DisplayMember = "Nombre";
             comboBox1.ValueMember = "Ruta";
             comboBox1.Update();
@@ -64,6 +76,9 @@ namespace InterfazArchivoAdmin
                 return 1;
 
             comboBox1.SelectedIndex = 0;
+            if (lsistema != 0)
+                groupBox2.Text = "Empresa Fact. Elec.";
+
             return 0;
             //}
             //else
@@ -92,7 +107,10 @@ namespace InterfazArchivoAdmin
 
                 comboBox1.SelectedIndex = z;
                 comboBox1.SelectedIndexChanged += new EventHandler(OnSelectedItem);
+
+
                 
+
                 return;
             }
         }
@@ -105,11 +123,14 @@ namespace InterfazArchivoAdmin
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lrutaempresa = comboBox1.SelectedValue.ToString().Trim();
-            lnombreempresa = comboBox1.Text;
-            if (this.InnerButtonClick != null)
+            if (comboBox1.SelectedValue != null)
             {
-                this.InnerButtonClick(sender, e);
+                lrutaempresa = comboBox1.SelectedValue.ToString().Trim();
+                lnombreempresa = comboBox1.Text;
+                if (this.InnerButtonClick != null)
+                {
+                    this.InnerButtonClick(sender, e);
+                }
             }
         }
 

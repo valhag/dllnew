@@ -40,7 +40,8 @@ namespace controles
                 this.textBox1.Text = lnombre + "\\" + lNombreArchivo + ".txt";
             if (atipo == 2) // excel
                 this.textBox1.Text = lnombre + "\\" + lNombreArchivo + ".xls";
-
+            if (atipo == 3) // excel xlsx
+                this.textBox1.Text = lnombre + "\\" + lNombreArchivo + ".xlsx";
         }
 
         private void button1_Click(object sender, EventArgs e)

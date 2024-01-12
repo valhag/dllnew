@@ -15,6 +15,76 @@ namespace LibreriaDoctos
         public ClassBD lbd = new ClassBD();
 
 
+       
+        public List<RegConcepto> mCargarConceptosPedidosComercial()
+        {
+            return lbd.mCargarConceptosComercial(2, 0);
+        }
+
+        public List<RegConcepto> mCargarConceptosDevolucionComercial()
+        {
+            return lbd.mCargarConceptosComercial(5, 0);
+        }
+        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio, int incluyedireccion, int conComercioExterior = 0, int grabarcliente = 1, int traspaso = 0)
+        {
+            return lbd.mGrabarDoctosComercial(incluyetimbrado, ref lultimoFolio, incluyedireccion, conComercioExterior, grabarcliente, traspaso);
+        }
+
+        public List<RegConcepto> mCargarConceptosCargosComercial()
+        {
+            return lbd.mCargarConceptosComercial(13, 0, 0);
+        }
+
+        
+        public string mLlenarinfoAutorizaciones(int liddocumento, string concepto, string doctode)
+        {
+            return lbd.mLlenarinfoAutorizaciones(liddocumento, concepto,doctode);
+        }
+
+        public string mLLenarInfoPedidosFacturas(string archivo)
+        {
+            return lbd.mLLenarInfoPedidosFacturas(archivo);
+        }
+
+        public string mLLenarInfoMontesori(string archivo)
+        {
+            return lbd.mLLenarInfoMontesori(archivo);
+        }
+
+        public string mLLenarInfoAdrianaTraspaso(string archivo)
+        {
+            return lbd.mLLenarInfoAdrianaTraspaso(archivo);
+        }
+
+            public string mLLenarInfoAddendas(string archivo)
+        {
+            return lbd.mLLenarInfoAddendas(archivo);
+        }
+
+        public int mEjecutarComando(string comando, int aclientes, int lporcodigo)
+        {
+            return lbd.mEjecutarComando(comando, aclientes, lporcodigo);
+        }
+
+        public int mEjecutarComando2(string comando, int aclientes, int lporcodigo, string empresa)
+        {
+            return lbd.mEjecutarComando2(comando, aclientes, lporcodigo, empresa);
+        }
+
+        public int mEjecutarComando3(string comando, int aclientes, int lporcodigo, string empresaorigen, string empresadestino)
+        {
+            return lbd.mEjecutarComando3(comando, aclientes, lporcodigo, empresaorigen, empresadestino);
+        }
+
+        public int mProcesarInventarios(string comandoDoctos, string comandoMovtos, int aclientes, int lporcodigo, string empresaorigen, string empresadestino, string comandofolios = "")
+        {
+            return lbd.mProcesarInventarios(comandoDoctos, comandoMovtos, aclientes, lporcodigo, empresaorigen, empresadestino, comandofolios);
+        }
+        public int mValidaSQLConexion(string server, string bd, string user, string psw)
+        {
+            return lbd.mValidaSQLConexion(server, bd, user, psw);
+        }
+
         public void mCerrarSdkComercial()
         {
             lbd.mCerrarSdkComercial();
@@ -65,6 +135,18 @@ namespace LibreriaDoctos
             return lbd.mLlenarinfoAmcoPedidos(archivo);
         }
 
+
+        public int mLlenarInfoFresko(string archivo)
+        {
+            return lbd.mLlenarinfoFresko(archivo);
+        }
+
+        public string mLlenarTraslado(string archivo)
+        {
+            return lbd.mLlenarTraslado(archivo);
+        }
+
+
         public void mLLenarInfoFacturacionMasiva(string archivo)
         {
             lbd.mLlenarinfoFacturacionMasiva(archivo);
@@ -80,7 +162,16 @@ namespace LibreriaDoctos
             return lbd.mGrabarDoctos( incluyetimbrado, tipo);
         }
 
-        
+        public List<string> mGrabarDoctosFresko(bool incluyetimbrado, int tipo)
+        {
+            return lbd.mGrabarDoctosFresko(incluyetimbrado, tipo);
+        }
+
+        public List<string> mGrabarDoctosTraslado(bool incluyetimbrado, int tipo)
+        {
+            return lbd.mGrabarDoctosTraslado(incluyetimbrado, tipo);
+        }
+
         public void mTraerInformacionPrimerReporte(ref DataSet PorConcepto, DateTime ini, DateTime fin)
         {
                 lbd.mTraerInformacionPrimerReporte(ref PorConcepto, ini, fin);
@@ -100,6 +191,18 @@ namespace LibreriaDoctos
         {
             return lbd.mCargarDocumentos(aDocumentoModelo,aFolio, aSerie);
         }
+
+        public List<RegOrigen> mCargarDocumentosComercialDoctoDeCliente(int aDocumentoModelo, long aIdCliente)
+        {
+            return lbd.mCargarDocumentosComercialDoctoDeCliente(aDocumentoModelo, aIdCliente);
+        }
+
+        public List<RegDocto> mCargarDocumentosComercialReferencia(string aConcepto, string aReferencia, ref DataTable dt, ref DataTable dt2, int pt = 0)
+        {
+            return lbd.mCargarDocumentosComercialReferencia(aConcepto, aReferencia, ref dt, ref dt2, pt);
+        }
+
+
         public void mInicializar(string aRutaOrigen, string aRutaDestino)
         {
             //Properties.Settings.Default.RutaEmpresaSamira = aRutaOrigen; 
@@ -111,6 +214,21 @@ namespace LibreriaDoctos
             return lbd.mBuscar(aFolio, aConcepto, aSerie, aTipo);
         }
 
+
+        public RegDocto mBuscarDoctoComercialProduccion(string aFolio, string Concepto, int porcentaje)
+        {
+            return lbd.mBuscarDoctoComercialProduccion(aFolio, Concepto,porcentaje);
+        }
+
+        public List<RegCliente> mCargarSeriesPedidosComercial(long lidmovimiento)
+        {
+            return lbd.mCargarSeriesPedidosComercial(lidmovimiento);
+        }
+        public RegDocto mBuscarDoctoComercial(string aFolio, string aSerie, string Concepto)
+        {
+            return lbd.mBuscarDoctoComercial(aFolio, aSerie, Concepto);
+
+        }
 
         public string mBuscarDocto(string aFolio, int aTipo, bool aRevisar)
         {
@@ -173,6 +291,21 @@ namespace LibreriaDoctos
             return lbd.mBuscarClienteComercial(codigo);
         }
 
+        public RegCliente mBuscarSerieComercial(string Serie, string aCodigoProducto, string aCodigoAlmacen)
+        {
+            return lbd.mBuscarNumeroSerieComercial(Serie, aCodigoProducto, aCodigoAlmacen);
+        }
+
+        public void mSetDoctos(List<RegDocto> lista)
+        {
+            lbd.mSetDoctos(lista);
+        }
+
+        public RegCliente mBuscarClienteComercialId(int Id)
+        {
+            return lbd.mBuscarClienteComercialId(Id);
+        }
+
         public RegProducto mBuscarClasificacion(string codigo, int anumClasif, int aTipoCatalogo)
         {
             return lbd.mBuscarClasificacion(codigo, anumClasif, aTipoCatalogo);
@@ -221,6 +354,14 @@ namespace LibreriaDoctos
             return lbd.mCargarConceptos(4,0,0);
         }
 
+        public List<RegConcepto> mCargarConceptosCartaPorte()
+        {
+            return lbd.mCargarConceptos(4, 0, 0,1);
+        }
+
+
+      
+
         public List<RegConcepto> mCargarConceptosFacturacfdi()
         {
             return lbd.mCargarConceptos(4, 0,1);
@@ -229,6 +370,16 @@ namespace LibreriaDoctos
         public List<RegConcepto> mCargarConceptosFacturaComercial()
         {
             return lbd.mCargarConceptosComercial(4, 0);
+        }
+
+        public List<RegConcepto> mCargarConceptosEntradaComercial()
+        {
+            return lbd.mCargarConceptosComercial(32, 0);
+        }
+
+        public List<RegConcepto> mCargarConceptosFacturaComercial(int a)
+        {
+            return lbd.mCargarConceptosComercial(4, 0,a);
         }
 
         public List<RegConcepto> mCargarConceptosCompraComercial()
@@ -246,6 +397,44 @@ namespace LibreriaDoctos
             return lbd.mCargarClientes ();
         }
 
+        public decimal mSaldoClienteComercial(long lIdCliente)
+        {
+
+            
+            return lbd.mSaldoClienteComercial(lIdCliente);
+
+
+        }
+
+
+        public List<RegProveedor> mCargarClientesComercial()
+        {
+            return lbd.mCargarClientesComercial();
+        }
+
+        public List<RegProveedor> mCargarProveedoresComercial()
+        {
+            return lbd.mCargarProveedoresComercial();
+        }
+        public List<RegProveedor> mCargarAgentesComercial()
+        {
+            return lbd.mCargarAgentesComercial();
+        }
+
+        public List<RegProveedor> mCargarProductosComercial()
+        {
+            return lbd.mCargarProductosComercial();
+        }
+
+        public List<RegProveedor> mCargarAlmacenesComercial()
+        {
+            return lbd.mCargarAlmacenesComercial();
+        }
+
+        public List<RegAlmacen> mCargarAlmacenesComercialv2()
+        {
+            return lbd.mCargarAlmacenesComercialv2();
+        }
         public List<RegConcepto> mCargarConceptosPedido()
         {
             return lbd.mCargarConceptos(2, 0,0);

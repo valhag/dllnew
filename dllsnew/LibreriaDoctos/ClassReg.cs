@@ -50,11 +50,11 @@ namespace LibreriaDoctos
         public const int kLongCodValorClasif = 4;
 
     }
-    
+
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 4)]
     public struct TDocumento
     {
-    
+
 
         public Double aFolio;
         public int aNumMoneda;
@@ -80,31 +80,31 @@ namespace LibreriaDoctos
         public int aGasto2;
         public int aGasto3;
     }
-    
+
 
     public class tttTDocumento1
     {
-    
-    
-      public double aFolio;
-      public int aNumMoneda;
-      public double aTipoCambio;
-      public double aImporte;
-      public double aDescuentoDoc1;
-      public double aDescuentoDoc2;
-      public int aSistemaOrigen;
-      //public fixed char aCodConcepto[31];
-      public StringBuilder aCodConcepto = new StringBuilder(31);
-      public string aSerie;
-      public string aFecha;
-      public string aCodigoCteProv;
-      public string aCodigoAgente;
-      public string aReferencia;
-      public int aAfecta;
-      public double aGasto1;
-      public double aGasto2 ;
-      public double aGasto3 ;
-      
+
+
+        public double aFolio;
+        public int aNumMoneda;
+        public double aTipoCambio;
+        public double aImporte;
+        public double aDescuentoDoc1;
+        public double aDescuentoDoc2;
+        public int aSistemaOrigen;
+        //public fixed char aCodConcepto[31];
+        public StringBuilder aCodConcepto = new StringBuilder(31);
+        public string aSerie;
+        public string aFecha;
+        public string aCodigoCteProv;
+        public string aCodigoAgente;
+        public string aReferencia;
+        public int aAfecta;
+        public double aGasto1;
+        public double aGasto2;
+        public double aGasto3;
+
     }
 
     public class RegEmpresas
@@ -135,38 +135,124 @@ namespace LibreriaDoctos
     }
 
 
+    public class cAddendaMovimTraslado
+    {
+
+        public string PesoEnKg;
+        public string ValorMercancia;
+        public string Moneda;
+        public string Pedimento;
+        public long idmovim;
+
+        public string materialpeligroso;
+        public string cvematerialpeligroso;
+
+
+
+    }
+
+    public class cAddendaMovimiento
+    {
+        public string NumLinea;
+        public string FolioUnico;
+        public string Concepto;
+        public string Cantidad;
+        public string Unidad;
+        public string PrecioUnitario;
+        public string ImporteLinea;
+        public string ImporteOrig;
+        public string ImporteModif;
+        public string MontoAjuste;
+        public string IVA;
+        public string Total;
+        public string MontoLetra;
+        public long idmovim;
+
+
+    }
+    public class cAddendaDocumento
+    {
+        public string FolioUnicodeFacturaFUF;
+        public string FechadelaFactura;
+        public string FechaLimitedePago;
+        public string CuentadeOrdendelPM;
+        public string NombredelBanco;
+        public string SucursaldelBanco;
+        public string NumerodeCuentadelProveedor;
+        public string NumerodeCuentaCLABEdelProveedor;
+        public string ReferenciadelBanco;
+        public string ContactodelProveedor;
+
+
+        public List<cAddendaMovimiento> lista = new List<cAddendaMovimiento>();
+
+    }
+
+
     public class RegDocto
     {
+        public List<string> _Addendas = new List<string>();
         public List<RegMovto> _RegMovtos = new List<RegMovto>();
-        public RegDireccion _RegDireccion = new RegDireccion ();
+        public RegDireccion _RegDireccion = new RegDireccion();
         public RegCliente _RegCliente = new RegCliente();
         public List<RegDocto> relacionados = new List<RegDocto>();
+        public cAddendaDocumento addendiux = new cAddendaDocumento();
+
+        public List<MovimientosCartaPorte> listacartaporte = new List<MovimientosCartaPorte>();
         private long _cIdDocto;
-        private string _cCodigoCliente="";
-        private string _cCodigoConcepto="";
+        private string _cCodigoCliente = "";
+        private string _cCodigoConcepto = "";
         public string _cNombreConcepto = "";
         private long _cIdConcepto = 0;
         private string _cRFC = "";
         private string _cRazonSocial = "";
         private string _cMoneda = "";
         private string _cCond = "";
-        private string _cTextoExtra1="";
+        private string _cTextoExtra1 = "";
         private string _cTextoExtra2 = "";
         private string _cTextoExtra3 = "";
         private string _cNombreArchivo = "";
         private DateTime _cFechaVencimiento;
-        private string _cReferencia="";
-        public  string _cObservaciones = "";
+        private string _cReferencia = "";
+        public string _cObservaciones = "";
         private string _cMetodoPago = "";
         private string _cFormaPago = "";
         private string _cUsoCFDI = "";
+        private double _cTotalUnidades;
+        private string _cUUID;
+        private string _cTipoRelacion;
 
+
+        private decimal _cImporteExtra1 = 0;
+
+        public decimal cImporteExtra1
+        {
+            get { return _cImporteExtra1; }
+            set { _cImporteExtra1 = value; }
+        }
+
+        public string cTipoRelacion
+        {
+            get { return _cTipoRelacion; }
+            set { _cTipoRelacion = value; }
+        }
+
+        public string cUUID
+        {
+            get { return _cUUID; }
+            set { _cUUID = value; }
+        }
         public string cUsoCFDI
         {
             get { return _cUsoCFDI; }
             set { _cUsoCFDI = value; }
         }
 
+        public string cObservaciones
+        {
+            get { return _cObservaciones; }
+            set { _cObservaciones = value; }
+        }
         private string _cRegimenFiscal = "";
         public string cRegimenFiscal
         {
@@ -174,7 +260,7 @@ namespace LibreriaDoctos
             set { _cRegimenFiscal = value; }
         }
 
-        
+
         private int _cContado = 0;
         public int cContado
         {
@@ -206,7 +292,7 @@ namespace LibreriaDoctos
             get { return _cNombreArchivo; }
             set { _cNombreArchivo = value; }
         }
-        
+
 
         public string cTextoExtra1
         {
@@ -225,7 +311,7 @@ namespace LibreriaDoctos
             get { return _cTextoExtra3; }
             set { _cTextoExtra3 = value; }
         }
-        private string _sMensaje="";
+        private string _sMensaje = "";
 
 
 
@@ -248,7 +334,7 @@ namespace LibreriaDoctos
             get { return _cCond; }
             set { _cCond = value; }
         }
-        private string _cAgente="";
+        private string _cAgente = "";
 
         public string cAgente
         {
@@ -258,14 +344,14 @@ namespace LibreriaDoctos
 
 
 
-        private double _cNeto=0;
+        private double _cNeto = 0;
 
         public double cNeto
         {
             get { return _cNeto; }
             set { _cNeto = value; }
         }
-        private double _cImpuestos=0;
+        private double _cImpuestos = 0;
 
         public double cImpuestos
         {
@@ -273,7 +359,7 @@ namespace LibreriaDoctos
             set { _cImpuestos = value; }
         }
 
-        private double _cImpuesto2=0;
+        private double _cImpuesto2 = 0;
 
         public double cImpuesto2
         {
@@ -326,7 +412,7 @@ namespace LibreriaDoctos
             get { return _cFecha; }
             set { _cFecha = value; }
         }
-        private long _cFolio=0;
+        private long _cFolio = 0;
 
         public long cFolio
         {
@@ -346,21 +432,71 @@ namespace LibreriaDoctos
             set { _cCodigoCliente = value; }
         }
 
-        private string _cSerie="";
+        private string _cSerie = "";
 
         public string cSerie
         {
             get { return _cSerie; }
             set { _cSerie = value; }
         }
-
+        public double cTotalUnidades
+        {
+            get { return _cTotalUnidades; }
+            set { _cTotalUnidades = value; }
+        }
 
 
 
     }
+
+
+    public class regmovtooc
+    {
+
+        
+
+        public string _nombrecomponente { get; set; }
+        public string _nombrealmacen { get; set; }
+        public string _codigoproducto { get; set; }
+        public string _codigoalmacen { get; set; }
+        public decimal _unidades { get; set; }
+        public decimal _precio { get; set; }
+
+        public int  _proveedor { get; set; }
+
+        public int _idmovtoorigen { get; set; }
+
+        public string _codigopaquete { get; set; }
+
+        public decimal _ccantidadcomponente { get; set; }
+
+    }
+
+    public class regmovtocorto
+    {
+
+        public int _proveedor { get; set; }
+        public string _nombreproducto { get; set; }
+        public string _nombrealmacen { get; set; }
+        public string _codigoproducto { get; set; }
+        public string _codigoalmacen { get; set; }
+        public decimal _unidades { get; set; }
+        public decimal _precio { get; set; }
+
+        public int _doctopedido { get; set; }
+
+
+
+    }
+
+
     public class RegMovto
     {
 
+
+        public cAddendaMovimTraslado traslado = new cAddendaMovimTraslado();
+
+        
         public RegCapa _RegCapa = new RegCapa();
         public RegProducto _RegProducto = new RegProducto();
         public string cObservaciones { get; set; }
@@ -368,8 +504,17 @@ namespace LibreriaDoctos
         public string ctextoextra1 { get; set; }
         public string ctextoextra2 { get; set; }
         public int procesado { get; set; }
+        
         private string _ctextoextra3=""; 
+        
         private string _cUnidad ="";
+
+        private string _cError = "";
+        public string cError
+        {
+            get { return _cError; }
+            set { _cError = value; }
+        }
 
         private string _cAlmacenEntrada = "";
         public string cAlmacenEntrada
@@ -378,13 +523,29 @@ namespace LibreriaDoctos
             set { _cAlmacenEntrada = value; }
         }
 
+
+        
         public string ctextoextra3
         {
             get { return _ctextoextra3; }
             set { _ctextoextra3 = value; }
         }
 
-        
+        private decimal _cimporteextra1 = 0;
+        public decimal cimporteextra1
+        {
+            get { return _cimporteextra1; }
+            set { _cimporteextra1 = value; }
+        }
+
+
+        private decimal _cimporteextra2 = 0;
+        public decimal cimporteextra2
+        {
+            get { return _cimporteextra2; }
+            set { _cimporteextra2 = value; }
+        }
+
         public string cUnidad
         {
             get { return _cUnidad; }
@@ -422,6 +583,14 @@ namespace LibreriaDoctos
         {
             get { return _cIdMovto; }
             set { _cIdMovto = value; }
+        }
+
+        private long _cIdMovtoOrigen = 0;
+
+        public long cIdMovtoOrigen
+        {
+            get { return _cIdMovtoOrigen; }
+            set { _cIdMovtoOrigen = value; }
         }
         private long _cIdDocto=0;
 
@@ -511,6 +680,7 @@ namespace LibreriaDoctos
             get { return _cneto; }
             set { _cneto = value; }
         }
+        public List<long> idseries = new List<long>();
 
 
 
@@ -518,6 +688,8 @@ namespace LibreriaDoctos
 
     public class RegCliente
     {
+
+
         private long _Id;
 
         public long Id
@@ -526,16 +698,16 @@ namespace LibreriaDoctos
             set { _Id = value; }
         }
 
-        private string _Codigo;
+        private string _Codigo="";
 
         public string Codigo
         {
             get { return _Codigo; }
             set { _Codigo = value; }
         }
-        private string _RazonSocial;
+        private string _RazonSocial="";
 
-        public string RazonSocial
+        public string RazonSocial 
         {
             get { return _RazonSocial; }
             set { _RazonSocial = value; }
@@ -563,6 +735,13 @@ namespace LibreriaDoctos
             get { return _MetodoPago; }
             set { _MetodoPago = value; }
         }
+        private int _BanVentaCredito;
+
+        public int BanVentaCredito
+        {
+            get { return _BanVentaCredito; }
+            set { _BanVentaCredito = value; }
+        }
 
 
     }
@@ -570,7 +749,7 @@ namespace LibreriaDoctos
 
     public class RegProveedor
     {
-        private long _Id;
+        private long _Id=0;
 
         public long Id
         {
@@ -606,7 +785,22 @@ namespace LibreriaDoctos
             get { return _DiasCredito; }
             set { _DiasCredito = value; }
         }
-        
+        private int _BanVentaCredito;
+
+        public int BanVentaCredito
+        {
+            get { return _BanVentaCredito; }
+            set { _BanVentaCredito = value; }
+        }
+
+        private decimal _LimiteCredito;
+
+
+        public decimal LimiteCredito
+        {
+            get { return _LimiteCredito; }
+            set { _LimiteCredito = value; }
+        }
 
 
     }
@@ -649,6 +843,14 @@ namespace LibreriaDoctos
             get { return _FechaFabricacion; }
             set { _FechaFabricacion = value; }
         }
+
+        private string _NumeroSerie;
+        public string NumeroSerie
+        {
+            get { return _NumeroSerie; }
+            set { _NumeroSerie = value; }
+        }
+
     }
 
     public class RegProducto
@@ -672,6 +874,14 @@ namespace LibreriaDoctos
         {
             get { return _ComercioExterior; }
             set { _ComercioExterior = value; }
+        }
+
+        private string _CodigoSAT = "";
+
+        public string CodigoSAT
+        {
+            get { return _CodigoSAT; }
+            set { _CodigoSAT = value; }
         }
 
         private string _noIdentificacion;
@@ -895,10 +1105,14 @@ namespace LibreriaDoctos
         private decimal _TotalMov;
         //private decimal _TotalMov2;
         private decimal _DescuentoAplicar;
-        
-        
+        private int _ciddocumento;
+        private double cTotalUnidades;
+        private double _cpendiente;
+
 
         #region decl
+
+
         public int cidproducto
         {
             get { return _cidproducto; }
@@ -1026,8 +1240,86 @@ namespace LibreriaDoctos
             get { return _DescuentoAplicar; }
             set { _DescuentoAplicar = value; }
         }
+        public int ciddocumento
+        {
+            get { return _ciddocumento; }
+            set { _ciddocumento = value; }
+        }
+
+        public double cpendiente
+        {
+            get { return _cpendiente; }
+            set { _cpendiente = value; }
+        }
+
+
 
         #endregion decl
+    }
+
+
+    public class MovimientosCartaPorte
+    {
+        public string BienesTransp { get; set; }
+        public string Descripcion { get; set; }
+        public string Cantidad { get; set; }
+        public string ClaveUnidad { get; set; }
+        public string Unidad { get; set; }
+        public string CveMaterialPeligroso { get; set; }
+        public string Embalaje { get; set; }
+        public string DescripEmbalaje { get; set; }
+        public string PesoEnKg { get; set; }
+        public string ValorMercancia { get; set; }
+        public string Moneda { get; set; }
+        public string FraccionArancelaria { get; set; }
+        public string UUIDComercioExt { get; set; }
+        public string Pedimentos { get; set; }
+
+    }
+
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse); 
+    public class Contenido
+    {
+        public string claveUnidadCompra { get; set; }
+        public string claveSat { get; set; }
+        public object claveProductoPeligroso { get; set; }
+        public object embalaje { get; set; }
+        public string cantidad { get; set; }
+        public string peso { get; set; }
+        public string descripcion { get; set; }
+    }
+
+    public class SecuenciasDeEntrega
+    {
+        public int numSecuencia { get; set; }
+        public string sucursal { get; set; }
+        public string estado { get; set; }
+        public string municipio { get; set; }
+        public object localidad { get; set; }
+        public object referencia { get; set; }
+        public string colonia { get; set; }
+        public string codigo_postal { get; set; }
+        public string num_ext { get; set; }
+        public string num_int { get; set; }
+        public string calle { get; set; }
+        public List<Contenido> contenido { get; set; }
+    }
+
+    public class Cita
+    {
+        public string id_cita { get; set; }
+        public string sucursal { get; set; }
+        public string clave_pais { get; set; }
+        public List<SecuenciasDeEntrega> secuencias_de_Entrega { get; set; }
+    }
+
+    public class Root
+    {
+        public string razon_Social { get; set; }
+        public string rfc { get; set; }
+        public string nombre { get; set; }
+        public string regimen { get; set; }
+        public List<Cita> citas { get; set; }
     }
 
 }

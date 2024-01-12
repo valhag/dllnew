@@ -7,13 +7,15 @@ using Microsoft.Win32;
 using System.Configuration;
 using System.IO;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace LibreriaDoctos
 {
     public class ClassConexion
     {
         //public string llaveregistry = "SOFTWARE\\Wow6432Node\\Computación en Acción, SA CV\\AdminPAQ";
-        public string llaveregistry = "SOFTWARE\\Computación en Acción, SA CV\\AdminPAQ";
+        //public string llaveregistry = "SOFTWARE\\Computación en Acción, SA CV\\AdminPAQ";
+        public string llaveregistry = "SOFTWARE\\Computación en Acción, SA CV\\CONTPAQ I Facturacion"; 
         public string llaveregistrycomercial = "SOFTWARE\\Computación en Acción, SA CV\\CONTPAQ I COMERCIAL";
         public string sError = "";
         public string aRutaExe = "";
@@ -40,17 +42,18 @@ namespace LibreriaDoctos
 
         public string rutaorigen;
         public string rutadestino;
-        /*public const string _NombreAplicacionCompleto = "InterfazAdmin.exe";
-        public const string _NombreAplicacion = "InterfazAdmin";*/
+        public  string _NombreAplicacionCompleto = "InterfazAdmin.exe";
+        public  string _NombreAplicacion = "InterfazAdmin";
 
-        public const string _NombreAplicacionCompleto = "Remisiones.exe";
-        public const string _NombreAplicacion = "Remisiones";
+      /*  public const string _NombreAplicacionCompleto = "Remisiones.exe";
+        public const string _NombreAplicacion = "Remisiones";*/
 
        // public const string _NombreAplicacionCompleto = "Grid.exe";
        // public const string _NombreAplicacion = "Grid";
 
         public OleDbConnection _conexion ;
         public SqlConnection  _conexion1;
+        
         public void borrar()
         { 
             RegistryKey hklp = Registry.LocalMachine;
@@ -66,6 +69,7 @@ namespace LibreriaDoctos
             rutaorigen = GetSettingValueFromAppConfigForDLL( "RutaEmpresaADM");
             if (rutaorigen != "c:\\" && rutaorigen != "LibreriaDoctos.RegEmpresa" && rutaorigen != "Ruta" && rutaorigen != "")
             {
+                MessageBox.Show(rutaorigen);
                 _conexion = new OleDbConnection();
                 _conexion.ConnectionString = "Provider=vfpoledb.1;Data Source=" + rutaorigen;
                 _conexion.Open();
@@ -105,7 +109,14 @@ namespace LibreriaDoctos
 
         public void mCerrarConexionOrigenComercial()
         {
-            _conexion1.Close();
+            try
+            {
+                if (_conexion1 != null)
+                if(_conexion1.State == System.Data.ConnectionState.Open)
+                _conexion1.Close();
+            }
+            catch (Exception eee)
+            { }
         }
 
         public void mCerrarConexionOrigen(int a)
@@ -136,24 +147,34 @@ namespace LibreriaDoctos
         {
             amensaje = "";
             RegistryKey hklp = Registry.LocalMachine;
-            hklp = hklp.OpenSubKey(llaveregistry );
+            
+
             Object obc = null;
             try
             {
-                 obc = hklp.GetValue("DIRECTORIODATOS");
+                hklp = hklp.OpenSubKey(llaveregistry);
+                obc = hklp.GetValue("DIRECTORIODATOS");
+                
+                int i = 0;
+             //   i = 1 / i;
             }
             catch (Exception eeee)
             {
                 amensaje = eeee.Message;
+             //   obc = "c:\\compacw\\empresas";
+              //  amensaje = "";
             }
                 //amensaje = obc.ToString ();
             if (obc == null)
             {
-                amensaje = "No existe instalacion de Adminpaq en este computadora";
+                //amensaje = "No existe instalacion de Adminpaq en este computadora";
                 return null;
             }
             _conexion = new OleDbConnection();
             _conexion.ConnectionString = "Provider=vfpoledb.1;Data Source=" + obc.ToString();
+            //MessageBox.Show(_conexion.ConnectionString);
+            // _conexion.ConnectionString = "Provider=vfpoledb;Data Source=" + obc.ToString();
+
             //_conexion.ConnectionString = "Provider=vfpoledb.1;Data Source=" + "\\toshiba-pc" + asc(92) +  "empresas";
             try
             {
@@ -285,6 +306,49 @@ namespace LibreriaDoctos
         }
 
 
+        public SqlConnection mAbrirConexionComercial(string cadenaconexion, bool incluyesdk)
+        {
+            //            rutadestino = "c:\\compacw\\empresas\\adtala2";
+            
+            //sempresa = GetSettingValueFromAppConfigForDLL("empresa");
+            //string lruta3 = obc.ToString();
+            string lruta4 = @rutadestino;
+            _conexion1 = new SqlConnection();
+            string Cadenaconexion1 = cadenaconexion;
+            _conexion1.ConnectionString = Cadenaconexion1;
+            _conexion1.Open();
+
+            if (incluyesdk == true)
+            {
+
+                RegistryKey hklp = Registry.LocalMachine;
+                hklp = hklp.OpenSubKey(llaveregistrycomercial);
+                Object obc = hklp.GetValue("DIRECTORIOBASE");
+                string lruta1 = obc.ToString();
+                string lruta2 = @lruta1;
+                SetCurrentDirectory(obc.ToString());
+
+                long lret;
+                try
+                {
+                    //fTerminaSDK();
+                    // lret = fInicializaSDK();
+
+
+                }
+                catch (Exception eeeee)
+                {
+                    fTerminaSDK();
+                    //  lret = fInicializaSDK();
+                }
+                //lret = fAbreEmpresa(rutadestino);
+                //fCierraEmpresa();
+                //fTerminaSDK();
+            }
+            return _conexion1;
+
+        }
+
         public SqlConnection mAbrirConexionComercial(bool incluyesdk)
         {
             //            rutadestino = "c:\\compacw\\empresas\\adtala2";
@@ -381,6 +445,7 @@ namespace LibreriaDoctos
         private string GetSettingValueFromAppConfigForDLL(string aNombreSetting)
         {
             string lrutadminpaq = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(lrutadminpaq);
             if (Directory.GetCurrentDirectory() != aRutaExe)
                 Directory.SetCurrentDirectory(aRutaExe);
 

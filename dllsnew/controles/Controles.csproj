@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Interfaces\InterfazAdmin\bin\Debug\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\..\..\InterfazAdmin\bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,11 +58,23 @@
     <Compile Include="BotonExcel.designer.cs">
       <DependentUpon>BotonExcel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Busqueda.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Busqueda.Designer.cs">
+      <DependentUpon>Busqueda.cs</DependentUpon>
+    </Compile>
     <Compile Include="codigocatalogo.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="codigocatalogo.Designer.cs">
       <DependentUpon>codigocatalogo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="codigocatalogocomercial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="codigocatalogocomercial.Designer.cs">
+      <DependentUpon>codigocatalogocomercial.cs</DependentUpon>
     </Compile>
     <Compile Include="Empresa.cs">
       <SubType>UserControl</SubType>
@@ -66,6 +87,12 @@
     </Compile>
     <Compile Include="EmpresasComercial.Designer.cs">
       <DependentUpon>EmpresasComercial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="SeleccionEmpresa.cs">
       <SubType>UserControl</SubType>
@@ -91,14 +118,23 @@
     <EmbeddedResource Include="BotonExcel.resx">
       <DependentUpon>BotonExcel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Busqueda.resx">
+      <DependentUpon>Busqueda.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="codigocatalogo.resx">
       <DependentUpon>codigocatalogo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="codigocatalogocomercial.resx">
+      <DependentUpon>codigocatalogocomercial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Empresa.resx">
       <DependentUpon>Empresa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EmpresasComercial.resx">
       <DependentUpon>EmpresasComercial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SeleccionEmpresa.resx">
       <DependentUpon>SeleccionEmpresa.cs</DependentUpon>

@@ -250,6 +250,11 @@ Public Declare Function MCC_DestruyeComponente Lib "CAC100" (ByVal pPtrComponent
             textBox2.Text = "";
 
         }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
         
     }
 }
