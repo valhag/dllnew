@@ -32,3 +32,16 @@ C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\Interop.CONTPAQ
 C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
 C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.dll
 C:\fromgithub\dllnew\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.pdb
+C:\Interfaces\InterfazAdmin\bin\Debug\LibreriaDoctos.dll.config
+C:\Interfaces\InterfazAdmin\bin\Debug\LibreriaDoctos.dll
+C:\Interfaces\InterfazAdmin\bin\Debug\LibreriaDoctos.pdb
+C:\fromgithub\InterfazAdmin\bin\Debug\LibreriaDoctos.dll.config
+C:\fromgithub\InterfazAdmin\bin\Debug\LibreriaDoctos.dll
+C:\fromgithub\InterfazAdmin\bin\Debug\LibreriaDoctos.pdb
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.AssemblyReference.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\Interop.CONTPAQiComercial.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.CoreCompileInputs.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.csproj.CopyComplete
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x86\Debug\LibreriaDoctos.pdb

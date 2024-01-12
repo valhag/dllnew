@@ -1,0 +1,12 @@
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x64\Debug\LibreriaDoctos.csprojAssemblyReference.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\bin\x64\Debug\LibreriaDoctos.dll.config
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\bin\x64\Debug\LibreriaDoctos.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\bin\x64\Debug\LibreriaDoctos.pdb
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\bin\x64\Debug\Interfaces.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\bin\x64\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\bin\x64\Debug\Interop.CONTPAQiComercial.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x64\Debug\Interop.CONTPAQiComercial.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x64\Debug\LibreriaDoctos.csproj.ResolveComReference.cache
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x64\Debug\LibreriaDoctos.csproj.CopyComplete
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x64\Debug\LibreriaDoctos.dll
+C:\fromgithub\dllnew\dllsnew\LibreriaDoctos\obj\x64\Debug\LibreriaDoctos.pdb

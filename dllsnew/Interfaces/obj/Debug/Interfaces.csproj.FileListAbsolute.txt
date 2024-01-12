@@ -12,3 +12,13 @@ C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\bin\Debug\Interfaces.dll
 C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\bin\Debug\Interfaces.pdb
 C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.dll
 C:\fromgithub\dllnew\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllsnew\Interfaces\bin\Debug\Interfaces.dll
+C:\fromgithub\dllnew\dllsnew\Interfaces\bin\Debug\Interfaces.pdb
+C:\fromgithub\VentasPorConcepto\VentasPorConcepto\VentasPorConcepto\bin\Debug\Interfaces.dll
+C:\fromgithub\VentasPorConcepto\VentasPorConcepto\VentasPorConcepto\bin\Debug\Interfaces.pdb
+C:\fromgithub\InterfazAdmin\bin\Debug\Interfaces.dll
+C:\fromgithub\InterfazAdmin\bin\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.dll
+C:\fromgithub\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.pdb
+C:\fromgithub\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.csproj.AssemblyReference.cache
+C:\fromgithub\dllnew\dllsnew\Interfaces\obj\Debug\Interfaces.csproj.CoreCompileInputs.cache
