@@ -7,8 +7,8 @@ using Microsoft.Win32;
 using System.Configuration;
 using System.IO;
 //using BarradeProgreso;
-using System.Data.SqlClient ;
-using Interfaces ;
+using System.Data.SqlClient;
+using Interfaces;
 using System.Collections;
 using System.Data;
 using System.Globalization;
@@ -1190,7 +1190,8 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             }
             else
             {
-                if (doc.cFolio == -1) {
+                if (doc.cFolio == -1)
+                {
                     int z = fSiguienteFolioComercial(doc.cCodigoConcepto, ref aSerie, ref aFolio);
                     if (aSerie == null)
                         aSerie = "";
@@ -1541,7 +1542,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                 lsql.CommandText = "delete admMovmientosSeriePedido where cidmovimiento = " + lidmovimiento.ToString();
                 int lret1 = lsql.ExecuteNonQuery();
 
-            
+
                 foreach (DataGridViewRow x in migrid.Rows)
                 {
                     if (x.Cells[2].Value != null)
@@ -1575,11 +1576,11 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
 
                 foreach (DataGridViewRow x in migrid.Rows)
                 {
-                    string lFecha = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year.ToString(); 
+                    string lFecha = DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year.ToString();
 
                     lFecha = DateTime.Now.Year.ToString() + "/" + DateTime.Now.Month + "/" + DateTime.Now.Day.ToString();
 
-                    lsql.CommandText = "insert into admMovmientosSeriePedido values (" + doc._RegMovtos[0].cIdMovto.ToString() + "," + x.Cells[2].Value + ",'"+ lFecha +"')";
+                    lsql.CommandText = "insert into admMovmientosSeriePedido values (" + doc._RegMovtos[0].cIdMovto.ToString() + "," + x.Cells[2].Value + ",'" + lFecha + "')";
                     int lret1 = lsql.ExecuteNonQuery();
                 }
             }
@@ -4693,21 +4694,21 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                 }
             }*/
 
-        public string mLLenarInfoPedidosFacturas(string archivo)
+      /*  public string mLLenarInfoPedidosFacturas(string archivo)
         {
             //string archivo1 = @archivo;
             OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @archivo + ";Extended Properties='Excel 12.0 xml;HDR=YES;'");
 
-           // OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + @archivo + ";Extended Properties=" + Convert.ToChar(34).ToString() + @"Excel 8.0" + Convert.ToChar(34).ToString() + ";");
+            // OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + @archivo + ";Extended Properties=" + Convert.ToChar(34).ToString() + @"Excel 8.0" + Convert.ToChar(34).ToString() + ";");
 
             System.Data.OleDb.OleDbCommand cmd = new OleDbCommand();
             try
             {
-            conn.Open();
-            
-            cmd.Connection = conn;
-            cmd.CommandText = "SELECT * FROM [Hoja1$]";
-            
+                conn.Open();
+
+                cmd.Connection = conn;
+                cmd.CommandText = "SELECT * FROM [Hoja1$]";
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception eeeee)
@@ -4731,7 +4732,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                 {
 
                     dr.Read();
-                    
+
                     string lcliente = dr["Cliente ID"].ToString();
                     if (lcliente == "")
                         break;
@@ -4760,7 +4761,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         //lcliente = lDocto.cCodigoCliente;
                         lDocto.cCodigoConcepto = "2";
 
-                        
+
                         lDocto.cFolio = lFoliox;
                         //--lFoliox++;
                         try
@@ -4786,12 +4787,12 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                     }
 
                     RegMovto regmov = new RegMovto();
-//                    regmov.cCodigoProducto = dr["Producto"].ToString();
+                    //                    regmov.cCodigoProducto = dr["Producto"].ToString();
 
 
                     try
                     {
-                                            regmov.cCodigoProducto = @"001";
+                        regmov.cCodigoProducto = @"001";
 
                         regmov.cUnidades = decimal.Parse(dr["Litros"].ToString());
                     }
@@ -4811,15 +4812,15 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
                         regmov.cPrecio = decimal.Parse(dr["Subtotal"].ToString());
                         regmov.cImpuesto = decimal.Parse(dr["Importe IVA"].ToString());
                         regmov.cTotal = decimal.Parse(dr["Total"].ToString());
-                       
+
                     }
                     //regmov.cObservaciones = dr["DESCRIPCION"].ToString();
                     lDocto._RegMovtos.Add(regmov);
 
                     //dr.Read();
-                     
+
                 }
-                
+
 
                 if (lDocto.cCodigoCliente != "")
 
@@ -4828,7 +4829,7 @@ string lCodConcepto_Pago, string lSerie_Pago, double lFolio_Pago, double lImport
             }
             return "";
 
-        }
+        }*/
 
         public void mLlenarinfoFacturacionMasiva(string archivo)
         {
@@ -6701,9 +6702,9 @@ otroconcepto, cserie, afolionuevo, importe, 1, lfechavenc);
                 if (aConcepto == "340")
                     sql += " , mped.cprecio cpreciopedido, cped.ccodigocliente ccodigoclientepedido";
 
-              //  if (aConcepto != "340")
-                    //sql += " , min(isnull(m.CIMPORTEEXTRA1,1) / isnull(m.CIMPORTEEXTRA2,1)) over(partition by d.cfolio, m.ctextoextra3 order by m.ctextoextra3) cuantos ";
-                    sql += ",isnull(m.CIMPORTEEXTRA1, 1) / isnull(m.CIMPORTEEXTRA2, 1) division ";
+                //  if (aConcepto != "340")
+                //sql += " , min(isnull(m.CIMPORTEEXTRA1,1) / isnull(m.CIMPORTEEXTRA2,1)) over(partition by d.cfolio, m.ctextoextra3 order by m.ctextoextra3) cuantos ";
+                sql += ",isnull(m.CIMPORTEEXTRA1, 1) / isnull(m.CIMPORTEEXTRA2, 1) division ";
 
                 sql += " from admdocumentos d " +
 " join admConceptos c on d.cidconceptodocumento = c.cidconceptodocumento " +
@@ -6765,11 +6766,11 @@ otroconcepto, cserie, afolionuevo, importe, 1, lfechavenc);
 
                 }
 
-string sql2 = " select p.crazonsocial,cfecha" +
-"                 from admdocumentos d" +
-" join admConceptos c on d.cidconceptodocumento = c.cidconceptodocumento" +
-" join admClientes p on p.CIDCLIENTEPROVEEDOR = d.CIDCLIENTEPROVEEDOR" +
-" where c.CCODIGOCONCEPTO = '2' and d.cfolio = " + aReferencia;
+                string sql2 = " select p.crazonsocial,cfecha" +
+                "                 from admdocumentos d" +
+                " join admConceptos c on d.cidconceptodocumento = c.cidconceptodocumento" +
+                " join admClientes p on p.CIDCLIENTEPROVEEDOR = d.CIDCLIENTEPROVEEDOR" +
+                " where c.CCODIGOCONCEPTO = '2' and d.cfolio = " + aReferencia;
 
 
 
@@ -6782,13 +6783,13 @@ string sql2 = " select p.crazonsocial,cfecha" +
                 RegDocto lRegDocto = new RegDocto();
                 lsql.Connection = miconexion._conexion1;
                 SqlDataReader lreader;
-                
+
 
 
                 DataSet ds = new DataSet();
                 DataTable dt11 = ds.Tables.Add("uno");
-                
-                
+
+
                 DataTable dt21 = ds.Tables.Add("dos");
 
                 SqlDataAdapter adapter = new SqlDataAdapter(lsql.CommandText, lsql.Connection);
@@ -7117,7 +7118,7 @@ string sql2 = " select p.crazonsocial,cfecha" +
 "select sp.cidserie, CNUMEROSERIE, CPEDIMENTO from admMovmientosSeriePedido sp " +
 "join admNumerosSerie s on sp.cidserie = s.cidserie " +
 "where sp.cidmovimiento = " + aidmovimiento.ToString();
-                SqlCommand lsql = 
+                SqlCommand lsql =
                     new SqlCommand(sql, lconexion);
                 SqlDataReader lreader;
                 //long lIdDocumento = 0;
@@ -7982,7 +7983,7 @@ string sql2 = " select p.crazonsocial,cfecha" +
         }
 
 
-        public RegDocto mBuscarDoctoComercial(string aFolio, string aSerie,string Concepto)
+        public RegDocto mBuscarDoctoComercial(string aFolio, string aSerie, string Concepto)
         {
 
             _RegDoctos.Clear();
@@ -8049,7 +8050,7 @@ string sql2 = " select p.crazonsocial,cfecha" +
                         m.cneto = decimal.Parse(lreader["cneto"].ToString());
                         m.cImpuesto = decimal.Parse(lreader["cimpuesto1"].ToString());
                         //m.cSubtotal = decimal.Parse(lreader["csubtotal"].ToString());
-                        m.cTotal= decimal.Parse(lreader["ctotal"].ToString());
+                        m.cTotal = decimal.Parse(lreader["ctotal"].ToString());
 
                         m.cPrecio = decimal.Parse(lreader["cprecio"].ToString());
                         m.cIdMovto = long.Parse(lreader["cidmovimiento"].ToString());
@@ -9879,7 +9880,8 @@ string sql2 = " select p.crazonsocial,cfecha" +
                     ldr.Close();
 
             }
-            else {
+            else
+            {
                 ldr.Read();
                 lcodigo = ldr[0].ToString();
                 ldr.Close();
@@ -11637,7 +11639,7 @@ Inserta_Documento
         }
 */
 
-        public void mValidaClienteProveedor(RegDocto adocto, int grabacliente = 1)
+    /*    public void mValidaClienteProveedor(RegDocto adocto, int grabacliente = 1)
         {
             StringBuilder aMensaje = new StringBuilder(512);
             int busca = fBuscaCteProvComercial(adocto.cCodigoCliente);
@@ -11673,7 +11675,7 @@ Inserta_Documento
             }
         }
 
-
+        */
 
         public bool mValidaProducto(RegMovto amovto, ref string lidunidad, int ConCapas = 1, int sat33 = 0)
         {
@@ -12346,36 +12348,36 @@ Inserta_Documento
                 if (movto._RegCapa.Pedimento != "")
                 {
 
+                    lret2 = fGuardaMovimientoComercial();
+                    if (lret2 != 0)
+                    {
+                        fErrorComercial(lret2, sMensaje1, 512);
+                        // MessageBox.Show("Error: " + sMensaje);
                         lret2 = fGuardaMovimientoComercial();
                         if (lret2 != 0)
                         {
-                            fErrorComercial(lret2, sMensaje1, 512);
-                            // MessageBox.Show("Error: " + sMensaje);
-                            lret2 = fGuardaMovimientoComercial();
-                            if (lret2 != 0)
-                            {
-                                fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
-                                continue;
-                            }
+                            fProcesaError(doc, movto, "Mov", sMensaje1.ToString());
+                            continue;
                         }
-                        StringBuilder aValor = new StringBuilder(12);
-                        aValor.Length = 0;
-                        lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor, 12);
-                        int lidmovimiento = int.Parse(aValor.ToString());
+                    }
+                    StringBuilder aValor = new StringBuilder(12);
+                    aValor.Length = 0;
+                    lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor, 12);
+                    int lidmovimiento = int.Parse(aValor.ToString());
 
-                        doc._RegMovtos[indicemov].cIdMovto = lidmovimiento;
-                        _RegDoctos[indicedoc]._RegMovtos[indicemov++].cIdMovto = lidmovimiento;
+                    doc._RegMovtos[indicemov].cIdMovto = lidmovimiento;
+                    _RegDoctos[indicedoc]._RegMovtos[indicemov++].cIdMovto = lidmovimiento;
 
-                        sMensaje1.Length = 0;
-                        string lfechaped = movto._RegCapa.FechaFabricacion.ToShortDateString();
-                        lRet = fBuscarIdMovimientoComercial((int)movto.cIdMovto);
-                        StringBuilder sIdproducto = new StringBuilder(12);
-                        sIdproducto.Length = 0;
-                        fLeeDatoMovimientoComercial("cidproducto", sIdproducto, 12);
-                        movto._RegProducto.Id = int.Parse(sIdproducto.ToString());
+                    sMensaje1.Length = 0;
+                    string lfechaped = movto._RegCapa.FechaFabricacion.ToShortDateString();
+                    lRet = fBuscarIdMovimientoComercial((int)movto.cIdMovto);
+                    StringBuilder sIdproducto = new StringBuilder(12);
+                    sIdproducto.Length = 0;
+                    fLeeDatoMovimientoComercial("cidproducto", sIdproducto, 12);
+                    movto._RegProducto.Id = int.Parse(sIdproducto.ToString());
 
 
-                        ltotaunidadesdocto += movto.cUnidades;
+                    ltotaunidadesdocto += movto.cUnidades;
 
                     lRet = fAltaMovimientoSeriesCapas_ParamComercial(movto.cIdMovto.ToString().Trim(), movto.cUnidades.ToString().Trim(), movto._RegCapa.tc.ToString().Trim(), "", movto._RegCapa.Pedimento, movto._RegCapa.NoAduana.ToString(), lfechaped, "", "", "");
                     if (lRet != 0)
@@ -12574,13 +12576,13 @@ Inserta_Documento
                         int lret = lsqlnummov.ExecuteNonQuery();
                 }*/
 
-               // StringBuilder aValor1 = new StringBuilder(12);
-                    aValor1.Length = 0;
-                    lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor1, 12);
-                    int lidmovimiento1 = int.Parse(aValor1.ToString());
+                // StringBuilder aValor1 = new StringBuilder(12);
+                aValor1.Length = 0;
+                lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor1, 12);
+                int lidmovimiento1 = int.Parse(aValor1.ToString());
                 movto.cIdMovto = lidmovimiento1;
-                if (doc.addendiux.lista.Count> 0)
-                doc.addendiux.lista[indicemov1++].idmovim = lidmovimiento1;
+                if (doc.addendiux.lista.Count > 0)
+                    doc.addendiux.lista[indicemov1++].idmovim = lidmovimiento1;
 
                 SqlCommand lsql = new SqlCommand();
 
@@ -12606,7 +12608,7 @@ Inserta_Documento
 
                 if (movto.cIdMovtoOrigen > 0)
                 {
-                    lsql.CommandText = "update admMovimientos set cimporteextra1 = cimporteextra1 - " + movto.cUnidades + 
+                    lsql.CommandText = "update admMovimientos set cimporteextra1 = cimporteextra1 - " + movto.cUnidades +
                         " where cidmovimiento =" + movto.cIdMovtoOrigen.ToString();
                     lsql.Connection = miconexion._conexion1;
                     int lret = lsql.ExecuteNonQuery();
@@ -12620,10 +12622,10 @@ Inserta_Documento
             return 1;
         }
 
-      public   string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio, int incluyedireccion, int concomercioexterior )
+        public string mGrabarDoctosComercial(int incluyetimbrado, ref long lultimoFolio, int incluyedireccion, int concomercioexterior, int grabarcliente)
         {
             StringBuilder sMensaje1 = new StringBuilder(512);
-            
+
             string rutadestino = GetSettingValueFromAppConfigForDLL("RutaEmpresaADM");
             string aNombreEmpresa = "0000000";
             string aDirectorioEmpresa = "0000000000";
@@ -12633,7 +12635,7 @@ Inserta_Documento
             if (sdkcomercial == false)
             {
 
-                miconexion.mAbrirConexionComercial(true);    
+                miconexion.mAbrirConexionComercial(true);
                 int lResultado = fSetNombrePAQ("CONTPAQ I Comercial");
                 if (lResultado != 0)
                 {
@@ -12648,15 +12650,15 @@ Inserta_Documento
                         fErrorComercial(lresp10, sMensaje1, 512);
                     }
                 }
-                
+
                 sdkcomercial = true;
             }
 
             int zzzzz = fAbreEmpresa(rutadestino);
 
 
-            
-            
+
+
 
 
             int indicedoc = 0;
@@ -12690,11 +12692,11 @@ Inserta_Documento
                 if (lRetorno == 1)
                 {
                     mGrabarUnidadesDocto(doc.cIdDocto, ltotalunidadesdocto);
-                    
+
 
                     if (incluyetimbrado == 1)
-                    { 
-                        
+                    {
+
                         string lpass = "";
                         lpass = GetSettingValueFromAppConfigForDLL("Pass").ToString().Trim();
 
@@ -12706,9 +12708,9 @@ Inserta_Documento
                         if (lresp20 != 0)
                         {
                             fErrorComercial(lresp20, sMensaje1, 512);
-                            fProcesaError(doc, null, "Doc", sMensaje1.ToString(),0);
+                            fProcesaError(doc, null, "Doc", sMensaje1.ToString(), 0);
 
-                            
+
                         }
                         else
                         {
@@ -12739,7 +12741,7 @@ Inserta_Documento
                     //lexitosos++;
                 }
                 //else
-                  //  fBorraDocumentoComercial();
+                //  fBorraDocumentoComercial();
                 //Notificar((double)(lindice++ * 100) / lcuantos);
 
             }
@@ -12756,32 +12758,32 @@ Inserta_Documento
             fCierraEmpresa();
 
             return "";
-            
+
         }
 
         public void mCerrarSdkComercial()
         {
             try
             {
-                
+
                 miconexion.mCerrarConexionOrigenComercial();
                 fTerminaSDK();
             }
             catch (Exception eeeeee)
-            { 
+            {
             }
-            
+
         }
 
 
 
-        public string mGrabarDoctosComercialborrar(List<RegDocto> Doctos,  ref int lexitosos, ref int ltotales,int incluyedireccion = 1)
+        public string mGrabarDoctosComercialborrar(List<RegDocto> Doctos, ref int lexitosos, ref int ltotales, int incluyedireccion = 1)
         {
 
             string rutadestino = GetSettingValueFromAppConfigForDLL("RutaEmpresaADM");
             miconexion.mAbrirConexionComercial(true);
 
-            
+
             StringBuilder sMensaje1 = new StringBuilder(512);
             int lResultado = fSetNombrePAQ("CONTPAQ I Comercial");
             if (lResultado != 0)
@@ -12808,7 +12810,7 @@ Inserta_Documento
             int lcuantos = Doctos.Count;
             ltotales = lcuantos;
             int lindice = 1;
-            
+
             foreach (RegDocto doc in Doctos)
             {
                 int lerrordocto = 0;
@@ -12817,7 +12819,7 @@ Inserta_Documento
                 double aFolio = 0;
                 try
                 {
-                    fSiguienteFolioComercial(doc.cCodigoConcepto, ref  aSerie, ref  aFolio);
+                    fSiguienteFolioComercial(doc.cCodigoConcepto, ref aSerie, ref aFolio);
                 }
                 catch (Exception ii)
                 {
@@ -12853,11 +12855,11 @@ Inserta_Documento
                 }
                 lret2 = fSetDatoDocumentoComercial("cRFC", doc.cRazonSocial);
                 if (lret2 != 0)
-                    {
-                        fErrorComercial(lret2, sMensaje1, 512);
-                        fProcesaError(doc, null, "Doc", sMensaje1.ToString());
-                        continue;
-                    }
+                {
+                    fErrorComercial(lret2, sMensaje1, 512);
+                    fProcesaError(doc, null, "Doc", sMensaje1.ToString());
+                    continue;
+                }
 
                 lret2 = fSetDatoDocumentoComercial("cCodigoConcepto", doc.cCodigoConcepto);
                 if (lret2 != 0)
@@ -12937,7 +12939,7 @@ Inserta_Documento
                         continue;
                     fInsertarMovimientoComercial();
                     string lidunidad = "";
-                    mValidaProducto(movto,ref lidunidad);
+                    mValidaProducto(movto, ref lidunidad);
                     lret2 = fSetDatoMovimientoComercial("cIdDocumento", liddocumento.ToString().Trim());
                     if (lret2 != 0)
                     {
@@ -12972,7 +12974,7 @@ Inserta_Documento
                     lret2 = fGuardaMovimientoComercial();
                     if (lret2 != 0)
                     {
-                         fErrorComercial(lret2, sMensaje1, 512);
+                        fErrorComercial(lret2, sMensaje1, 512);
                         // MessageBox.Show("Error: " + sMensaje);
                         lret2 = fGuardaMovimientoComercial();
                         if (lret2 != 0)
@@ -12985,14 +12987,14 @@ Inserta_Documento
                     lret2 = fLeeDatoMovimientoComercial("CIDMOVIMIENTO", aValor, 12);
 
                     int lidmovimiento = int.Parse(aValor.ToString());
-                    
+
                     doc._RegMovtos[indicemov].cIdMovto = lidmovimiento;
                     Doctos[indicedoc]._RegMovtos[indicemov++].cIdMovto = lidmovimiento;
 
                     sMensaje1.Length = 0;
                     string lfechaped = movto._RegCapa.FechaFabricacion.ToShortDateString();
                     int lRet = fBuscarIdMovimientoComercial((int)movto.cIdMovto);
-                    StringBuilder sIdproducto = new StringBuilder(12) ;
+                    StringBuilder sIdproducto = new StringBuilder(12);
                     sIdproducto.Length = 0;
                     fLeeDatoMovimientoComercial("cidproducto", sIdproducto, 12);
                     movto._RegProducto.Id = int.Parse(sIdproducto.ToString());
@@ -13020,7 +13022,7 @@ Inserta_Documento
                     //lRet = fEditarMovimientoComercial();
                     //string cantidad = movto.cUnidades.ToString().Trim();
                     //decimal dcantidad = decimal.Parse(cantidad);
-                   // cantidad = dcantidad.ToString("F");
+                    // cantidad = dcantidad.ToString("F");
                     //cantidad = "10.00";
                     //lRet = fSetDatoMovimientoComercial("cUnidades", cantidad);
 
@@ -13061,40 +13063,40 @@ Inserta_Documento
                 }
                 else
                     fBorraDocumentoComercial();
-                
+
             }
-            
-            
-           
-
-                
-
-            
-            
 
 
 
 
-            
+
+
+
+
+
+
+
+
+
             fCierraEmpresa();
 
             miconexion.mCerrarConexionOrigenComercial();
             fTerminaSDK();
             return "";
         }
-       /* private void fProcesaError(RegDocto doc,  long id, string error, ref int lerrormovto)
-        {
-            if (id !=0)
-                mBorrarDocto(doc);
-            Notificar(error);
-            lerrormovto = 1;
-            
-        }*/
+        /* private void fProcesaError(RegDocto doc,  long id, string error, ref int lerrormovto)
+         {
+             if (id !=0)
+                 mBorrarDocto(doc);
+             Notificar(error);
+             lerrormovto = 1;
+
+         }*/
 
 
-        private void  fProcesaError(RegDocto doc,RegMovto movto, string tipo, string sMensaje1, int aBorrar=1)
+        private void fProcesaError(RegDocto doc, RegMovto movto, string tipo, string sMensaje1, int aBorrar = 1)
         {
-            string error="";
+            string error = "";
             string archivoorigencompleto = "";
             string archivodestinocompleto = "";
             if (doc.cIdDocto != 0 && aBorrar == 1)
@@ -13119,36 +13121,36 @@ Inserta_Documento
                         System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
                     }
                     catch (Exception eeee)
-                    { 
+                    {
 
                     }
                 }
             else
                 if (doc.cNombreArchivo == "")
-                    error = "El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente.Trim() + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
-                else
+                error = "El producto " + movto.cCodigoProducto + " del documento con cliente " + doc.cCodigoCliente.Trim() + " y folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
+            else
+            {
+                error = "El producto " + movto.cCodigoProducto + "del archivo " + doc.cNombreArchivo.Trim() + " que genero el documento con folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
+                archivoorigencompleto = @GetSettingValueFromAppConfigForDLL("RutaOrigen").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                archivodestinocompleto = @GetSettingValueFromAppConfigForDLL("RutaMal").ToString().Trim() + @"\" + doc.cNombreArchivo;
+                try
                 {
-                    error = "El producto " + movto.cCodigoProducto + "del archivo " + doc.cNombreArchivo.Trim() + " que genero el documento con folio " + doc.cFolio.ToString() + " presenta el sig. problema " + sMensaje1.ToString();
-                    archivoorigencompleto = @GetSettingValueFromAppConfigForDLL("RutaOrigen").ToString().Trim() + @"\" + doc.cNombreArchivo;
-                    archivodestinocompleto = @GetSettingValueFromAppConfigForDLL("RutaMal").ToString().Trim() + @"\" + doc.cNombreArchivo;
-                    try
-                    {
-                        System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
-                    }
-                    catch (Exception eeee)
-                    {
-
-                    }
+                    System.IO.File.Move(archivoorigencompleto, archivodestinocompleto);
+                }
+                catch (Exception eeee)
+                {
 
                 }
+
+            }
             Notificar(error);
-           
+
         }
         private string empresacomercial;
 
         public void mAsignaEmpresaComercial(RegConexion empresa)
         {
-            miconexion.mAbrirConexionComercial(empresa,true);
+            miconexion.mAbrirConexionComercial(empresa, true);
             empresacomercial = empresa.database;
             StringBuilder sMensaje1 = new StringBuilder(512);
 
@@ -13166,15 +13168,15 @@ Inserta_Documento
             {
                 fErrorComercial(lResultado, sMensaje1, 512);
             }
-/*            
-                if (incluyetimbrado == 1)
-                {
-                    int lresp10 = fInicializaLicenseInfoComercial(0);
-                    if (lresp10 != 0)
-                    {
-                        fErrorComercial(lresp10, sMensaje1, 512);
-                    }
-                }*/
+            /*            
+                            if (incluyetimbrado == 1)
+                            {
+                                int lresp10 = fInicializaLicenseInfoComercial(0);
+                                if (lresp10 != 0)
+                                {
+                                    fErrorComercial(lresp10, sMensaje1, 512);
+                                }
+                            }*/
 
             sdkcomercial = true;
             // }
@@ -13195,30 +13197,30 @@ Inserta_Documento
         public void mBorrarDocto(string Concepto, string Serie, string Folio)
         {
             StringBuilder sMensaje1 = new StringBuilder(512);
-            
-           
+
+
 
             long lret = fBuscarDocumentoComercial(Concepto, Serie, Folio);
             if (lret == 0)
             {
                 int lresul = fBorraDocumentoComercial();
             }
-           /* if(lcierraconexion == 1)
-                miconexion.mCerrarConexionOrigenComercial();*/
-            
-    
+            /* if(lcierraconexion == 1)
+                 miconexion.mCerrarConexionOrigenComercial();*/
+
+
         }
 
-        
+
 
         private void mBorrarDocto(long id)
-        { 
-           
+        {
+
             SqlCommand lsql = new SqlCommand();
             lsql.CommandText = "  delete from admDocumentos WHERE CIDDOCUMENTO = " + id.ToString().Trim();
             lsql.Connection = miconexion._conexion1;
             int lret = lsql.ExecuteNonQuery();
-            
+
         }
 
         /*
@@ -13231,7 +13233,7 @@ Inserta_Documento
 
         private void mDeshacer(long id)
         {
-            
+
         }
 
         private int mGrabarUnidadesDocto(long aIdDocto, decimal ltotalunidaes)
@@ -13252,9 +13254,9 @@ Inserta_Documento
 " from admCapasProducto c join admMovimientosCapas mc " +
 " on c.CIDCAPA = mc.CIDCAPA " +
 " and mc.CIDMOVIMIENTO = " + aIdMovto.ToString().Trim();
-                lsql.Connection = miconexion._conexion1;
-                int lret = lsql.ExecuteNonQuery();
-                return lret;
+            lsql.Connection = miconexion._conexion1;
+            int lret = lsql.ExecuteNonQuery();
+            return lret;
 
         }
 
@@ -13275,25 +13277,25 @@ Inserta_Documento
                 int lret = lsql.ExecuteNonQuery();
             }
 
-           
-            
-            
+
+
+
             return 1;
         }
 
         private int mGrabaDireccionComercial(RegDocto doc)
         {
             fInsertaDireccionComercial();
-            int lret = fSetDatoDireccionComercial("CIDCATALOGO",doc.cIdDocto.ToString().Trim());
-            lret = fSetDatoDireccionComercial("CTIPOCATALOGO","3");
-            lret = fSetDatoDireccionComercial("CTIPODIRECCION","1");
-            lret = fSetDatoDireccionComercial("CNOMBRECALLE",doc._RegDireccion.cNombreCalle);
+            int lret = fSetDatoDireccionComercial("CIDCATALOGO", doc.cIdDocto.ToString().Trim());
+            lret = fSetDatoDireccionComercial("CTIPOCATALOGO", "3");
+            lret = fSetDatoDireccionComercial("CTIPODIRECCION", "1");
+            lret = fSetDatoDireccionComercial("CNOMBRECALLE", doc._RegDireccion.cNombreCalle);
             lret = fSetDatoDireccionComercial("CNUMEROEXTERIOR", doc._RegDireccion.cNumeroExterior);
             lret = fSetDatoDireccionComercial("CCOLONIA", doc._RegDireccion.cColonia);
-            lret = fSetDatoDireccionComercial("CCODIGOPOSTAL",doc._RegDireccion.cCodigoPostal);
+            lret = fSetDatoDireccionComercial("CCODIGOPOSTAL", doc._RegDireccion.cCodigoPostal);
             //lret = fSetDatoDireccionComercial("CTELEFONO1", );
             lret = fSetDatoDireccionComercial("CEMAIL", doc._RegDireccion.cEmail);
-            lret = fSetDatoDireccionComercial("CPAIS","Mexico");
+            lret = fSetDatoDireccionComercial("CPAIS", "Mexico");
             lret = fSetDatoDireccionComercial("CCIUDAD", doc._RegDireccion.cCiudad);
             lret = fSetDatoDireccionComercial("CMUNICIPIO", doc._RegDireccion.cCiudad);
 
@@ -13315,78 +13317,78 @@ Inserta_Documento
             string lfechatime = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:000");
             string laduana = "";
             switch (movto._RegCapa.NoAduana)
-                {
-                    case "010": laduana = "ACAPULCO, GRO."; break;
-                    case "020": laduana = "AGUA PRIETA, SON."; break;
-                    case "050": laduana = "SUBTENIENTE LOPEZ, Q. ROO."; break;
-                    case "060": laduana = "CD. DEL CARMEN, CAMP."; break;
-                    case "070": laduana = "CD. JUAREZ, CHIH."; break;
-                    case "080": laduana = "COATZACOALCOS, VER."; break;
-                    case "110": laduana = "ENSENADA, B.C."; break;
-                    case "120": laduana = "GUAYMAS, SON."; break;
-                    case "140": laduana = "LA PAZ, B.C.S."; break;
-                    case "160": laduana = "MANZANILLO, COL."; break;
-                    case "170": laduana = "MATAMOROS,TAMPS."; break;
-                    case "180": laduana = "MAZATLAN, SIN."; break;
-                    case "190": laduana = "MEXICALI, B.C."; break;
-                    case "200": laduana = "MEXICO"; break;
-                    case "220": laduana = "NACO, SON."; break;
-                    case "230": laduana = "NOGALES, SON."; break;
-                    case "240": laduana = "NUEVO LAREDO, TAMPS."; break;
-                    case "250": laduana = "OJINAGA, CHIH."; break;
-                    case "260": laduana = "PUERTO PALOMAS, CHIH."; break;
-                    case "270": laduana = "PIEDRAS NEGRAS, COAH."; break;
-                    case "280": laduana = "PROGRESO, YUC."; break;
-                    case "300": laduana = "CD. REYNOSA, TAMPS."; break;
-                    case "310": laduana = "SALINA CRUZ, OAX."; break;
-                    case "330": laduana = "SAN LUIS RIO COLORADO, SON."; break;
-                    case "340": laduana = "CD. MIGUEL ALEMAN, TAMPS."; break;
-                    case "370": laduana = "CD. HIDALGO, CHIS."; break;
-                    case "380": laduana = "TAMPICO, TAMPS."; break;
-                    case "390": laduana = "TECATE, B.C."; break;
-                    case "400": laduana = "TIJUANA, B.C."; break;
-                    case "420": laduana = "TUXPAN, VER."; break;
-                    case "430": laduana = "VERACRUZ, VER."; break;
-                    case "440": laduana = "CD. ACUNA, COAH."; break;
-                    case "460": laduana = "TORREON, COAH."; break;
-                    case "470": laduana = "AEROPUERTO INTERNAL. CD. DE MEXICO, D.F."; break;
-                    case "480": laduana = "GUADALAJARA, JAL."; break;
-                    case "500": laduana = "SONOYTA, SON."; break;
-                    case "510": laduana = "LAZARO CARDENAS, MICH."; break;
-                    case "520": laduana = "MONTERREY, N.L."; break;
-                    case "530": laduana = "CANCUN, Q. ROO."; break;
-                    case "640": laduana = "QUERETARO, QRO."; break;
-                    case "650": laduana = "TOLUCA, MEX."; break;
-                    case "670": laduana = "CHIHUAHUA, CHIH."; break;
-                    case "730": laduana = "AGUASCALIENTES, AGS."; break;
-                    case "750": laduana = "PUEBLA, PUE."; break;
-                    case "800": laduana = "COLOMBIA, N.L."; break;
-                    case "810": laduana = "ALTAMIRA, TAMPS."; break;
-                    case "820": laduana = "CD. CAMARGO, TAMPS."; break;
-                    case "830": laduana = "DOS BOCAS"; break;
-                    case "840": laduana = "GUANAJUATO, GTO"; break;
-                }
+            {
+                case "010": laduana = "ACAPULCO, GRO."; break;
+                case "020": laduana = "AGUA PRIETA, SON."; break;
+                case "050": laduana = "SUBTENIENTE LOPEZ, Q. ROO."; break;
+                case "060": laduana = "CD. DEL CARMEN, CAMP."; break;
+                case "070": laduana = "CD. JUAREZ, CHIH."; break;
+                case "080": laduana = "COATZACOALCOS, VER."; break;
+                case "110": laduana = "ENSENADA, B.C."; break;
+                case "120": laduana = "GUAYMAS, SON."; break;
+                case "140": laduana = "LA PAZ, B.C.S."; break;
+                case "160": laduana = "MANZANILLO, COL."; break;
+                case "170": laduana = "MATAMOROS,TAMPS."; break;
+                case "180": laduana = "MAZATLAN, SIN."; break;
+                case "190": laduana = "MEXICALI, B.C."; break;
+                case "200": laduana = "MEXICO"; break;
+                case "220": laduana = "NACO, SON."; break;
+                case "230": laduana = "NOGALES, SON."; break;
+                case "240": laduana = "NUEVO LAREDO, TAMPS."; break;
+                case "250": laduana = "OJINAGA, CHIH."; break;
+                case "260": laduana = "PUERTO PALOMAS, CHIH."; break;
+                case "270": laduana = "PIEDRAS NEGRAS, COAH."; break;
+                case "280": laduana = "PROGRESO, YUC."; break;
+                case "300": laduana = "CD. REYNOSA, TAMPS."; break;
+                case "310": laduana = "SALINA CRUZ, OAX."; break;
+                case "330": laduana = "SAN LUIS RIO COLORADO, SON."; break;
+                case "340": laduana = "CD. MIGUEL ALEMAN, TAMPS."; break;
+                case "370": laduana = "CD. HIDALGO, CHIS."; break;
+                case "380": laduana = "TAMPICO, TAMPS."; break;
+                case "390": laduana = "TECATE, B.C."; break;
+                case "400": laduana = "TIJUANA, B.C."; break;
+                case "420": laduana = "TUXPAN, VER."; break;
+                case "430": laduana = "VERACRUZ, VER."; break;
+                case "440": laduana = "CD. ACUNA, COAH."; break;
+                case "460": laduana = "TORREON, COAH."; break;
+                case "470": laduana = "AEROPUERTO INTERNAL. CD. DE MEXICO, D.F."; break;
+                case "480": laduana = "GUADALAJARA, JAL."; break;
+                case "500": laduana = "SONOYTA, SON."; break;
+                case "510": laduana = "LAZARO CARDENAS, MICH."; break;
+                case "520": laduana = "MONTERREY, N.L."; break;
+                case "530": laduana = "CANCUN, Q. ROO."; break;
+                case "640": laduana = "QUERETARO, QRO."; break;
+                case "650": laduana = "TOLUCA, MEX."; break;
+                case "670": laduana = "CHIHUAHUA, CHIH."; break;
+                case "730": laduana = "AGUASCALIENTES, AGS."; break;
+                case "750": laduana = "PUEBLA, PUE."; break;
+                case "800": laduana = "COLOMBIA, N.L."; break;
+                case "810": laduana = "ALTAMIRA, TAMPS."; break;
+                case "820": laduana = "CD. CAMARGO, TAMPS."; break;
+                case "830": laduana = "DOS BOCAS"; break;
+                case "840": laduana = "GUANAJUATO, GTO"; break;
+            }
 
 
             SqlCommand lsql = new SqlCommand();
             lsql.CommandText = "insert into admCapasProducto (CIDCAPA,CIDALMACEN,CIDPRODUCTO,CFECHA,CTIPOCAPA,CNUMEROLOTE,CFECHACADUCIDAD,CFECHAFABRICACION, " +
-            " CPEDIMENTO,CADUANA,CFECHAPEDIMENTO,CTIPOCAMBIO,CEXISTENCIA,CCOSTO,CTIMESTAMP,CNUMADUANA) "+ 
-            " values ("+
-            lultimacapa + "," + movto._RegCapa._Almacen.Id.ToString() + "," + movto._RegProducto.Id.ToString().Trim() + ",'" + lfechahoy + "'," + "2,''," + "'18991230'," + "'18991230'," + "'" + movto._RegCapa.Pedimento + "'," 
-            + "'" + laduana + "','"+ lfechaped + "'," +movto._RegCapa.tc.ToString().Trim() + "," +  movto.cUnidades + "," + movto.cPrecio + ",'" + lfechatime + "'," + movto._RegCapa.NoAduana + ")";
+            " CPEDIMENTO,CADUANA,CFECHAPEDIMENTO,CTIPOCAMBIO,CEXISTENCIA,CCOSTO,CTIMESTAMP,CNUMADUANA) " +
+            " values (" +
+            lultimacapa + "," + movto._RegCapa._Almacen.Id.ToString() + "," + movto._RegProducto.Id.ToString().Trim() + ",'" + lfechahoy + "'," + "2,''," + "'18991230'," + "'18991230'," + "'" + movto._RegCapa.Pedimento + "',"
+            + "'" + laduana + "','" + lfechaped + "'," + movto._RegCapa.tc.ToString().Trim() + "," + movto.cUnidades + "," + movto.cPrecio + ",'" + lfechatime + "'," + movto._RegCapa.NoAduana + ")";
             lsql.Connection = miconexion._conexion1;
             int lret = lsql.ExecuteNonQuery();
-            
+
 
             lsql.CommandText = "insert into admMovimientosCapas (CIDMOVIMIENTO,CIDCAPA,CFECHA,CUNIDADES,CTIPOCAPA,CIDUNIDAD) " +
             " values (" +
             movto.cIdMovto + "," + lultimacapa + ",'" + lfechahoy + "'," + movto.cUnidades + ",2,1)";
             //lsql.Connection = miconexion._conexion1;
-             lret = lsql.ExecuteNonQuery();
+            lret = lsql.ExecuteNonQuery();
 
-             lsql.CommandText = "update admMovimientos set cunidades = " + movto.cUnidades.ToString().Trim() + ",cunidadescapturadas = " + movto.cUnidades.ToString().Trim() + ",cunidadespendientes = " + movto.cUnidades.ToString().Trim() + " where cidmovimiento = " + movto.cIdMovto;
-             lsql.Connection = miconexion._conexion1;
-             lret = lsql.ExecuteNonQuery();
+            lsql.CommandText = "update admMovimientos set cunidades = " + movto.cUnidades.ToString().Trim() + ",cunidadescapturadas = " + movto.cUnidades.ToString().Trim() + ",cunidadespendientes = " + movto.cUnidades.ToString().Trim() + " where cidmovimiento = " + movto.cIdMovto;
+            lsql.Connection = miconexion._conexion1;
+            lret = lsql.ExecuteNonQuery();
 
 
         }
@@ -13424,7 +13426,7 @@ Inserta_Documento
             OleDbConnection lconexion = new OleDbConnection();
             //OleDbDataReader lreader;
             RegProducto lprod = new RegProducto();
-            string lcadena="";
+            string lcadena = "";
             string sLimite = "";
 
             /*
@@ -13464,7 +13466,7 @@ Inserta_Documento
             if (lconexion != null)
             {
                 lcadena = "select cidvalor01,cvalorcl01 from mgw10020 where ccodigov01 = '" + codigo + "' and cidclasi01 =" + sLimite;
-                
+
                 OleDbCommand lsql = new OleDbCommand(lcadena, lconexion);
                 OleDbDataReader lreader;
                 //long lIdDocumento = 0;
@@ -13473,11 +13475,11 @@ Inserta_Documento
                 {
                     while (lreader.Read())
                     {
-                       
-                    lprod.Codigo = lreader[1].ToString();
-                    lprod.Nombre = lreader[1].ToString();
-                   lprod.Id = long.Parse(lreader[0].ToString());
-                      //  lprods.Add(lprod);
+
+                        lprod.Codigo = lreader[1].ToString();
+                        lprod.Nombre = lreader[1].ToString();
+                        lprod.Id = long.Parse(lreader[0].ToString());
+                        //  lprods.Add(lprod);
 
                     }
                 }
@@ -13518,7 +13520,7 @@ Inserta_Documento
                     lcuantos = lsql.ExecuteNonQuery();
 
                     if (lcuantos == 0)
-                    { 
+                    {
                         lcadena = "insert into mgw10046 values (336,2," + lprod.Id.ToString() + ",2,'" + aValor2 + "')";
                         lsql.CommandText = lcadena;
                         lsql.ExecuteNonQuery();
@@ -13544,12 +13546,12 @@ Inserta_Documento
                         lsql.ExecuteNonQuery();
                     }
                 }
-                    
 
-                
+
+
                 miconexion.mCerrarConexionDestino();
             }
-            
+
         }
 
 
@@ -13618,12 +13620,12 @@ Inserta_Documento
         }
 
 
-        public List<RegProducto> mMostrarProductos(string aCodigo1, string aCodigo2,string aCodigo3,string aCodigo4,string aCodigo5,string aCodigo6)
+        public List<RegProducto> mMostrarProductos(string aCodigo1, string aCodigo2, string aCodigo3, string aCodigo4, string aCodigo5, string aCodigo6)
         {
             OleDbConnection lconexion = new OleDbConnection();
             //OleDbDataReader lreader;
-            List< RegProducto> lprods = new List<RegProducto>();
-            string lcadena="";
+            List<RegProducto> lprods = new List<RegProducto>();
+            string lcadena = "";
 
 
 
@@ -13632,13 +13634,13 @@ Inserta_Documento
             {
                 //lcadena = "select cidvalor01,cvalorcl01 from mgw10020 where ccodigov01 = '" + codigo + "' and cidclasi01 =" + anumClasif.ToString();
                 lcadena = "select m5.* from mgw10005 m5 ";
-               
-                if (aCodigo1 !="")
+
+                if (aCodigo1 != "")
                     lcadena += "join mgw10020 m20a " +
                     " on  m5.cidvalor01 = m20a.cidvalor01 " +
                     " and m20a.ccodigov01 = '" + aCodigo1 + "'";
 
-                if (aCodigo2 !="")
+                if (aCodigo2 != "")
                     lcadena += " join mgw10020 m20b  " +
                     " on  m5.cidvalor02 = m20b.cidvalor01  " +
                     " and m20b.ccodigov01 = '" + aCodigo2 + "'";
@@ -13668,9 +13670,9 @@ Inserta_Documento
                     while (lreader.Read())
                     {
                         RegProducto lprod = new RegProducto();
-                    lprod.Codigo = lreader[1].ToString();
-                    lprod.Nombre = lreader[2].ToString();
-                   lprod.Id = long.Parse(lreader[0].ToString());
+                        lprod.Codigo = lreader[1].ToString();
+                        lprod.Nombre = lreader[2].ToString();
+                        lprod.Id = long.Parse(lreader[0].ToString());
                         lprods.Add(lprod);
 
                     }
@@ -13725,14 +13727,14 @@ Inserta_Documento
             //OleDbDataReader lreader;
             RegProducto lprod = new RegProducto();
             string lcadena;
-            
-                
-            
-                lconexion = miconexion.mAbrirConexionDestino();
+
+
+
+            lconexion = miconexion.mAbrirConexionDestino();
             if (lconexion != null)
             {
                 lcadena = "select cidprodu01,ccodigop01,cnombrep01 from mgw10005 where ccodigop01 = '" + codigo + "'";
-             
+
 
                 OleDbCommand lsql = new OleDbCommand(lcadena, lconexion);
                 OleDbDataReader lreader;
@@ -13750,7 +13752,7 @@ Inserta_Documento
             }
             return lprod;
 
-            
+
 
 
         }
@@ -13794,10 +13796,10 @@ Inserta_Documento
 
             string lquery = "select ccodigoproducto from mgw10005 where ccodigop01 = '" + codigo + "'";
 
-            SqlCommand lsql = new SqlCommand ();
+            SqlCommand lsql = new SqlCommand();
             SqlDataReader lreader;
 
-               // miconexion.mAbrirConexionDestino();
+            // miconexion.mAbrirConexionDestino();
 
             lsql.CommandText = "select cidproducto,ccodigoproducto,cnombreproducto,CIMPORTEEXTRA1, cprecio1 from admProductos where ccodigoproducto = '" + codigo + "'";
             lsql.Connection = miconexion._conexion1;
@@ -13820,7 +13822,7 @@ Inserta_Documento
                 }
                 catch (Exception ee)
                 {
-//                    lreader.Close();
+                    //                    lreader.Close();
                 }
                 lreader.Close();
             }
@@ -13840,7 +13842,7 @@ Inserta_Documento
         {
             RegCliente lcliente = new RegCliente();
 
-            
+
             Boolean lcerrar = false;
             if (miconexion._conexion1 == null)
             {
@@ -13908,7 +13910,7 @@ Inserta_Documento
             if (miconexion._conexion1 == null)
             {
                 if (cadenaconexion != "")
-                    miconexion.mAbrirConexionComercial(cadenaconexion,false);
+                    miconexion.mAbrirConexionComercial(cadenaconexion, false);
                 else
                 {
                     miconexion.mAbrirConexionComercial(false);
@@ -13916,7 +13918,7 @@ Inserta_Documento
                 }
             }
             //lconexion = miconexion._conexion;
-            
+
             string lquery = "";
 
             SqlCommand lsql = new SqlCommand();
@@ -13938,9 +13940,9 @@ Inserta_Documento
                 {
                     lcliente.Id = long.Parse(lreader[0].ToString());
                     lcliente.Codigo = lreader[1].ToString();
-                    lcliente.RazonSocial= lreader[2].ToString();
+                    lcliente.RazonSocial = lreader[2].ToString();
                     lcliente.MetodoPago = lreader[3].ToString();
-                    
+
 
                 }
                 catch (Exception ee)
@@ -13979,8 +13981,9 @@ Inserta_Documento
 
             }
             else
-                if (miconexion._conexion1.State == ConnectionState.Closed) { 
-                    miconexion._conexion1.Open();
+                if (miconexion._conexion1.State == ConnectionState.Closed)
+            {
+                miconexion._conexion1.Open();
                 lcerrar = true;
             }
             //lconexion = miconexion._conexion;
@@ -14023,11 +14026,11 @@ Inserta_Documento
                 {
                     //                    lreader.Close();
                 }
-                
+
             }
             if (lcerrar == true)
             {
-                
+
                 miconexion.mCerrarConexionOrigenComercial();
             }
             lreader.Close();
@@ -14037,65 +14040,65 @@ Inserta_Documento
         }
 
         public string mBuscarDescripcionProducto(string descripcion)
-    {
-
-        //OleDbConnection lconexion = new OleDbConnection();
-        //miconexion.mAbrirConexionDestino();
-        //lconexion = miconexion._conexion;
-
-
-        string lquery = "select ccodigop10 from mgw10005 where cnombrep01 = '" + descripcion + "'";
-
-        OleDbCommand lsql = new OleDbCommand();
-        OleDbDataReader lreader;
-
-        miconexion.mAbrirConexionDestino();
-
-        lsql.CommandText = "select ccodigop10 from mgw10005 where cnombrep01 = '" + descripcion + "'";
-        lsql.Connection = miconexion._conexion;
-
-        lreader = lsql.ExecuteReader();
-        //_RegDoctoOrigen._RegMovtos.Clear();
-        string lregresa = "";
-        string x = "";
-
-        if (lreader.HasRows)
         {
-            lreader.Read();
-            try
+
+            //OleDbConnection lconexion = new OleDbConnection();
+            //miconexion.mAbrirConexionDestino();
+            //lconexion = miconexion._conexion;
+
+
+            string lquery = "select ccodigop10 from mgw10005 where cnombrep01 = '" + descripcion + "'";
+
+            OleDbCommand lsql = new OleDbCommand();
+            OleDbDataReader lreader;
+
+            miconexion.mAbrirConexionDestino();
+
+            lsql.CommandText = "select ccodigop10 from mgw10005 where cnombrep01 = '" + descripcion + "'";
+            lsql.Connection = miconexion._conexion;
+
+            lreader = lsql.ExecuteReader();
+            //_RegDoctoOrigen._RegMovtos.Clear();
+            string lregresa = "";
+            string x = "";
+
+            if (lreader.HasRows)
             {
-                x = lreader[0].ToString();
-            }
-            catch (Exception ee)
-            {
-                lreader.Close();
-                lsql.CommandText = "select max(cidprodu01) from mgw10005 ";
-                lreader = lsql.ExecuteReader();
-                if (lreader.HasRows)
+                lreader.Read();
+                try
                 {
-                    lreader.Read();
-                    try
+                    x = lreader[0].ToString();
+                }
+                catch (Exception ee)
+                {
+                    lreader.Close();
+                    lsql.CommandText = "select max(cidprodu01) from mgw10005 ";
+                    lreader = lsql.ExecuteReader();
+                    if (lreader.HasRows)
                     {
-                        x = lreader[0].ToString();
-                    }
-                    catch (Exception eee)
-                    {
-                        x = "1";
+                        lreader.Read();
+                        try
+                        {
+                            x = lreader[0].ToString();
+                        }
+                        catch (Exception eee)
+                        {
+                            x = "1";
+                        }
                     }
                 }
+                lreader.Close();
+                miconexion.mCerrarConexionDestino();
+
+                lregresa = x;
             }
-            lreader.Close();
-            miconexion.mCerrarConexionDestino();
+            return lregresa;
 
-            lregresa = x;
         }
-        return lregresa;
-
-    }
 
 
 
 
     }
-    
+
 }

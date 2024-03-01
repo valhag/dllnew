@@ -105,10 +105,10 @@ namespace LibreriaDoctos
             return lbd.mLlenarinfoXML(archivo);
         }
 
-        public string mLLenarInfoPedidosFacturas(string archivo)
+        /*public string mLLenarInfoPedidosFacturas(string archivo)
         {
             return lbd.mLLenarInfoPedidosFacturas(archivo);
-        }
+        }*/
 
         public void mLlenarinfoMicroplane(int afolioinicial, int afoliofinal)
         {
@@ -120,10 +120,11 @@ namespace LibreriaDoctos
             return lbd.mCargarConceptosComercial(4, 0, 1);
         }
 
-        public List<RegConcepto> mCargarConceptosCargosComercial()
+        /*public List<RegConcepto> mCargarConceptosCargosComercial()
         {
             return lbd.mCargarConceptosComercial(13, 0, 0);
-        }
+        }*/
+
         public List<RegConcepto> mCargarConceptosDevolucioncfdiComercial()
         {
             return lbd.mCargarConceptosComercial(5, 0, 1);
