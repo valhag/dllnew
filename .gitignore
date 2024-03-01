@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/
+/obj/x86/Debug
+/bin/Debug
+interfaces/obj
+/dllsnew/controles/obj/Debug/borrar.txt
+/dllsnew/controles/obj/
+/dllsnew/interfaces/obj/
+/dllsnew/test.txt
